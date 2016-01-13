@@ -57,6 +57,9 @@ where "%I" in the input kicad xml file and "%O" is the ouput directory and name 
     <!--TAG_BOM_TABLE_HEADER_CLASS-->       inserts the table headers
     <!--TAG_BOM_TABLE-->                    inserts the complete generated BOM table
 
+## for tableHeaderTemplate.html:
+    <!--TAG_BOM_TABLE_ROW_HEADER-->         inserts the coloum title
+
 ## for TableTemplate.html:
     <!--TAG_BOM_TABLE_ROW_DATA-->       inserts the group of parts row data
     <!--TAG_BOM_TABLE_GROUP_CLASS-->    inserts the group class name.
