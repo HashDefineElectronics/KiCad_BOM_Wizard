@@ -15,8 +15,14 @@ then it would be groupd as so;
 > | R1 R3 | 2 | 10K|
 > | R2| 1 | 100K|
 
-# Requirement:
-You will need to install nodejs
+# installing NodeJs
+### installing nodejs in Linux:
+```sh
+sudo apt-get install nodejs
+sudo apt-get install npm
+```
+### installing nodejs on other system:
+    https://nodejs.org/en/download/
 
 # Arthur: 
 Ronald Sousa HashDefineElectronics.com
