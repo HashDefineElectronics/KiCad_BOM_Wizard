@@ -77,7 +77,7 @@ var HtmlTableRowHeaderTemplate = null;
 var TableFieldTemplate = null;
 var KicadXmlFile = ""
 var OutputFile = ""
-var TemplateFolder = __dirname + '/Template/';
+var TemplateFolder = __dirname + '/Template/HTML';
 
 // check the user has given us all that we need to generate the BOM
 process.argv.forEach(function (val, index, array) {
