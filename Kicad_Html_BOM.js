@@ -73,21 +73,26 @@ var HtmlHeader = "";
 var HtmlTemplateData = null;
 var HtmlTableTemplate = null;
 var HtmlTableRowTemplate = null;
+var HtmlTableRowHeaderTemplate = null;
 var TableFieldTemplate = null;
 var KicadXmlFile = ""
 var OutputFile = ""
+var TemplateFolder = __dirname + '/Template/';
 
 // check the user has given us all that we need to generate the BOM
 process.argv.forEach(function (val, index, array) {
-	if(index == 3) // The user has passed the file to process
+	if(2 == index) // The user has passed the file to process
 	{
 		KicadXmlFile = array[2];
 	}
-	if(index == 3) // The user has passed the file to process
+	if(3 == index) // The user has passed the file to process
 	{
 		OutputFile = array[3];
 	}
-  
+	if(4 == index) // The user has passed the file to process
+	{
+		TemplateFolder = array[4];
+	}
 });
 
 if("" == OutputFile || KicadXmlFile == "")
@@ -98,10 +103,10 @@ if("" == OutputFile || KicadXmlFile == "")
 
 console.log("Input File" + ': ' + KicadXmlFile );
 console.log("Output File" + ': ' + OutputFile );
+console.log("Template File" + ': ' + TemplateFolder );
 
 // Run the first process
 Process("STATE_GET_XML_DATA");
-
 
 var UserProjectNetData = null;
 var NumberOfUniqueParts = 0;
@@ -165,12 +170,15 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
 {
  	var ReturnHtml = "";
 
-	HtmlHeader = "<div class='Head'>Ref</div><div class='Head QuantityClass'>Qty</div><div class='Head'>Value</div>";
+	HtmlHeader = HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  "Ref");
+	HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  "Qty");
+	HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  "Value");
 	fieldsList.sort();
 
 	for ( var FieldIndex = 0; FieldIndex <  fieldsList.length; FieldIndex++ )
 	{
-		HtmlHeader += "<div class='Head'>" + fieldsList[ FieldIndex ] + "</div>";
+		HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  fieldsList[ FieldIndex ] );
+
 	}
 
 	groupedList.sort();
@@ -209,7 +217,7 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
 
 				if( partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ] )
 				{
-					SingleFieldTemp = SingleFieldTemp.replace(/<!--TAG_BOM_TABLE_FIELD-->/g, partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ]);
+					SingleFieldTemp = SingleFieldTemp.replace(/<!--TAG_BOM_TABLE_FIELD-->/g, partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ].replace(/,/g, " "));
 				}
 				else
 				{
@@ -373,14 +381,13 @@ function GenerateBOM()
 		HtmlTemplateData = HtmlTemplateData.replace(/<!--TAG_BOM_TABLE-->/g,	Result);
 		// output BOM
 		var OutputFileWrite = require('fs');
-		OutputFileWrite.writeFile(OutputFile + ".html", HtmlTemplateData, function(returnError) {
+		OutputFileWrite.writeFile(OutputFile, HtmlTemplateData, function(returnError) {
 		    if(returnError) {
 		        return console.log(returnError);
 		    }
 
 		    console.log("BOM created!");
 		}); 
-
 	}
 	else
 	{
@@ -433,7 +440,7 @@ function ReadTemplate()
 
 	var HtmlTemplate = require('fs');
 	
-	HtmlTemplate.readFile(__dirname + '/Template/template.html','utf8', function(returnError, output) 
+	HtmlTemplate.readFile(TemplateFolder + '/template.conf','utf8', function(returnError, output) 
 	{
 		// returnError should return null if the data was read correctly
 		if(null == returnError)
@@ -452,26 +459,43 @@ function ReadTableTemplate()
 
 	var HtmlTemplate = require('fs');
 	
-	HtmlTemplate.readFile(__dirname + '/Template/TableGroupTemplate.html','utf8', function(returnError, output) 
+	HtmlTemplate.readFile(TemplateFolder + '/TableGroupTemplate.conf','utf8', function(returnError, output) 
 	{
 		// returnError should return null if the data was read correctly
 		if(null == returnError)
 		{
 			HtmlTableTemplate = output;
-			Process("STATE_READ_TABLE_ROW_TEMPLATE");
+			Process("STATE_READ_TABLE_ROW_HEADER_TEMPLATE");
 		}
 	});
 }
-/////////////////////////////////////////////////////////////////
-///	\brief read the html config file
-/////////////////////////////////////////////////////////////////
-function ReadTableRowTemplate()
+function ReadTableRowHeaderTemplate()
 {
 	console.log('Reading HTML Template for table');
 
 	var HtmlTemplate = require('fs');
 	
-	HtmlTemplate.readFile(__dirname + '/Template/PartRowTemplate.html','utf8', function(returnError, output) 
+	HtmlTemplate.readFile(TemplateFolder + '/tableHeaderTemplate.conf','utf8', function(returnError, output) 
+	{
+		// returnError should return null if the data was read correctly
+		if(null == returnError)
+		{
+			HtmlTableRowHeaderTemplate = output;
+			Process("STATE_READ_TABLE_ROW_TEMPLATE");
+		}
+	});
+}
+
+/////////////////////////////////////////////////////////////////
+///	\brief read the html config file
+/////////////////////////////////////////////////////////////////
+function ReadTableRowTemplate()
+{
+	console.log('Reading HTML Row Header Template for table');
+
+	var HtmlTemplate = require('fs');
+	
+	HtmlTemplate.readFile(TemplateFolder + '/PartRowTemplate.conf','utf8', function(returnError, output) 
 	{
 		// returnError should return null if the data was read correctly
 		if(null == returnError)
@@ -491,7 +515,7 @@ function ReadFieldTemplate()
 
 	var HtmlTemplate = require('fs');
 	
-	HtmlTemplate.readFile(__dirname + '/Template/TableFieldTemplate.html','utf8', function(returnError, output) 
+	HtmlTemplate.readFile(TemplateFolder + '/TableFieldTemplate.conf','utf8', function(returnError, output) 
 	{
 		// returnError should return null if the data was read correctly
 		if(null == returnError)
@@ -519,6 +543,10 @@ function Process(state)
 
 		case "STATE_READ_TABLE_TEMPLATE":
 			ReadTableTemplate();
+		break;
+
+		case "STATE_READ_TABLE_ROW_HEADER_TEMPLATE":
+			ReadTableRowHeaderTemplate();
 		break;
 
 		case "STATE_READ_TABLE_ROW_TEMPLATE":
