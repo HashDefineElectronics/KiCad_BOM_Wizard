@@ -1,0 +1,1346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/HDE_Projects/Kicad_Html_BOM_2/Meter_Board/Meter.sch</source>
+    <date>13/01/2016 07:42:26</date>
+    <tool>Eeschema 4.0.1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>Meter.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/Power Supply/" tstamps="/5661BD0B/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>Power_Supply.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/Sensor/" tstamps="/56621EF6/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>Sensor.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/Controller/" tstamps="/56625744/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>Controller.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/C/" tstamps="/5663490F/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>C.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="6" name="/Battery circuit/" tstamps="/56649A13/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>Battery.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="7" name="/Sensor/" tstamps="/5666D137/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>d.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="8" name="/Support/" tstamps="/566AB3AD/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>Support.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+    <sheet number="9" name="/200/" tstamps="/5666641C/">
+      <title_block>
+        <title>Atomic Meassurement</title>
+        <company>Hash Define Electronics Ltd</company>
+        <rev>0</rev>
+        <date>2016-01-13</date>
+        <source>200.sch</source>
+        <comment number="1" value="DOC-0603"/>
+        <comment number="2" value="http://hashdefineelectronics.com/"/>
+        <comment number="3" value="N/A"/>
+        <comment number="4" value="N/A"/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>C1210C106K5RACTU</value>
+      <footprint>Capacitors:CAP_1210</footprint>
+      <fields>
+        <field name="Description">10uF, 50V, 1210, MLCC, X7R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2449143</field>
+        <field name="C_Value">10uF 50V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1210C106K5RACTU"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>5661BFDB</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>S1D-E3/5AT</value>
+      <footprint>Diodes:DO-214AC</footprint>
+      <fields>
+        <field name="Description">1A, 200V, SMD Diode</field>
+        <field name="Manufacture">VISHAY SEMICONDUCTOR</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">9550232</field>
+        <field name="C_Value">1A 200V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="S1D-E3/5AT"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>5661C105</tstamp>
+    </comp>
+    <comp ref="F1">
+      <value>0154.500DRT</value>
+      <footprint>Fuses:SMF_OMNI-BLOK</footprint>
+      <fields>
+        <field name="Description">500mA, SMD, 125v, -55C to 125C</field>
+        <field name="Manufacture">LITTELFUSE</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">9943684</field>
+        <field name="C_Value">500mA 125v</field>
+      </fields>
+      <libsource lib="Meter-cache" part="0154.500DRT"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>5661C163</tstamp>
+    </comp>
+    <comp ref="V1">
+      <value>V33MLA1206NH</value>
+      <footprint>Miscellaneous:1206_LittelFuse_Varistor</footprint>
+      <fields>
+        <field name="Description">33V, 1206, 180Apk, Clamp 75V</field>
+        <field name="Manufacture">LITTELFUSE</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1816942</field>
+        <field name="C_Value">33V 180Apk 75V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="V33MLA1206NH"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>5661C6F8</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>C1210C106K5RACTU</value>
+      <footprint>Capacitors:CAP_1210</footprint>
+      <fields>
+        <field name="Description">10uF, 50V, 1210, MLCC, X7R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2449143</field>
+        <field name="C_Value">10uF 50V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1210C106K5RACTU"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>5661D053</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>R-78E5.0-0.5</value>
+      <footprint>Miscellaneous:R-78E3.3-0.5</footprint>
+      <fields>
+        <field name="Description">5V, 500mA, DC-DC</field>
+        <field name="Manufacture">RECOM POWER</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2078564</field>
+      </fields>
+      <libsource lib="Meter-cache" part="R-78E5.0-0.5"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>56658083</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>C0402C104K4RACAUTO</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">100nF, 16V, 0603, -55C to 125C, X7R, 10%, Automotive</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2070374</field>
+        <field name="C_Value">100nF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C104K4RACAUTO"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>5668AFD3</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>VS-10BQ030PBF</value>
+      <footprint>Diodes:SMB</footprint>
+      <fields>
+        <field name="Description">Rectifier Diode, Single, 30 V, 1 A, DO-214AA, 2, 300 mV</field>
+        <field name="Manufacture">VISHAY SEMICONDUCTOR</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1651108</field>
+        <field name="C_Value">0.3Vf 1A 30V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="VS-10BQ030PBF"/>
+      <sheetpath names="/Power Supply/" tstamps="/5661BD0B/"/>
+      <tstamp>566D4688</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>TLE4906K</value>
+      <footprint>IC:SOT23-3</footprint>
+      <fields>
+        <field name="Description">Hall effect sensor, Unipolar</field>
+        <field name="Manufacture">INFINEON</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2432741</field>
+      </fields>
+      <libsource lib="Meter-cache" part="TLE4906K"/>
+      <sheetpath names="/Hall Effect Sensor/" tstamps="/56621EF6/"/>
+      <tstamp>56621F02</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/Hall Effect Sensor/" tstamps="/56621EF6/"/>
+      <tstamp>56698F46</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/Hall Effect Sensor/" tstamps="/56621EF6/"/>
+      <tstamp>5669920A</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/Hall Effect Sensor/" tstamps="/56621EF6/"/>
+      <tstamp>56699252</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/Hall Effect Sensor/" tstamps="/56621EF6/"/>
+      <tstamp>566992A7</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>DEBUG_ARM_SW</value>
+      <footprint>Connectors:SHF-105-01-L-D-TH</footprint>
+      <fields>
+        <field name="Description">ARM 10-Pin Serial Wire Connector (1.27mm)</field>
+        <field name="Manufacture">SAMTEC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2308450</field>
+      </fields>
+      <libsource lib="Meter-cache" part="DEBUG_ARM_SW"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5662BD8F</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>S9KEAZ64ACLH</value>
+      <footprint>IC:LQFP_64</footprint>
+      <fields>
+        <field name="Description">ARM Cortex M0+ 64KB Flash 3.3V/5V LQFP-64</field>
+        <field name="Manufacture">Freescale</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">841-S9KEAZ64ACLH</field>
+      </fields>
+      <libsource lib="Meter-cache" part="S9KEAZ64ACLH"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5662EA65</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>C0805C106K8PACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">10uF, 10V, 0805, X5R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1463362</field>
+        <field name="C_Value">10uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C106K8PACTU"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>566772F1</tstamp>
+    </comp>
+    <comp ref="X1">
+      <value>ABM7-12.000MHZ-D2Y-T</value>
+      <footprint>Crystals:ABM7</footprint>
+      <fields>
+        <field name="Description">CRYSTAL, 12MHZ, 18PF, - 40°C to + 60°C</field>
+        <field name="Manufacture">ABRACON</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2101331</field>
+        <field name="C_Value">12MHZ 18PF</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ABM7-12.000MHZ-D2Y-T"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>56679F39</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>C0402C104K4RACAUTO</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">100nF, 16V, 0603, -55C to 125C, X7R, 10%, Automotive</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2070374</field>
+        <field name="C_Value">100nF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C104K4RACAUTO"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>566882CC</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>C0402C104K4RACAUTO</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">100nF, 16V, 0603, -55C to 125C, X7R, 10%, Automotive</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2070374</field>
+        <field name="C_Value">100nF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C104K4RACAUTO"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5668860F</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>C0402C104K4RACAUTO</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">100nF, 16V, 0603, -55C to 125C, X7R, 10%, Automotive</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2070374</field>
+        <field name="C_Value">100nF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C104K4RACAUTO"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5668866C</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>ERJ2RKF2003X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">200K, 0402, 1%, 0.1W 75V</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2059185</field>
+        <field name="C_Value">200K 0.1W 1% 75V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF2003X"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>56693C4A</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>MCMR04X1004FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">1M, 0402, 1%, 62.5mW</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2072521</field>
+        <field name="C_Value">1M 62.5mW 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCMR04X1004FTL"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>56694F0D</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>MC0402N300J500CT</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">30pF, 50V, 0402, -55C to 125C, COG/NP0, 5%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1758954</field>
+        <field name="C_Value">30pF 50V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MC0402N300J500CT"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>56697CBA</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>MC0402N300J500CT</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">30pF, 50V, 0402, -55C to 125C, COG/NP0, 5%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1758954</field>
+        <field name="C_Value">30pF 50V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MC0402N300J500CT"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>56697D66</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>ERJ2RKF1001X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">1K, 0402, 1%, 0.1W</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2302638</field>
+        <field name="C_Value">1K 0.1W 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF1001X"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5669AE50</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>KP-1608SURCK</value>
+      <footprint>Diodes:LED_1.6mmx0.8mm</footprint>
+      <fields>
+        <field name="Description">Red, 0.8mm 1.6mm, SMD LED</field>
+        <field name="Manufacture">KINGBRIGHT</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2290329</field>
+        <field name="C_Value">Red</field>
+      </fields>
+      <libsource lib="Meter-cache" part="KP-1608SURCK"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>566A3006</tstamp>
+    </comp>
+    <comp ref="T1">
+      <value>TEST_PAD</value>
+      <footprint>HDE:TEST_PAD_0.5mm_Hole</footprint>
+      <fields>
+        <field name="Description">0.5mm Test pad</field>
+      </fields>
+      <libsource lib="Meter-cache" part="TEST_PAD"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5669F6A0</tstamp>
+    </comp>
+    <comp ref="T2">
+      <value>TEST_PAD</value>
+      <footprint>HDE:TEST_PAD_0.5mm_Hole</footprint>
+      <fields>
+        <field name="Description">0.5mm Test pad</field>
+      </fields>
+      <libsource lib="Meter-cache" part="TEST_PAD"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5669F7D9</tstamp>
+    </comp>
+    <comp ref="T3">
+      <value>TEST_PAD</value>
+      <footprint>HDE:TEST_PAD_0.5mm_Hole</footprint>
+      <fields>
+        <field name="Description">0.5mm Test pad</field>
+      </fields>
+      <libsource lib="Meter-cache" part="TEST_PAD"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5669F825</tstamp>
+    </comp>
+    <comp ref="T4">
+      <value>TEST_PAD</value>
+      <footprint>HDE:TEST_PAD_0.5mm_Hole</footprint>
+      <fields>
+        <field name="Description">0.5mm Test pad</field>
+      </fields>
+      <libsource lib="Meter-cache" part="TEST_PAD"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>5669F870</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>CRCW0402100KFKEDHP</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">100K, 0402, 1%, 0.125W, 50V</field>
+        <field name="Manufacture">VISHAY DRALORIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1738877</field>
+        <field name="C_Value">100K 0.125W 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="CRCW0402100KFKEDHP"/>
+      <sheetpath names="/Controller/" tstamps="/56625744/"/>
+      <tstamp>566DA00D</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>C1210C106K5RACTU</value>
+      <footprint>Capacitors:CAP_1210</footprint>
+      <fields>
+        <field name="Description">10uF, 50V, 1210, MLCC, X7R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2449143</field>
+        <field name="C_Value">10uF 50V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1210C106K5RACTU"/>
+      <sheetpath names="/CAN/" tstamps="/5663490F/"/>
+      <tstamp>5664A451</tstamp>
+    </comp>
+    <comp ref="U4">
+      <value>SZNUP2105LT1G</value>
+      <footprint>IC:SOT23-3</footprint>
+      <fields>
+        <field name="Description">ESD Suppressors SOT-23 27 CAN BUS</field>
+        <field name="Manufacture">ON Semiconductor</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">863-SZNUP2105LT1G</field>
+      </fields>
+      <libsource lib="Meter-cache" part="SZNUP2105LT1G"/>
+      <sheetpath names="/CAN/" tstamps="/5663490F/"/>
+      <tstamp>56647EB5</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>761681-3</value>
+      <footprint>Connectors:1761681-3</footprint>
+      <fields>
+        <field name="Description">10 Way, 2 Row, header, 2.54mm</field>
+        <field name="Manufacture">TE CONNECTIVITY / AMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1772799</field>
+      </fields>
+      <libsource lib="Meter-cache" part="761681-3"/>
+      <sheetpath names="/CAN/" tstamps="/5663490F/"/>
+      <tstamp>5668F388</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>C0402C104K4RACAUTO</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">100nF, 16V, 0603, -55C to 125C, X7R, 10%, Automotive</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2070374</field>
+        <field name="C_Value">100nF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C104K4RACAUTO"/>
+      <sheetpath names="/CAN/" tstamps="/5663490F/"/>
+      <tstamp>5668E631</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>MCMR04X1200FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">120R, 0402, 1%, 62.5mW, 50V</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2072575</field>
+        <field name="C_Value">120R 0.1W 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCMR04X1200FTL"/>
+      <sheetpath names="/CAN/" tstamps="/5663490F/"/>
+      <tstamp>566BE141</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/CAN/" tstamps="/5663490F/"/>
+      <tstamp>566D3327</tstamp>
+    </comp>
+    <comp ref="J3">
+      <value>53261-0371</value>
+      <footprint>Connectors:53261-0371</footprint>
+      <fields>
+        <field name="Description">3way, Wire-To-Board Connector, Right Angle, PicoBlade 53261 Series, Surface Mount, Header, 1.25 mm</field>
+        <field name="Manufacture">Molex</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1125359</field>
+      </fields>
+      <libsource lib="Meter-cache" part="53261-0371"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>5664ABBF</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>MCMR04X2491FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">2.49K, 0402, 1%, 0.1W</field>
+        <field name="Manufacture">Multicomp</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2072829</field>
+        <field name="C_Value">2.49K 0.1W 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCMR04X2491FTL"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566BCF10</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566AD254</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>PMV32UP</value>
+      <footprint>IC:SOT23-3</footprint>
+      <fields>
+        <field name="Description">MOSFET Transistor, P Channel, -4 A, -20 V, 0.032 ohm, -4.5 V, -700 mV</field>
+        <field name="Manufacture">NXP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1894624</field>
+        <field name="C_Value">P 32mR</field>
+      </fields>
+      <libsource lib="Meter-cache" part="PMV32UP"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566AD260</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>GRM188R71E105KA12D</value>
+      <footprint>Capacitors:CAP_0603</footprint>
+      <fields>
+        <field name="Description">1uF, 25V, 0603,  X7R, 10%</field>
+        <field name="Manufacture">MURATA</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1735540</field>
+        <field name="C_Value">1uF 25V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM188R71E105KA12D"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566BDBED</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>C0805C106K8PACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">10uF, 10V, 0805, X5R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1463362</field>
+        <field name="C_Value">10uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C106K8PACTU"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566BE44E</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>ERJ2RKF2003X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">200K, 0402, 1%, 0.1W 75V</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2059185</field>
+        <field name="C_Value">200K 0.1W 1% 75V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF2003X"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566C9471</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>ERJ2RKF2003X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">200K, 0402, 1%, 0.1W 75V</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2059185</field>
+        <field name="C_Value">200K 0.1W 1% 75V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF2003X"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566CABB8</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>ERJ2RKF2003X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">200K, 0402, 1%, 0.1W 75V</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2059185</field>
+        <field name="C_Value">200K 0.1W 1% 75V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF2003X"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566CAC02</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>ERJ2RKF2003X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">200K, 0402, 1%, 0.1W 75V</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2059185</field>
+        <field name="C_Value">200K 0.1W 1% 75V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF2003X"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566CAC57</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>VS-10BQ030PBF</value>
+      <footprint>Diodes:SMB</footprint>
+      <fields>
+        <field name="Description">Rectifier Diode, Single, 30 V, 1 A, DO-214AA, 2, 300 mV</field>
+        <field name="Manufacture">VISHAY SEMICONDUCTOR</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1651108</field>
+        <field name="C_Value">0.3Vf 1A 30V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="VS-10BQ030PBF"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566CFE0A</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>ERJ2RKF4023X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">402K 0.1W 1% 50V 0402</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2302907</field>
+        <field name="C_Value">402K 0.1W 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF4023X"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566DC067</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>CRCW0402604KFKED</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">604K 63mW 1% 50V 0402</field>
+        <field name="Manufacture">VISHAY DRALORIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2141014</field>
+        <field name="C_Value">604K 63mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="CRCW0402604KFKED"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566E0501</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>C0805C225K4RACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">2.2uF, 16V, 0805, X7R, 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1288262</field>
+        <field name="C_Value">2.2uF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C225K4RACTU"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566E211A</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>C0805C225K4RACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">2.2uF, 16V, 0805, X7R, 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1288262</field>
+        <field name="C_Value">2.2uF 16V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C225K4RACTU"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566E2CBB</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>C0805C106K8PACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">10uF, 10V, 0805, X5R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1463362</field>
+        <field name="C_Value">10uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C106K8PACTU"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566E55D1</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>C0805C106K8PACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">10uF, 10V, 0805, X5R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1463362</field>
+        <field name="C_Value">10uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C106K8PACTU"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566E6667</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>TPS60130PWP</value>
+      <footprint>IC:R-PDSO-G20</footprint>
+      <fields>
+        <field name="Description">CHARGE PUMP, BOOST, 5V, HTSSOP-20</field>
+        <field name="Manufacture">TEXAS INSTRUMENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2492456</field>
+      </fields>
+      <libsource lib="Meter-cache" part="TPS60130PWP"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>566C44F9</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>MCP73833</value>
+      <footprint>IC:MSOP-10</footprint>
+      <fields>
+        <field name="Description">4.2V, 4.35V, 4.4V or 4.5V +-0.75%, Stand-Alone Linear Li-Ion / Li-Polymer Charge</field>
+        <field name="Manufacture">Microchip</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1332160</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCP73833"/>
+      <sheetpath names="/Battery circuit/" tstamps="/56649A13/"/>
+      <tstamp>56656C5B</tstamp>
+    </comp>
+    <comp ref="X2">
+      <value>ASEMB-16.000MHZ-LY-T</value>
+      <footprint>Crystals:ASEMB</footprint>
+      <fields>
+        <field name="Description">16MHz, 10ppm, -40C +85C, MEMS Oscillators, ASEMB</field>
+        <field name="Manufacture">ABRACON</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">815-ASEMB-16-LY-T</field>
+        <field name="C_Value">8MHZ 10ppm 15pF</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ASEMB-16.000MHZ-LY-T"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5666FA3F</tstamp>
+    </comp>
+    <comp ref="FB1">
+      <value>BK1608HS600-T</value>
+      <footprint>Resistors:RES_0603</footprint>
+      <fields>
+        <field name="Description"> 60R impedance, 25%, 100MHz, 0.1R dc, 800mA, EMI Filter Beads</field>
+        <field name="Manufacture">Taiyo Yuden</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">963-BK1608HS600-T</field>
+        <field name="C_Value">60OHMS 25% 100MHz 0.1Rdc 800mA</field>
+      </fields>
+      <libsource lib="Meter-cache" part="BK1608HS600-T"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5667123F</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>ERJ2RKF33R0X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">33R, 0402, 1%, 0.1W 50v</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2397016</field>
+        <field name="C_Value">33R 0.1W 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF33R0X"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5667821A</tstamp>
+    </comp>
+    <comp ref="FB3">
+      <value>BK1608HS600-T</value>
+      <footprint>Resistors:RES_0603</footprint>
+      <fields>
+        <field name="Description"> 60R impedance, 25%, 100MHz, 0.1R dc, 800mA, EMI Filter Beads</field>
+        <field name="Manufacture">Taiyo Yuden</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">963-BK1608HS600-T</field>
+        <field name="C_Value"> 60OHMS 25% 100MHz 0.1Rdc 800mA</field>
+      </fields>
+      <libsource lib="Meter-cache" part="BK1608HS600-T"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5668B7A9</tstamp>
+    </comp>
+    <comp ref="C29">
+      <value>GRM155R61A103KA01D</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.01uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">MURATA</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">81-GRM155R61A103KA1D</field>
+        <field name="C_Value">0.01uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM155R61A103KA01D"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5668BD0F</tstamp>
+    </comp>
+    <comp ref="C30">
+      <value>C1005X5R1A104K050BA</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.1uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">TDK</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1844111</field>
+        <field name="C_Value">0.1uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1005X5R1A104K050BA"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5668C0AF</tstamp>
+    </comp>
+    <comp ref="FB2">
+      <value>BK1608HS600-T</value>
+      <footprint>Resistors:RES_0603</footprint>
+      <fields>
+        <field name="Description"> 60R impedance, 25%, 100MHz, 0.1R dc, 800mA, EMI Filter Beads</field>
+        <field name="Manufacture">Taiyo Yuden</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">963-BK1608HS600-T</field>
+        <field name="C_Value"> 60OHMS 25% 100MHz 0.1Rdc 800mA</field>
+      </fields>
+      <libsource lib="Meter-cache" part="BK1608HS600-T"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5668E47B</tstamp>
+    </comp>
+    <comp ref="C27">
+      <value>GRM155R61A103KA01D</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.01uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">MURATA</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">81-GRM155R61A103KA1D</field>
+        <field name="C_Value">0.01uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM155R61A103KA01D"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5668E48C</tstamp>
+    </comp>
+    <comp ref="C28">
+      <value>C1005X5R1A104K050BA</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.1uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">TDK</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1844111</field>
+        <field name="C_Value">0.1uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1005X5R1A104K050BA"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5668E497</tstamp>
+    </comp>
+    <comp ref="C26">
+      <value>C0805C106K8PACTU</value>
+      <footprint>Capacitors:CAP_0805</footprint>
+      <fields>
+        <field name="Description">10uF, 10V, 0805, X5R 10%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1463362</field>
+        <field name="C_Value">10uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0805C106K8PACTU"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>56690B23</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>ERJ2RKF33R0X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">33R, 0402, 1%, 0.1W 50v</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2397016</field>
+        <field name="C_Value">33R 0.1W 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF33R0X"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>5669200C</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>ERJ2RKF33R0X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">33R, 0402, 1%, 0.1W 50v</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2397016</field>
+        <field name="C_Value">33R 0.1W 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF33R0X"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>56693F24</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>ERJ2RKF33R0X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">33R, 0402, 1%, 0.1W 50v</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2397016</field>
+        <field name="C_Value">33R 0.1W 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF33R0X"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566940E9</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>RG1608P-201-B-T5</value>
+      <footprint>Resistors:RES_0603</footprint>
+      <fields>
+        <field name="Description">200R, 0603, 100V, 0.1%, 0.1W</field>
+        <field name="Manufacture">Susumu</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">754-RG1608P-201-B-T5</field>
+        <field name="C_Value">200R 0.1W 0.1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="RG1608P-201-B-T5"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566C5FC8</tstamp>
+    </comp>
+    <comp ref="C24">
+      <value>GRM1885C1H301JA01D</value>
+      <footprint>Capacitors:CAP_0603</footprint>
+      <fields>
+        <field name="Description">300pF, 50V, 0603, C0G, NP0, 5%</field>
+        <field name="Manufacture">Murata</field>
+        <field name="Supplier">Digi-Key</field>
+        <field name="Supplier No.">490-1438-1-ND</field>
+        <field name="C_Value">300pF 50V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM1885C1H301JA01D"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566C7DCA</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>RG1608P-201-B-T5</value>
+      <footprint>Resistors:RES_0603</footprint>
+      <fields>
+        <field name="Description">200R, 0603, 100V, 0.1%, 0.1W</field>
+        <field name="Manufacture">Susumu</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">754-RG1608P-201-B-T5</field>
+        <field name="C_Value">200R 0.1W 0.1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="RG1608P-201-B-T5"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566CA706</tstamp>
+    </comp>
+    <comp ref="C25">
+      <value>GRM1885C1H301JA01D</value>
+      <footprint>Capacitors:CAP_0603</footprint>
+      <fields>
+        <field name="Description">300pF, 50V, 0603, C0G, NP0, 5%</field>
+        <field name="Manufacture">Murata</field>
+        <field name="Supplier">Digi-Key</field>
+        <field name="Supplier No.">490-1438-1-ND</field>
+        <field name="C_Value">300pF 50V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM1885C1H301JA01D"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566CA711</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>C0402C102J1GACTU</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">1000pF, 100V, 0402, COG/NPO, 5%</field>
+        <field name="Manufacture">KEMET</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1535563</field>
+        <field name="C_Value">1000pF 100V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C102J1GACTU"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566A866C</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>C1005X5R1A104K050BA</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.1uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">TDK</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1844111</field>
+        <field name="C_Value">0.1uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1005X5R1A104K050BA"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566AD91A</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>ERJ2RKF1001X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">1K, 0402, 1%, 0.1W</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2302638</field>
+        <field name="C_Value">1K 0.1W 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF1001X"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566AF809</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>CRCW040210M0FKED</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10M, 0402, 1%, 63mW</field>
+        <field name="Manufacture">VISHAY DRALORIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1469670</field>
+        <field name="C_Value">10M 63mW 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="CRCW040210M0FKED"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566B0FBC</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>CRCW040210M0FKED</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10M, 0402, 1%, 63mW</field>
+        <field name="Manufacture">VISHAY DRALORIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1469670</field>
+        <field name="C_Value">10M 63mW 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="CRCW040210M0FKED"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566B1A53</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>CRCW04025K36FKED</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">5.36K, 0402, 1%, 63mW, 50V</field>
+        <field name="Manufacture">VISHAY DRALORIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2140833</field>
+        <field name="C_Value">5.36K 63mmW 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="CRCW04025K36FKED"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566B28AF</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>ERJ2RKF1001X</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">1K, 0402, 1%, 0.1W</field>
+        <field name="Manufacture">PANASONIC ELECTRONIC COMPONENTS</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2302638</field>
+        <field name="C_Value">1K 0.1W 1%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="ERJ2RKF1001X"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566B52BD</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>MCWR04X1002FTL</value>
+      <footprint>Resistors:RES_0402</footprint>
+      <fields>
+        <field name="Description">10K 62.5mW 1% 50V 0402</field>
+        <field name="Manufacture">MULTICOMP</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">2447096</field>
+        <field name="C_Value">10K 62.5mW 1% 50V</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566B5DFA</tstamp>
+    </comp>
+    <comp ref="C22">
+      <value>GRM155R61A103KA01D</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.01uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">MURATA</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">81-GRM155R61A103KA1D</field>
+        <field name="C_Value">0.01uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM155R61A103KA01D"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566B9902</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>C0402C510J5GACTU</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">51pF, 50V, 0402, COG/NPO, 5%</field>
+        <field name="Manufacture">Murata</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1865429</field>
+        <field name="C_Value">51pF 50V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C510J5GACTU"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566F3D51</tstamp>
+    </comp>
+    <comp ref="C23">
+      <value>C0402C510J5GACTU</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">51pF, 50V, 0402, COG/NPO, 5%</field>
+        <field name="Manufacture">Murata</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1865429</field>
+        <field name="C_Value">51pF 50V 5%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C0402C510J5GACTU"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566F423F</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>GRM155R61A103KA01D</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.01uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">MURATA</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">81-GRM155R61A103KA1D</field>
+        <field name="C_Value">0.01uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM155R61A103KA01D"/>
+      <sheetpath names="/UltraSound Sensor/" tstamps="/5666D137/"/>
+      <tstamp>566F5BCF</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>MAX14662ETI+</value>
+      <footprint>IC:TQFN-EP-28</footprint>
+      <fields>
+        <field name="Description">Analogue Switch ICs Octal SPST Beyond the Rails Switch</field>
+        <field name="Manufacture">Maxim Integrated</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">700-MAX14662ETI+</field>
+      </fields>
+      <libsource lib="Meter-cache" part="MAX14662ETI+"/>
+      <sheetpath names="/UltraSound Support/" tstamps="/566AB3AD/"/>
+      <tstamp>5667AFD2</tstamp>
+    </comp>
+    <comp ref="C31">
+      <value>GRM155R61A103KA01D</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.01uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">MURATA</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier No.">81-GRM155R61A103KA1D</field>
+        <field name="C_Value">0.01uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="GRM155R61A103KA01D"/>
+      <sheetpath names="/UltraSound Support/" tstamps="/566AB3AD/"/>
+      <tstamp>5667C17E</tstamp>
+    </comp>
+    <comp ref="C32">
+      <value>C1005X5R1A104K050BA</value>
+      <footprint>Capacitors:CAP_0402</footprint>
+      <fields>
+        <field name="Description">0.1uF, 10V, 0402,  X5R, 10%, -55 to 125℃ </field>
+        <field name="Manufacture">TDK</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1844111</field>
+        <field name="C_Value">0.1uF 10V 10%</field>
+      </fields>
+      <libsource lib="Meter-cache" part="C1005X5R1A104K050BA"/>
+      <sheetpath names="/UltraSound Support/" tstamps="/566AB3AD/"/>
+      <tstamp>5667C189</tstamp>
+    </comp>
+    <comp ref="J4">
+      <value>70246-1404</value>
+      <footprint>Connectors:IDC-2.54mm-14way</footprint>
+      <fields>
+        <field name="Description">14way dual row 2.54mm socket</field>
+        <field name="Manufacture">SAMTEC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier No.">1392520</field>
+      </fields>
+      <libsource lib="Meter-cache" part="70246-1404"/>
+      <sheetpath names="/UltraSound Support/" tstamps="/566AB3AD/"/>
+      <tstamp>56689365</tstamp>
+    </comp>
+  </components>
+</export>
