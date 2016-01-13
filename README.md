@@ -33,10 +33,12 @@ https://github.com/HashDefineElectronics/Kicad_Html_BOM.git
 
 # How to use it: 
 where "%I" in the input kicad xml file and "%O" is the ouput directory and name for the html
-#### on Windows:
-    node "Kicad_Html_BOM.js" "%I" "%O"
-#### on Linux:
-    nodejs "Kicad_Html_BOM.js" "%I" "%O" 
+
+#### Terminal or Kicad BOM Tool:
+    node "Kicad_Html_BOM.js" "%I" "%O.html"
+    node "Kicad_Html_BOM.js" "%I" "%O.csv" "Template/CSV"
+    node "Kicad_Html_BOM.js" "%I" "%O.html" "Path_To_Your_Template_conf"
+    node "Kicad_Html_BOM.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
 
 # templates and short_codes list:
 
