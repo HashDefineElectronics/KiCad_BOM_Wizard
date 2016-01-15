@@ -31,7 +31,7 @@ Ronald Sousa HashDefineElectronics.com
 
 # Repository: 
 
-https://github.com/HashDefineElectronics/Kicad_Html_BOM.git 
+https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
 # How to use it: 
 where "%I" in the input kicad xml file and "%O" is the ouput directory and name for the html
