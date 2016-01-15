@@ -15,6 +15,8 @@ then it would be groupd as so;
 > | R1 R3 | 2 | 10K|
 > | R2| 1 | 100K|
 
+Output and test examples are in the Test directory
+
 # installing NodeJs
 ### installing nodejs in Linux:
 ```sh
@@ -34,11 +36,11 @@ https://github.com/HashDefineElectronics/Kicad_Html_BOM.git
 # How to use it: 
 where "%I" in the input kicad xml file and "%O" is the ouput directory and name for the html
 
-#### Terminal or Kicad BOM Tool:
-    node "Kicad_Html_BOM.js" "%I" "%O.html"
-    node "Kicad_Html_BOM.js" "%I" "%O.csv" "Template/CSV"
-    node "Kicad_Html_BOM.js" "%I" "%O.html" "Path_To_Your_Template_conf"
-    node "Kicad_Html_BOM.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
+#### Terminal or Kicad BOM Wizard:
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
 
 # templates and short_codes list:
 
@@ -62,14 +64,15 @@ where "%I" in the input kicad xml file and "%O" is the ouput directory and name 
 
 ## for TableTemplate.html:
     <!--TAG_BOM_TABLE_ROW_DATA-->       inserts the group of parts row data
-    <!--TAG_BOM_TABLE_GROUP_CLASS-->    inserts the group class name.
-    <!--TAG_BOM_TABLE_GROUP_TITLE-->    inserts the group title
+    <!--TAG_BOM_TABLE_GROUP_CLASS-->    inserts the group class name. format "group_" + "part ref prefix"
+    <!--TAG_BOM_TABLE_GROUP_TITLE-->    inserts the group title. the part ref prefix
 
 ## for PartRowTemplate.html:
-    <!--TAG_BOM_TABLE_PART_REF-->       inserts the list of parts reference designator
-    <!--TAG_BOM_TABLE_PART_QTY-->       inserts the number of parts grouped together
-    <!--TAG_BOM_TABLE_PART_Value-->     inserts the part value
-    <!--TAG_BOM_TABLE_PART_FIELD-->     inserts the generator parts fields
+    <!--TAG_BOM_TABLE_PART_REF-->            inserts the list of parts reference designator
+    <!--TAG_BOM_TABLE_PART_QTY-->            inserts the number of parts grouped together
+    <!--TAG_BOM_TABLE_PART_Value-->          inserts the part value
+    <!--TAG_BOM_TABLE_PART_FIELD-->          inserts the generator parts fields
+    <!--TAG_BOM_TABLE_ROW_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
 
 ## for TableFieldTemplate:
     <!--TAG_BOM_TABLE_FIELD_CLASS_TAG-->    inserts the fields class name

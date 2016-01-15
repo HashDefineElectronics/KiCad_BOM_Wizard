@@ -3,14 +3,15 @@ Revision,0
 Date,2016-01-13
 Generated,13/01/2016 07:42:26
 Company,Hash Define Electronics Ltd
-Document No.,DOC-0603
-Website,http://hashdefineelectronics.com/
+Comment 1,DOC-0603
+Comment 2,http://hashdefineelectronics.com/
 Comment 3,N/A
 Comment 4,N/A
 Total Parts,89
 Total Unique Parts,47
-,
-,
+
+
+
 Ref,Qty,Value,C_Value,Description,Manufacture,Supplier,Supplier No.,
 C1 C3 C11 ,3,C1210C106K5RACTU,,10uF 50V 10%,10uF  50V  1210  MLCC  X7R 10%,KEMET,Farnell,2449143
 C2 C6 C7 C8 C10 ,5,C0402C104K4RACAUTO,,100nF 16V 10%,100nF  16V  0603  -55C to 125C  X7R  10%  Automotive,KEMET,Farnell,2070374
@@ -60,6 +61,8 @@ V1 ,1,V33MLA1206NH,,33V 180Apk 75V,33V  1206  180Apk  Clamp 75V,LITTELFUSE,Farne
 X1 ,1,ABM7-12.000MHZ-D2Y-T,,12MHZ 18PF,CRYSTAL  12MHZ  18PF  - 40°C to + 60°C,ABRACON,Farnell,2101331
 X2 ,1,ASEMB-16.000MHZ-LY-T,,8MHZ 10ppm 15pF,16MHz  10ppm  -40C +85C  MEMS Oscillators  ASEMB,ABRACON,Mouser,815-ASEMB-16-LY-T
 
-,
-,
-Template created by HashDEfineElectronics.com
+
+
+
+BOM made with KICAD_BOM_WIZARD (https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git)
+Generated 13/01/2016 07:42:26

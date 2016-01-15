@@ -1,67 +1,89 @@
   /*
-    This is a javascript script for creating Kicad HTML BOM.
-    The parts are grouped together based on the parts value and part reference designator prefix. The script will generate the HTML output based on html template with short_codes.
-    If you know html and css then you should be able to create your own BOM templates. You simply put the short code where you want this script to insert the BOM data.
-    
-    For example, if BOM consist of;
-    
-    R1 10K, R2 100K, C1 10pF, R3 10K
+# Kicad_Html_BOM
+This is a javascript script for creating Kicad HTML BOM.
+The parts are grouped together based on the parts value and part reference designator prefix. The script will generate the HTML output based on html template with short_codes.
+If you know html and css then you should be able to create your own BOM templates. You simply put the short code where you want this script to insert the BOM data.
 
-    then it would be groupd as so;
+For example, if BOM consist of;
 
-       Ref   qty   value
-    ------- R ---------
-    - R1 R3   2      10K
-    - R2      1      100K
+R1 10K, R2 100K, C1 10pF, R3 10K
 
-    ------- C ---------
-	- C1      1       10pF
+then it would be groupd as so;
 
-    
-    ## Note:
-        You will need to install nodejs.
-    
-    ## Arthur: 
-        Ronald Sousa http://hashdefineelectronics.com/
+> | Ref | qty |value|
+> |----|-----|-----|
+> |C1 | 1 | 10pF |
+> | R1 R3 | 2 | 10K|
+> | R2| 1 | 100K|
 
-    ## Repository: 
-        https://github.com/HashDefineElectronics/Kicad_Html_BOM.git  
+Output and test examples are in the Test directory
 
-    ## Usage: where "%I" in the input kicad xml file and is the ouput directory and name for the html
-        on Windows:
-            node "Kicad_Html_BOM.js" "%I" "%O"
-        on Linux:
-            nodejs "Kicad_Html_BOM.js" "%I" "%O" 
-    
-    ## template.html Supported short_code:
-		[TAG_TITLE]							- inserts the root sheet title.
-		[TAG_DATE] 							- inserts the root sheet date.
-		[TAG_DATE_GENERATED]				- inserts the date and time the Kicad net file was created
-		[TAG_COMPANY]						- inserts the root sheet company name
-		[TAG_REVISON]						- inserts the root sheet revision value
-		[TAG_COMMENT_1]						- inserts the root sheet comment 1
-		[TAG_COMMENT_2]						- inserts the root sheet comment 2
-		[TAG_COMMENT_3]						- inserts the root sheet commnet 3
-		[TAG_COMMENT_4]						- inserts the root sheet commnet 4
-		[TAG_TOTAL_NUM_OF_PARTS]			- inserts the number of parts used in the design
-		[TAG_TOTAL_NUM_OF_UNIQUE_PARTS]		- inserts the number of unique parts used in the design. Note, if two similar parts have different fileds then it will be registed as unique
-		[TAG_BOM_TABLE_HEADER_CLASS]		- inserts the table headers
-		[TAG_BOM_TABLE]						- inserts the complete generated BOM table
+# installing NodeJs
+### installing nodejs in Linux:
+```sh
+sudo apt-get install nodejs
+sudo apt-get install npm
+```
+### installing nodejs on other system:
+    https://nodejs.org/en/download/
 
-	## TableTemplate.html Supported short_code:
-		[TAG_BOM_TABLE_ROW_DATA]			- inserts the group of parts row data
-		[TAG_BOM_TABLE_GROUP_CLASS]			- inserts the group class name.
-		[TAG_BOM_TABLE_GROUP_TITLE]			- inserts the group title
+# Arthur: 
+Ronald Sousa HashDefineElectronics.com
 
-	## PartRowTemplate.html Supported short_code:
-		[TAG_BOM_TABLE_PART_REF]			- inserts the list of parts reference designator
-		[TAG_BOM_TABLE_PART_QTY]			- inserts the number of parts grouped together
-		[TAG_BOM_TABLE_PART_Value]			- inserts the part value
-		[TAG_BOM_TABLE_PART_FIELD]			- inserts the generator parts fields
+# Repository: 
 
-	## TableFieldTemplate Supported short_code:
-		[TAG_BOM_TABLE_FIELD_CLASS_TAG]		- inserts the fields class name
-		[TAG_BOM_TABLE_FIELD]				- inserts the field value
+https://github.com/HashDefineElectronics/Kicad_Html_BOM.git 
+
+# How to use it: 
+where "%I" in the input kicad xml file and "%O" is the ouput directory and name for the html
+
+#### Terminal or Kicad BOM Wizard:
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
+
+# templates and short_codes list:
+
+## for template.html:
+    <!--TAG_TITLE-->                        inserts the root sheet title.
+    <!--TAG_DATE-->                         inserts the root sheet date.
+    <!--TAG_DATE_GENERATED-->               inserts the date and time the Kicad net file was created
+    <!--TAG_COMPANY-->                      inserts the root sheet company name
+    <!--TAG_REVISON-->                      inserts the root sheet revision value
+    <!--TAG_COMMENT_1-->                    inserts the root sheet comment 1
+    <!--TAG_COMMENT_2-->                    inserts the root sheet comment 2
+    <!--TAG_COMMENT_3-->                    inserts the root sheet commnet 3
+    <!--TAG_COMMENT_4-->                    inserts the root sheet commnet 4
+    <!--TAG_TOTAL_NUM_OF_PARTS-->           inserts the number of parts used in the design
+    <!--TAG_TOTAL_NUM_OF_UNIQUE_PARTS-->    inserts the number of unique parts used in the design. Note, if two similar parts have different fileds then it will be registed as unique
+    <!--TAG_BOM_TABLE_HEADER_CLASS-->       inserts the table headers
+    <!--TAG_BOM_TABLE-->                    inserts the complete generated BOM table
+
+## for tableHeaderTemplate.html:
+    <!--TAG_BOM_TABLE_ROW_HEADER-->         inserts the coloum title
+    <!--TAG_BOM_TABLE_ROW_REF_TAG--> 		insert the tag for the part reference. HeadRefTag 
+    <!--TAG_BOM_TABLE_ROW_QTY_TAG--> 		insert the tag for the part qty. HeadQtyTag
+    <!--TAG_BOM_TABLE_ROW_VAL_TAG--> 		insert the tag for the part value. HeadValueTag
+
+## for TableTemplate.html:
+    <!--TAG_BOM_TABLE_ROW_DATA-->       inserts the group of parts row data
+    <!--TAG_BOM_TABLE_GROUP_CLASS-->    inserts the group class name. format "group_" + "part ref prefix"
+    <!--TAG_BOM_TABLE_GROUP_TITLE-->    inserts the group title. the part ref prefix
+
+## for PartRowTemplate.html:
+    <!--TAG_BOM_TABLE_PART_REF-->            inserts the list of parts reference designator
+    <!--TAG_BOM_TABLE_PART_QTY-->            inserts the number of parts grouped together
+    <!--TAG_BOM_TABLE_PART_Value-->          inserts the part value
+    <!--TAG_BOM_TABLE_PART_FIELD-->          inserts the generator parts fields
+    <!--TAG_BOM_TABLE_ROW_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
+    <!--TAG_BOM_TABLE_ROW_REF_TAG--> 		 insert the tag for the part reference. HeadRefTag 
+    <!--TAG_BOM_TABLE_ROW_QTY_TAG--> 		 insert the tag for the part qty. HeadQtyTag
+    <!--TAG_BOM_TABLE_ROW_VAL_TAG--> 		 insert the tag for the part value. HeadValueTag
+
+## for TableFieldTemplate:
+    <!--TAG_BOM_TABLE_FIELD_CLASS_TAG-->    inserts the fields class name
+    <!--TAG_BOM_TABLE_FIELD-->              inserts the field value
 
 */
 
@@ -171,17 +193,36 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
  	var ReturnHtml = "";
 
 	HtmlHeader = HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  "Ref");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_REF_TAG-->/g,  "HeadRefTag");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_QTY_TAG-->/g,  "");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_VAL_TAG-->/g,  "");
+
 	HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  "Qty");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_REF_TAG-->/g,  "");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_QTY_TAG-->/g,  "HeadQtyTag");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_VAL_TAG-->/g,  "");
+
 	HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  "Value");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_REF_TAG-->/g,  "");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_QTY_TAG-->/g,  "");
+	HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_VAL_TAG-->/g,  "HeadValueTag");
+
+
 	fieldsList.sort();
 
 	for ( var FieldIndex = 0; FieldIndex <  fieldsList.length; FieldIndex++ )
 	{
 		HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--TAG_BOM_TABLE_ROW_HEADER-->/g,  fieldsList[ FieldIndex ] );
+		HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_REF_TAG-->/g,  "");
+		HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_QTY_TAG-->/g,  "");
+		HtmlHeader = HtmlHeader.replace(/<!--TAG_BOM_TABLE_ROW_VAL_TAG-->/g,  "");
 
 	}
 
 	groupedList.sort();
+
+	//keep track if the table row is odd or even. true = even else is odd
+	var RowIsEvenFlag = false;
 
 	for ( var Group in groupedList )
 	{
@@ -203,9 +244,21 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
 				RefTemp += Ref + " ";
 			}
 
+			if(RowIsEvenFlag)
+			{
+				TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_ROW_ODD_EVEN_TAG-->/g, "RowEvenTag");
+			}
+			else
+			{
+				TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_ROW_ODD_EVEN_TAG-->/g, "RowOddTag");	
+			}
 			TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_PART_REF-->/g, RefTemp);
 			TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_PART_QTY-->/g, partGroupedList[GroupdName][Item].Count);
 			TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_PART_Value-->/g, partGroupedList[GroupdName][Item].Value);
+
+			TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_ROW_REF_TAG-->/g,  "HeadRefTag");
+			TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_ROW_QTY_TAG-->/g,  "HeadQtyTag");
+			TempRow = TempRow.replace(/<!--TAG_BOM_TABLE_ROW_VAL_TAG-->/g,  "HeadValueTag");
 
 			var FieldsTemp = "";
 
@@ -230,7 +283,7 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
 
 			TableRowAll += TempRow.replace(/<!--TAG_BOM_TABLE_PART_FIELD-->/g, FieldsTemp);
 
-			
+			RowIsEvenFlag = !RowIsEvenFlag;
 		}
 
 		TableHtmlTemp = TableHtmlTemp.replace(/<!--TAG_BOM_TABLE_ROW_DATA-->/g, TableRowAll);
