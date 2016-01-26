@@ -1,79 +1,99 @@
-# Kicad_Html_BOM
-This is a javascript script for creating Kicad HTML BOM.
-The parts are grouped together based on the parts value and part reference designator prefix. The script will generate the HTML output based on html template with short_codes.
-If you know html and css then you should be able to create your own BOM templates. You simply put the short code where you want this script to insert the BOM data.
+# KiCad_BOM_Wizard
 
-For example, if BOM consist of;
+# Arthur: 
+Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
-R1 10K, R2 100K, C1 10pF, R3 10K
+# Revision:
+0
 
-then it would be groupd as so;
+# Repository: 
+https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
-> | Ref | qty |value|
+# Project Page: 
+http://hashdefineelectronics.com/kicad-bom-wizard/
+
+This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.
+
+The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement. 
+With KiCad_BOM_Wizard, We simply made a template that the output file includes the document number, project revision, and manufacture notes.
+
+By default, KiCad_BOM_Wizard comes with two templates, one will generate a stand along HTML file and the other will generate a CSV file.
+They are both include to simplify the use of plugin and can be used as an example by those who want to make their own templates. The latter could be due to needing to have your own company or project logo.
+
+KiCad_BOM_Wizard works by scanning through all of the template files and replacing any of the Short Codes with the data that is associated with it. It will then output all of the data it has collected including the file structure
+into one file based on the order that it finds the short codes. 
+
+For example, if the KiCad_BOM_Wizard finds the short code <!--TAG_TITLE--> in template.conf then it we replace it with the KiCad project root sheet title. KiCad_BOM_Wizard will also group and sort all components together that have same parts value, the same starting designator reference prefix and the same fields value. 
+
+For example, if your project component list consist of; 
+> R1 10K, R2 100K, C1 10pF and R3 10K
+
+then it would be grouped like this;
+
+> | Ref | qty | value |
 > |----|-----|-----|
 > |C1 | 1 | 10pF |
 > | R1 R3 | 2 | 10K|
 > | R2| 1 | 100K|
 
-Output and test examples are in the Test directory
+# For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the main project page. http://hashdefineelectronics.com/kicad-bom-wizard/
 
-# installing NodeJs
-### installing nodejs in Linux:
+# The following server as a quick reference.
+
+## installing nodejs in Linux:
 ```sh
 sudo apt-get install nodejs
 sudo apt-get install npm
 ```
-### installing nodejs on other system:
+## installing nodejs on other system:
     https://nodejs.org/en/download/
 
-# Arthur: 
-Ronald Sousa HashDefineElectronics.com
-
-# Repository: 
-
-https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
-
-# How to use it: 
-where "%I" in the input kicad xml file and "%O" is the ouput directory and name for the html
-
-#### Terminal or Kicad BOM Wizard:
+## Terminal or Kicad BOM Wizard:
     node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
     node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
     node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf"
     node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
 
-# templates and short_codes list:
+where "%I" in the input kicad xml file and "%O" is the output directory and name for the html
 
-## for template.html:
-    <!--TAG_TITLE-->                        inserts the root sheet title.
-    <!--TAG_DATE-->                         inserts the root sheet date.
-    <!--TAG_DATE_GENERATED-->               inserts the date and time the Kicad net file was created
-    <!--TAG_COMPANY-->                      inserts the root sheet company name
-    <!--TAG_REVISON-->                      inserts the root sheet revision value
-    <!--TAG_COMMENT_1-->                    inserts the root sheet comment 1
-    <!--TAG_COMMENT_2-->                    inserts the root sheet comment 2
-    <!--TAG_COMMENT_3-->                    inserts the root sheet commnet 3
-    <!--TAG_COMMENT_4-->                    inserts the root sheet commnet 4
-    <!--TAG_TOTAL_NUM_OF_PARTS-->           inserts the number of parts used in the design
-    <!--TAG_TOTAL_NUM_OF_UNIQUE_PARTS-->    inserts the number of unique parts used in the design. Note, if two similar parts have different fileds then it will be registed as unique
-    <!--TAG_BOM_TABLE_HEADER_CLASS-->       inserts the table headers
-    <!--TAG_BOM_TABLE-->                    inserts the complete generated BOM table
+## short_codes list used by the template files
 
-## for tableHeaderTemplate.html:
-    <!--TAG_BOM_TABLE_ROW_HEADER-->         inserts the coloum title
+### for template.conf:
+    <!--TITLE-->                        inserts the root sheet title.
+    <!--DATE-->                         inserts the root sheet date.
+    <!--DATE_GENERATED-->               inserts the date and time the Kicad net file was created
+    <!--COMPANY-->                      inserts the root sheet company name
+    <!--REVISON-->                      inserts the root sheet revision value
+    <!--COMMENT_1-->                    inserts the root sheet comment 1
+    <!--COMMENT_2-->                    inserts the root sheet comment 2
+    <!--COMMENT_3-->                    inserts the root sheet comment 3
+    <!--COMMENT_4-->                    inserts the root sheet comment 4
+    <!--TOTAL_NUM_OF_PARTS-->           inserts the number of parts used in the design
+    <!--TOTAL_NUM_OF_UNIQUE_PARTS-->    inserts the number of unique parts used in the design. Note, if two similar parts have different fields then it will be register as unique
+    <!--CLASS_HEADER_TAG-->       inserts the table headers
+    <!--BOM_TABLE-->                    inserts the complete generated BOM table
 
-## for TableTemplate.html:
-    <!--TAG_BOM_TABLE_ROW_DATA-->       inserts the group of parts row data
-    <!--TAG_BOM_TABLE_GROUP_CLASS-->    inserts the group class name. format "group_" + "part ref prefix"
-    <!--TAG_BOM_TABLE_GROUP_TITLE-->    inserts the group title. the part ref prefix
+### for headers.conf:
+    <!--HEADER_ROW-->         inserts the column title
+    <!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag 
+    <!--HEADER_CLASS_QTY_TAG-->        insert the tag for the part qty. HeadQtyTag
+    <!--HEADER_CLASS_VALUE_TAG-->        insert the tag for the part value. HeadValueTag
 
-## for PartRowTemplate.html:
-    <!--TAG_BOM_TABLE_PART_REF-->            inserts the list of parts reference designator
-    <!--TAG_BOM_TABLE_PART_QTY-->            inserts the number of parts grouped together
-    <!--TAG_BOM_TABLE_PART_Value-->          inserts the part value
-    <!--TAG_BOM_TABLE_PART_FIELD-->          inserts the generator parts fields
-    <!--TAG_BOM_TABLE_ROW_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
+### for group.conf:
+    <!--GROUP_ROW_DATA-->       inserts the group of parts row data
+    <!--GROUP_CLASS_TAG-->    inserts the group class name. format "group_" + "part ref prefix"
+    <!--GROUP_TITLE_TEXT-->    inserts the group title. the part ref prefix
 
-## for TableFieldTemplate:
-    <!--TAG_BOM_TABLE_FIELD_CLASS_TAG-->    inserts the fields class name
-    <!--TAG_BOM_TABLE_FIELD-->              inserts the field value
+### for row.conf:
+    <!--ROW_PART_REF-->            inserts the list of parts reference designator
+    <!--ROW_PART_QTY-->            inserts the number of parts grouped together
+    <!--ROW_PART_VALUE-->          inserts the part value
+    <!--ROW_PART_FIELDS-->          inserts the generator parts fields
+    <!--ROW_CLASS_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
+    <!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag 
+    <!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
+    <!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag
+
+### for fields.conf:
+    <!--FIELD_CLASS_TAG-->    inserts the fields class name
+    <!--FIELD-->              inserts the field value
