@@ -1,17 +1,18 @@
 # KiCad_BOM_Wizard
 
-# Arthur: 
+### Arthur: 
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
-# Revision:
+### Revision:
 0
 
-# Repository: 
+### Repository: 
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
-# Project Page: 
+### Project Page: 
 http://hashdefineelectronics.com/kicad-bom-wizard/
 
+# Description: 
 This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.
 
 The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement. 
@@ -36,9 +37,9 @@ then it would be grouped like this;
 > | R1 R3 | 2 | 10K|
 > | R2| 1 | 100K|
 
-# For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the main project page. http://hashdefineelectronics.com/kicad-bom-wizard/
+## For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the main project page. http://hashdefineelectronics.com/kicad-bom-wizard/
 
-# The following server as a quick reference.
+# The following serves as quick reference.
 
 ## installing nodejs in Linux:
 ```sh
