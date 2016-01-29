@@ -1,4 +1,5 @@
 /*
+@package
 # KiCad_BOM_Wizard
 
 ### Arthur: 
@@ -50,13 +51,25 @@ sudo apt-get install npm
 ## installing nodejs on other system:
     https://nodejs.org/en/download/
 
-## Terminal or Kicad BOM Wizard:
+## Kicad BOM Plugin Manager Command Line:
+#For HTML BOM
     node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
+    // This is the same as
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"
+    // This is the same as
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
 
-where "%I" in the input kicad xml file and "%O" is the output directory and name for the html
+#For CSV BOM
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"
+    // This is the same as
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+
+#Using your own template BOM
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.txt" "Path_To_Your_Template_conf/Your_Template"
+    // or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.txt" "Your_Template"
+
+where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension
 
 ## short_codes list used by the template files
 
@@ -99,59 +112,104 @@ where "%I" in the input kicad xml file and "%O" is the output directory and name
 ### for fields.conf:
     <!--FIELD_CLASS_TAG-->    inserts the fields class name
     <!--FIELD-->              inserts the field value
-
 */
 
-var fs = require('fs'),
-xml2js = require('xml2js'), 
-util = require('util');
-
-var HtmlHeader = "";
-var HtmlTemplateData = null;
-var HtmlTableTemplate = null;
-var HtmlTableRowTemplate = null;
-var HtmlTableRowHeaderTemplate = null;
-var TableFieldTemplate = null;
-var KicadXmlFile = ""
-var OutputFile = ""
-var TemplateFolder = __dirname + '/Template/HTML';
-
-// check the user has given us all that we need to generate the BOM
-process.argv.forEach(function (val, index, array) {
-    if(2 == index) // The user has passed the file to process
-    {
-        KicadXmlFile = array[2];
-    }
-    if(3 == index) // The user has passed the file to process
-    {
-        OutputFile = array[3];
-    }
-    if(4 == index) // The user has passed the file to process
-    {
-        TemplateFolder = array[4];
-    }
-});
-
-if("" == OutputFile || KicadXmlFile == "")
-{
-    console.log("Too few arguments");
-    return;
-}
-
-console.log("Input File" + ': ' + KicadXmlFile );
-console.log("Output File" + ': ' + OutputFile );
-console.log("Template File" + ': ' + TemplateFolder );
-
-// Run the first process
-Process("STATE_GET_XML_DATA");
-
-var UserProjectNetData = null;
-var NumberOfUniqueParts = 0;
-var TotalNumberOfParts = 0;
+/////////////////////////////////////////////////////////////////
+/// \brief defines the plugin revison number
+/////////////////////////////////////////////////////////////////
+var PluginRevisionNumber = "0";
 
 /////////////////////////////////////////////////////////////////
-/// \brief This will check the entire part list for a matching value and fields and 
-/// return the part index number that matches
+/// \brief Defines KiCad Revision number
+/////////////////////////////////////////////////////////////////
+var KiCadXMLRevision = "D";
+
+/////////////////////////////////////////////////////////////////
+/// \brief Defines the minimum number of arguments this plugins
+/// takes
+/////////////////////////////////////////////////////////////////
+var MinmumNumOfExpectedArguments = 4;
+
+/////////////////////////////////////////////////////////////////
+/// \brief holds the processed header data
+/////////////////////////////////////////////////////////////////
+var OutputHeader = "";
+
+/////////////////////////////////////////////////////////////////
+/// \brief holds the template data for main body template
+/// should be KiCadXmlFilePath/template.conf
+/////////////////////////////////////////////////////////////////
+var Template = null;
+
+/////////////////////////////////////////////////////////////////
+/// \brief holds the template data for table group
+/// should be KiCadXmlFilePath/group.conf
+/////////////////////////////////////////////////////////////////
+var GroupTemplate = null;
+
+/////////////////////////////////////////////////////////////////
+/// \brief holds the template data for table rows
+/// should be KiCadXmlFilePath/row.conf
+/////////////////////////////////////////////////////////////////
+var RowTemplate = null;
+
+/////////////////////////////////////////////////////////////////
+/// \brief holds the template data for table headers
+/// should be KiCadXmlFilePath/headers.conf
+/////////////////////////////////////////////////////////////////
+var HeadersTemplate = null;
+
+/////////////////////////////////////////////////////////////////
+/// \brief holds the template data for fields
+/// should be KiCadXmlFilePath/fields.conf
+/////////////////////////////////////////////////////////////////
+var FieldsTemplate = null;
+
+/////////////////////////////////////////////////////////////////
+/// \brief This is the project KiCad XML file to use to 
+/// extract the BOM information
+/////////////////////////////////////////////////////////////////
+var KiCadXmlFilePath = "";
+
+/////////////////////////////////////////////////////////////////
+/// \brief the path and file name to use to create the output BOM
+/////////////////////////////////////////////////////////////////
+var OutputFilePath = "";
+
+/////////////////////////////////////////////////////////////////
+/// \brief This is the path to the template files to use
+/// when creating the BOM
+/////////////////////////////////////////////////////////////////
+var TemplateFolder = __dirname + '/Template/';
+
+/////////////////////////////////////////////////////////////////
+/// \brief javascript object class of the KiCadXmlFilePath file
+/////////////////////////////////////////////////////////////////
+var UserProjectNetData = null;
+
+/////////////////////////////////////////////////////////////////
+/// \brief keep track of the number of unique parts found while
+/// creating the BOM
+/////////////////////////////////////////////////////////////////
+var NumberOfUniqueParts = 0;
+
+/////////////////////////////////////////////////////////////////
+/// \brief keep track of the number of parts found while
+/// creating the BOM
+/////////////////////////////////////////////////////////////////
+var TotalNumberOfParts = 0;
+
+
+
+GetArguments();
+PluginDetails();
+Task("STATE_GET_XML_DATA"); // Run the first task.
+
+
+
+/////////////////////////////////////////////////////////////////
+/// \brief This will check the entire part list for a matching 
+/// value and fields and return the part's index number that matches
 ///
 /// \return -1 = no match else the index number
 /////////////////////////////////////////////////////////////////
@@ -195,42 +253,42 @@ function SearchUniquePartIndex(source, searchTerm, listOfGroups)
 
 
 /////////////////////////////////////////////////////////////////
-/// \brief creates the table html
+/// \brief creates the table
 ///
 /// \param fieldsList the array that has all the various filed names
 /// \param GroupedList the array that has all the parts grouped by the ref prefix
 /// \param partGroupedList the array that actually contains all the parts data
 ///
-/// \return the hmtl output
+/// \return the output
 /////////////////////////////////////////////////////////////////
-function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
+function GenerateTable(fieldsList, groupedList, partGroupedList)
 {
-    var ReturnHtml = "";
+    var ReturnOutput = "";
 
-    HtmlHeader = HtmlTableRowHeaderTemplate.replace(/<!--HEADER_ROW-->/g,  "Ref");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "HeadRefTag");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
+    OutputHeader = HeadersTemplate.replace(/<!--HEADER_ROW-->/g,  "Ref");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "HeadRefTag");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
 
-    HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--HEADER_ROW-->/g,  "Qty");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "HeadQtyTag");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
+    OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g,  "Qty");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "HeadQtyTag");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
 
-    HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--HEADER_ROW-->/g,  "Value");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
-    HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "HeadValueTag");
+    OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g,  "Value");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
+    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "HeadValueTag");
 
 
     fieldsList.sort();
 
     for ( var FieldIndex = 0; FieldIndex <  fieldsList.length; FieldIndex++ )
     {
-        HtmlHeader += HtmlTableRowHeaderTemplate.replace(/<!--HEADER_ROW-->/g,  fieldsList[ FieldIndex ] );
-        HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
-        HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
-        HtmlHeader = HtmlHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
+        OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g,  fieldsList[ FieldIndex ] );
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
 
     }
 
@@ -242,16 +300,16 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
     for ( var Group in groupedList )
     {
         // take a copy of the table template
-        var TableHtmlTemp = HtmlTableTemplate;
+        var TableTemp = GroupTemplate;
         var GroupdName = groupedList[Group];
 
-        TableHtmlTemp = TableHtmlTemp.replace(/<!--GROUP_CLASS_TAG-->/g,      "group_" + GroupdName );
-        TableHtmlTemp = TableHtmlTemp.replace(/<!--GROUP_TITLE_TEXT-->/g,      GroupdName);
+        TableTemp = TableTemp.replace(/<!--GROUP_CLASS_TAG-->/g,      "group_" + GroupdName );
+        TableTemp = TableTemp.replace(/<!--GROUP_TITLE_TEXT-->/g,      GroupdName);
 
         var TableRowAll = "";
         for ( var Item in partGroupedList[GroupdName] )
         {
-            var TempRow = HtmlTableRowTemplate;
+            var TempRow = RowTemplate;
             var RefTemp = "";
 
             for ( var Ref in partGroupedList[GroupdName][Item].Ref )
@@ -279,7 +337,7 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
 
             for ( var FieldIndex = 0; FieldIndex <  fieldsList.length; FieldIndex++ )
             {
-                var SingleFieldTemp = TableFieldTemplate;
+                var SingleFieldTemp = FieldsTemplate;
 
                 SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD_CLASS_TAG-->/g, "Field_" + fieldsList[ FieldIndex ] );
 
@@ -301,21 +359,21 @@ function GenerateTableHtml(fieldsList, groupedList, partGroupedList)
             RowIsEvenFlag = !RowIsEvenFlag;
         }
 
-        TableHtmlTemp = TableHtmlTemp.replace(/<!--GROUP_ROW_DATA-->/g, TableRowAll);
+        TableTemp = TableTemp.replace(/<!--GROUP_ROW_DATA-->/g, TableRowAll);
 
-        ReturnHtml += TableHtmlTemp;
+        ReturnOutput += TableTemp;
     }
-    return ReturnHtml;
+    return ReturnOutput;
 }
 
 
 
 /////////////////////////////////////////////////////////////////
-/// \brief return the html generated part table
+/// \brief return the generated part table
 ///
-/// \return the output html
+/// \return the output
 /////////////////////////////////////////////////////////////////
-function ExtractAndGenerateHtmlForThePart()
+function ExtractAndGenerateDataForThePart()
 {
     var PartGroupedList = new Array();
     var GroupedList = new Array(); // holds the list of groups. This is used to make sorting easier
@@ -416,10 +474,9 @@ function ExtractAndGenerateHtmlForThePart()
         TotalNumberOfParts++;
     });
     
-    return GenerateTableHtml(ListOfFields, GroupedList, PartGroupedList);
+    return GenerateTable(ListOfFields, GroupedList, PartGroupedList);
 
 }
-
 
 /////////////////////////////////////////////////////////////////
 /// \brief This will generate the Bill of material based on the 
@@ -427,51 +484,60 @@ function ExtractAndGenerateHtmlForThePart()
 /////////////////////////////////////////////////////////////////
 function GenerateBOM()
 {
-    if ( null != UserProjectNetData && null != HtmlTemplateData)
+    if ( null != UserProjectNetData && null != Template)
     {
-        console.log('Generating BOM');
 
-        var Result = ExtractAndGenerateHtmlForThePart();
+        Message("Generating BOM [ "  + OutputFilePath + " ]");
 
+        var Result = ExtractAndGenerateDataForThePart();
 
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--DATE_GENERATED-->/g,UserProjectNetData.export.design[0].date );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--TITLE-->/g,        UserProjectNetData.export.design[0].sheet[0].title_block[0].title );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--DATE-->/g,     UserProjectNetData.export.design[0].sheet[0].title_block[0].date );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--COMPANY-->/g,  UserProjectNetData.export.design[0].sheet[0].title_block[0].company );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--REVISON-->/g,  UserProjectNetData.export.design[0].sheet[0].title_block[0].rev );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--COMMENT_1-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[0].$.value );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--COMMENT_2-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[1].$.value );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--COMMENT_3-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[2].$.value );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--COMMENT_4-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[3].$.value );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--TOTAL_NUM_OF_PARTS-->/g,   TotalNumberOfParts );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--TOTAL_NUM_OF_UNIQUE_PARTS-->/g,    NumberOfUniqueParts );
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--CLASS_HEADER_TAG-->/g,   HtmlHeader);
-        HtmlTemplateData = HtmlTemplateData.replace(/<!--BOM_TABLE-->/g,    Result);
+        Template = Template.replace(/<!--DATE_GENERATED-->/g,UserProjectNetData.export.design[0].date );
+        Template = Template.replace(/<!--TITLE-->/g,        UserProjectNetData.export.design[0].sheet[0].title_block[0].title );
+        Template = Template.replace(/<!--DATE-->/g,     UserProjectNetData.export.design[0].sheet[0].title_block[0].date );
+        Template = Template.replace(/<!--COMPANY-->/g,  UserProjectNetData.export.design[0].sheet[0].title_block[0].company );
+        Template = Template.replace(/<!--REVISON-->/g,  UserProjectNetData.export.design[0].sheet[0].title_block[0].rev );
+        Template = Template.replace(/<!--COMMENT_1-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[0].$.value );
+        Template = Template.replace(/<!--COMMENT_2-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[1].$.value );
+        Template = Template.replace(/<!--COMMENT_3-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[2].$.value );
+        Template = Template.replace(/<!--COMMENT_4-->/g,    UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[3].$.value );
+        Template = Template.replace(/<!--TOTAL_NUM_OF_PARTS-->/g,   TotalNumberOfParts );
+        Template = Template.replace(/<!--TOTAL_NUM_OF_UNIQUE_PARTS-->/g,    NumberOfUniqueParts );
+        Template = Template.replace(/<!--CLASS_HEADER_TAG-->/g,   OutputHeader);
+        Template = Template.replace(/<!--BOM_TABLE-->/g,    Result);
         // output BOM
-        var OutputFileWrite = require('fs');
-        OutputFileWrite.writeFile(OutputFile, HtmlTemplateData, function(returnError) {
-            if(returnError) {
-                return console.log(returnError);
+        var OutputFilePathWrite = require('fs');
+
+        OutputFilePathWrite.writeFile(OutputFilePath, Template, function(returnError) 
+        {
+            if(returnError) 
+            {
+                 ErrorMessage(returnError);
             }
 
-            console.log("BOM created!");
+            Message("BOM created");
         }); 
     }
     else
     {
-        console.log('Error generating BOM');
+        ErrorMessage('Error generating BOM');
     }
 }
 
 /////////////////////////////////////////////////////////////////
-/// \brief read the html config file
+/// \brief read the user KiCad file. This will also convert the
+/// the xml data to javascript object.
 /////////////////////////////////////////////////////////////////
-function GetXmldata()
-{
-    console.log('reading KiCad XML file');
+function ReadXmlFile()
+{    
+    var xml2js = require('xml2js');
     var parser = new xml2js.Parser();
+    
+    XMLFile = require('fs');
 
-    fs.readFile(KicadXmlFile, function(returnError, output) {
+    Message("reading KiCad XML file [ " + KiCadXmlFilePath + " ]");
+
+    XMLFile.readFile( KiCadXmlFilePath, function(returnError, output) 
+    {
         // returnError should return null if the file was read correctly
         if(null == returnError)
         {
@@ -479,150 +545,235 @@ function GetXmldata()
             parser.parseString(output, function (returnError, result)
             {
                 // returnError should return null if the data was converted correctly
-                if(null == returnError)
+                if ( null == returnError )
                 {
                     UserProjectNetData = result;
-                    Process("STATE_READ_HTML_TEMPLATE");
+
+                    if (UserProjectNetData.export.$.version != KiCadXMLRevision)
+                    {
+                        ErrorMessage("Incompatible KiCad XML version: Expexted " + KiCadXMLRevision + " Found " + UserProjectNetData.export.$.version);
+                    }
+
+                    Task("STATE_READ_TEMPLATE");
                 }
                 else
                 {
-                    console.log(returnError);
-                    return;
+                    ErrorMessage(returnError);
                 }
             });
         }
         else
         {
-            console.log(err);
-            return;
+            ErrorMessage(err);
         }
     });
 }
 
 /////////////////////////////////////////////////////////////////
-/// \brief read the html config file
+/// \brief read template.conf
 /////////////////////////////////////////////////////////////////
-function ReadTemplate()
+function ReadTemplateFile()
 {
-    console.log('Reading HTML Template');
+    Message("Reading Template [ " + TemplateFolder + " ]");
 
-    var HtmlTemplate = require('fs');
+    var FileTemp = require('fs');
     
-    HtmlTemplate.readFile(TemplateFolder + '/template.conf','utf8', function(returnError, output) 
+    FileTemp.readFile(TemplateFolder + '/template.conf','utf8', function(returnError, output) 
     {
         // returnError should return null if the data was read correctly
-        if(null == returnError)
+        if ( null == returnError )
         {
-            HtmlTemplateData = output;
-            Process("STATE_READ_TABLE_TEMPLATE");
+            Template = output;
+            Task("STATE_READ_TABLE_TEMPLATE");
+        }
+        else
+        {
+            ErrorMessage('Error reading template.conf');
         }
     });
 }
-/////////////////////////////////////////////////////////////////
-/// \brief read the html config file
-/////////////////////////////////////////////////////////////////
-function ReadTableTemplate()
-{
-    console.log('Reading HTML Template for table');
 
-    var HtmlTemplate = require('fs');
+/////////////////////////////////////////////////////////////////
+/// \brief read group.conf
+/////////////////////////////////////////////////////////////////
+function ReadGroupFile()
+{
+    var FileTemp = require('fs');
     
-    HtmlTemplate.readFile(TemplateFolder + '/group.conf','utf8', function(returnError, output) 
+    FileTemp.readFile(TemplateFolder + '/group.conf','utf8', function(returnError, output) 
     {
         // returnError should return null if the data was read correctly
-        if(null == returnError)
+        if ( null == returnError )
         {
-            HtmlTableTemplate = output;
-            Process("STATE_READ_TABLE_ROW_HEADER_TEMPLATE");
+            GroupTemplate = output;
+            Task("STATE_READ_TABLE_ROW_HEADER_TEMPLATE");
+        }
+        else
+        {
+            ErrorMessage('Error reading group.conf');
         }
     });
 }
-function ReadTableRowHeaderTemplate()
-{
-    console.log('Reading HTML Template for table');
 
-    var HtmlTemplate = require('fs');
+/////////////////////////////////////////////////////////////////
+/// \brief read headers.conf
+/////////////////////////////////////////////////////////////////
+function ReadHeadersFile()
+{
+    var FileTemp = require('fs');
     
-    HtmlTemplate.readFile(TemplateFolder + '/headers.conf','utf8', function(returnError, output) 
+    FileTemp.readFile(TemplateFolder + '/headers.conf','utf8', function(returnError, output) 
     {
         // returnError should return null if the data was read correctly
-        if(null == returnError)
+        if ( null == returnError )
         {
-            HtmlTableRowHeaderTemplate = output;
-            Process("STATE_READ_TABLE_ROW_TEMPLATE");
+            HeadersTemplate = output;
+            Task("STATE_READ_TABLE_ROW_TEMPLATE");
+        }
+        else
+        {
+            ErrorMessage('Error reading headers.conf');
         }
     });
 }
 
 /////////////////////////////////////////////////////////////////
-/// \brief read the html config file
+/// \brief read row.conf
 /////////////////////////////////////////////////////////////////
-function ReadTableRowTemplate()
+function ReadRowFile()
 {
-    console.log('Reading HTML Row Header Template for table');
-
-    var HtmlTemplate = require('fs');
+    var FileTemp = require('fs');
     
-    HtmlTemplate.readFile(TemplateFolder + '/row.conf','utf8', function(returnError, output) 
+    FileTemp.readFile(TemplateFolder + '/row.conf','utf8', function(returnError, output) 
     {
         // returnError should return null if the data was read correctly
-        if(null == returnError)
+        if ( null == returnError )
         {
-            HtmlTableRowTemplate = output;
-            Process("STATE_READ_Field_TEMPLATE");
+            RowTemplate = output;
+            Task("STATE_READ_Field_TEMPLATE");
+        }
+        else
+        {
+           ErrorMessage('Error reading row.conf');
         }
     });
 }
 
 /////////////////////////////////////////////////////////////////
-/// \brief read the html config file
+/// \brief read fields.conf
 /////////////////////////////////////////////////////////////////
-function ReadFieldTemplate()
+function ReadFieldFile()
 {
-    console.log('Reading HTML Template for fields');
 
-    var HtmlTemplate = require('fs');
+    var FileTemp = require('fs');
     
-    HtmlTemplate.readFile(TemplateFolder + '/fields.conf','utf8', function(returnError, output) 
+    FileTemp.readFile(TemplateFolder + '/fields.conf','utf8', function(returnError, output) 
     {
         // returnError should return null if the data was read correctly
-        if(null == returnError)
+        if ( null == returnError )
         {
-            TableFieldTemplate = output;
-            Process("STATE_GENERATE_BOM");
+            FieldsTemplate = output;
+            Task("STATE_GENERATE_BOM");
+        }
+        else
+        {
+            ErrorMessage('Error reading fields.conf');
         }
     });
 }
 
 /////////////////////////////////////////////////////////////////
-/// \brief Handles the machine state for the code process
+/// \brief Handles getting the arguments pass to the plugin
 /////////////////////////////////////////////////////////////////
-function Process(state)
+function GetArguments()
+{
+    // make sure that we have enough parameter to continue
+    if(process.argv.length < MinmumNumOfExpectedArguments)
+    {
+        ErrorMessage("Too few arguments. Found " + process.argv.length + " Expected at least " + MinmumNumOfExpectedArguments);
+    }
+
+    KiCadXmlFilePath = process.argv[2];
+    OutputFilePath = process.argv[3];
+
+    if( process.argv.length >  MinmumNumOfExpectedArguments )
+    {
+        // the user has specified template they wish to use.
+
+
+        if ( PathExist( process.argv[4] ) ) // check if use template path exist
+        {
+            TemplateFolder = process.argv[4];
+        }
+        else if ( PathExist( TemplateFolder + process.argv[4] ) ) // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
+        {
+            TemplateFolder += process.argv[4] ;
+        }
+        else
+        {
+           ErrorMessage("Template directory not found: [ " + process.argv[4] + " ]");  
+        }
+    }
+    else
+    {
+        TemplateFolder += "HTML" 
+    }
+}
+
+/////////////////////////////////////////////////////////////////
+/// \brief This function can be used to check if the given path
+/// exist
+///
+/// \return true on success else false false
+/////////////////////////////////////////////////////////////////
+function PathExist(path)
+{
+    // first check if directory exist
+    var FileSystem = require('fs');
+    try{
+        if ( FileSystem.statSync( path ).isDirectory() )
+        {
+            return true;
+        }
+    }
+    catch(ex)
+    {
+       // we can ignore the error message 
+    }
+
+
+    return false;
+}
+
+/////////////////////////////////////////////////////////////////
+/// \brief Handles the machine state.
+/////////////////////////////////////////////////////////////////
+function Task(state)
 {
     switch(state)
     {
         case "STATE_GET_XML_DATA":
-            GetXmldata();
+            ReadXmlFile();
         break;
 
-        case "STATE_READ_HTML_TEMPLATE":
-            ReadTemplate();
+        case "STATE_READ_TEMPLATE":
+            ReadTemplateFile();
         break;
 
         case "STATE_READ_TABLE_TEMPLATE":
-            ReadTableTemplate();
+            ReadGroupFile();
         break;
 
         case "STATE_READ_TABLE_ROW_HEADER_TEMPLATE":
-            ReadTableRowHeaderTemplate();
+            ReadHeadersFile();
         break;
 
         case "STATE_READ_TABLE_ROW_TEMPLATE":
-            ReadTableRowTemplate();
+            ReadRowFile();
         break;
 
         case "STATE_READ_Field_TEMPLATE":
-            ReadFieldTemplate();
+            ReadFieldFile();
         break;
 
         case "STATE_GENERATE_BOM":
@@ -630,8 +781,41 @@ function Process(state)
         break;
 
         default:
-            console.log('Process() default error');
+            ErrorMessage('Task() default error');
         break;
     }
 
+}
+
+/////////////////////////////////////////////////////////////////
+/// \brief This function will display the plugin information
+/// and the data pass by user.
+/////////////////////////////////////////////////////////////////
+function PluginDetails()
+{
+    console.log("KiCad_BOM_Wizard Rev:"  + PluginRevisionNumber );
+}
+
+/////////////////////////////////////////////////////////////////
+/// \brief this function is used to make a standard format
+/// for error messages.
+/// this also handle exiting the program
+/////////////////////////////////////////////////////////////////
+function ErrorMessage(message)
+{
+    console.log("\n\n");
+    console.log("Error *****");
+    console.log(message);
+    console.log("\n\n");
+    process.exit(1);
+}
+
+/////////////////////////////////////////////////////////////////
+/// \brief this function is used to make a standard format
+/// for error messages.
+/// this also handle exiting the program
+/////////////////////////////////////////////////////////////////
+function Message(message)
+{
+    console.log(message);
 }
