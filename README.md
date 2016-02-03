@@ -50,13 +50,25 @@ sudo apt-get install npm
 ## installing nodejs on other system:
     https://nodejs.org/en/download/
 
-## Terminal or Kicad BOM Wizard:
+## Kicad BOM Plugin Manager Command Line:
+#For HTML BOM
     node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "Path_To_Your_Template_conf"
+    // This is the same as
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"
+    // This is the same as
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
 
-where "%I" in the input kicad xml file and "%O" is the output directory and name for the html
+#For CSV BOM
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"
+    // This is the same as
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+
+#Using your own template BOM
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.txt" "Path_To_Your_Template_conf/Your_Template"
+    // or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
+    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.txt" "Your_Template"
+
+where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension
 
 ## short_codes list used by the template files
 
