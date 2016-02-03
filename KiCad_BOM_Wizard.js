@@ -2,33 +2,33 @@
 @package
 # KiCad_BOM_Wizard
 
-### Arthur: 
+### Author:
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
 ### Revision:
 0
 
-### Repository: 
+### Repository:
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
-### Project Page: 
+### Project Page:
 http://hashdefineelectronics.com/kicad-bom-wizard/
 
-# Description: 
+# Description:
 This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.
 
-The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement. 
+The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement.
 With KiCad_BOM_Wizard, We simply made a template that the output file includes the document number, project revision, and manufacture notes.
 
 By default, KiCad_BOM_Wizard comes with two templates, one will generate a stand along HTML file and the other will generate a CSV file.
 They are both include to simplify the use of plugin and can be used as an example by those who want to make their own templates. The latter could be due to needing to have your own company or project logo.
 
 KiCad_BOM_Wizard works by scanning through all of the template files and replacing any of the Short Codes with the data that is associated with it. It will then output all of the data it has collected including the file structure
-into one file based on the order that it finds the short codes. 
+into one file based on the order that it finds the short codes.
 
-For example, if the KiCad_BOM_Wizard finds the short code <!--TAG_TITLE--> in template.conf then it we replace it with the KiCad project root sheet title. KiCad_BOM_Wizard will also group and sort all components together that have same parts value, the same starting designator reference prefix and the same fields value. 
+For example, if the KiCad_BOM_Wizard finds the short code <!--TAG_TITLE--> in template.conf then it we replace it with the KiCad project root sheet title. KiCad_BOM_Wizard will also group and sort all components together that have same parts value, the same starting designator reference prefix and the same fields value.
 
-For example, if your project component list consist of; 
+For example, if your project component list consist of;
 > R1 10K, R2 100K, C1 10pF and R3 10K
 
 then it would be grouped like this;
@@ -90,7 +90,7 @@ where "%I" in the input kicad xml file and "%O" is the output directory and name
 
 ### for headers.conf:
     <!--HEADER_ROW-->         inserts the column title
-    <!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag 
+    <!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag
     <!--HEADER_CLASS_QTY_TAG-->        insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->        insert the tag for the part value. HeadValueTag
 
@@ -105,7 +105,7 @@ where "%I" in the input kicad xml file and "%O" is the output directory and name
     <!--ROW_PART_VALUE-->          inserts the part value
     <!--ROW_PART_FIELDS-->          inserts the generator parts fields
     <!--ROW_CLASS_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
-    <!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag 
+    <!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag
     <!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag
 
@@ -166,7 +166,7 @@ var HeadersTemplate = null;
 var FieldsTemplate = null;
 
 /////////////////////////////////////////////////////////////////
-/// \brief This is the project KiCad XML file to use to 
+/// \brief This is the project KiCad XML file to use to
 /// extract the BOM information
 /////////////////////////////////////////////////////////////////
 var KiCadXmlFilePath = "";
@@ -208,7 +208,7 @@ Task("STATE_GET_XML_DATA"); // Run the first task.
 
 
 /////////////////////////////////////////////////////////////////
-/// \brief This will check the entire part list for a matching 
+/// \brief This will check the entire part list for a matching
 /// value and fields and return the part's index number that matches
 ///
 /// \return -1 = no match else the index number
@@ -228,7 +228,7 @@ function SearchUniquePartIndex(source, searchTerm, listOfGroups)
                 if( listOfGroups[ FieldIndex ] in searchTerm.Fields  || listOfGroups[ FieldIndex ] in source[Index].Fields  )
                 {
                     // If either one is true then both have to be set
-                    if( listOfGroups[ FieldIndex ] in searchTerm.Fields  && listOfGroups[ FieldIndex ] in source[Index].Fields  
+                    if( listOfGroups[ FieldIndex ] in searchTerm.Fields  && listOfGroups[ FieldIndex ] in source[Index].Fields
                         && searchTerm.Fields[ listOfGroups[ FieldIndex ] ] === source[Index].Fields[ listOfGroups[ FieldIndex ] ])
                     {
                         // Do nothing
@@ -323,7 +323,7 @@ function GenerateTable(fieldsList, groupedList, partGroupedList)
             }
             else
             {
-                TempRow = TempRow.replace(/<!--ROW_CLASS_ODD_EVEN_TAG-->/g, "RowOddTag");   
+                TempRow = TempRow.replace(/<!--ROW_CLASS_ODD_EVEN_TAG-->/g, "RowOddTag");
             }
             TempRow = TempRow.replace(/<!--ROW_PART_REF-->/g, RefTemp);
             TempRow = TempRow.replace(/<!--ROW_PART_QTY-->/g, partGroupedList[GroupdName][Item].Count);
@@ -347,7 +347,6 @@ function GenerateTable(fieldsList, groupedList, partGroupedList)
                 }
                 else
                 {
-                    
                     SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, " ");
                 }
 
@@ -392,7 +391,6 @@ function ExtractAndGenerateDataForThePart()
             {
                 value.field.forEach(function(value)
                 {
-                    
                     if( -1 == ListOfFields.indexOf(value.$.name) )
                     {
                         // if the returned index is -1 then we know  that we know we don't have this item
@@ -406,7 +404,6 @@ function ExtractAndGenerateDataForThePart()
     // get the list of fields and grouped the component with the same value
     UserProjectNetData.export.components[0].comp.forEach(function(Part)
     {
-
         var TempFieldHolder = new Array();
 
         if (Part.fields)
@@ -429,19 +426,17 @@ function ExtractAndGenerateDataForThePart()
         if ( -1 == PartIndex )
         {
             UniquePartList.push(TempPart);
-            
             PartIndex = UniquePartList.length;
             PartIndex--;
 
             UniquePartList[PartIndex].Ref[Part.$.ref] = Part.$.ref;
 
             if (Part.fields)
-            {           
+            {
                 Part.fields.forEach(function(value)
                 {
                     value.field.forEach(function(value)
                     {
-                        
                         if( -1 == ListOfFields.indexOf(value.$.name) )
                         {
                             // if the returned index is -1 then we know  that we know we don't have this item
@@ -454,13 +449,12 @@ function ExtractAndGenerateDataForThePart()
             if ( typeof PartGroupedList[UniquePartList[PartIndex].RefPrefix] === 'undefined' )
             {
                 GroupedList.push(UniquePartList[PartIndex].RefPrefix);
-
                 PartGroupedList[UniquePartList[PartIndex].RefPrefix] = new Array();
-                PartGroupedList[UniquePartList[PartIndex].RefPrefix].push(UniquePartList[PartIndex]); 
+                PartGroupedList[UniquePartList[PartIndex].RefPrefix].push(UniquePartList[PartIndex]);
             }
             else
             {
-                PartGroupedList[UniquePartList[PartIndex].RefPrefix].push(UniquePartList[PartIndex]); 
+                PartGroupedList[UniquePartList[PartIndex].RefPrefix].push(UniquePartList[PartIndex]);
             }
 
             NumberOfUniqueParts++;
@@ -473,13 +467,12 @@ function ExtractAndGenerateDataForThePart()
 
         TotalNumberOfParts++;
     });
-    
-    return GenerateTable(ListOfFields, GroupedList, PartGroupedList);
 
+    return GenerateTable(ListOfFields, GroupedList, PartGroupedList);
 }
 
 /////////////////////////////////////////////////////////////////
-/// \brief This will generate the Bill of material based on the 
+/// \brief This will generate the Bill of material based on the
 /// template given
 /////////////////////////////////////////////////////////////////
 function GenerateBOM()
@@ -507,15 +500,15 @@ function GenerateBOM()
         // output BOM
         var OutputFilePathWrite = require('fs');
 
-        OutputFilePathWrite.writeFile(OutputFilePath, Template, function(returnError) 
+        OutputFilePathWrite.writeFile(OutputFilePath, Template, function(returnError)
         {
-            if(returnError) 
+            if(returnError)
             {
                  ErrorMessage(returnError);
             }
 
             Message("BOM created");
-        }); 
+        });
     }
     else
     {
@@ -528,15 +521,15 @@ function GenerateBOM()
 /// the xml data to javascript object.
 /////////////////////////////////////////////////////////////////
 function ReadXmlFile()
-{    
+{
     var xml2js = require('xml2js');
     var parser = new xml2js.Parser();
-    
+
     XMLFile = require('fs');
 
     Message("reading KiCad XML file [ " + KiCadXmlFilePath + " ]");
 
-    XMLFile.readFile( KiCadXmlFilePath, function(returnError, output) 
+    XMLFile.readFile( KiCadXmlFilePath, function(returnError, output)
     {
         // returnError should return null if the file was read correctly
         if(null == returnError)
@@ -577,8 +570,8 @@ function ReadTemplateFile()
     Message("Reading Template [ " + TemplateFolder + " ]");
 
     var FileTemp = require('fs');
-    
-    FileTemp.readFile(TemplateFolder + '/template.conf','utf8', function(returnError, output) 
+
+    FileTemp.readFile(TemplateFolder + '/template.conf','utf8', function(returnError, output)
     {
         // returnError should return null if the data was read correctly
         if ( null == returnError )
@@ -599,8 +592,8 @@ function ReadTemplateFile()
 function ReadGroupFile()
 {
     var FileTemp = require('fs');
-    
-    FileTemp.readFile(TemplateFolder + '/group.conf','utf8', function(returnError, output) 
+
+    FileTemp.readFile(TemplateFolder + '/group.conf','utf8', function(returnError, output)
     {
         // returnError should return null if the data was read correctly
         if ( null == returnError )
@@ -621,8 +614,8 @@ function ReadGroupFile()
 function ReadHeadersFile()
 {
     var FileTemp = require('fs');
-    
-    FileTemp.readFile(TemplateFolder + '/headers.conf','utf8', function(returnError, output) 
+
+    FileTemp.readFile(TemplateFolder + '/headers.conf','utf8', function(returnError, output)
     {
         // returnError should return null if the data was read correctly
         if ( null == returnError )
@@ -643,8 +636,8 @@ function ReadHeadersFile()
 function ReadRowFile()
 {
     var FileTemp = require('fs');
-    
-    FileTemp.readFile(TemplateFolder + '/row.conf','utf8', function(returnError, output) 
+
+    FileTemp.readFile(TemplateFolder + '/row.conf','utf8', function(returnError, output)
     {
         // returnError should return null if the data was read correctly
         if ( null == returnError )
@@ -666,8 +659,8 @@ function ReadFieldFile()
 {
 
     var FileTemp = require('fs');
-    
-    FileTemp.readFile(TemplateFolder + '/fields.conf','utf8', function(returnError, output) 
+
+    FileTemp.readFile(TemplateFolder + '/fields.conf','utf8', function(returnError, output)
     {
         // returnError should return null if the data was read correctly
         if ( null == returnError )
@@ -707,16 +700,16 @@ function GetArguments()
         }
         else if ( PathExist( TemplateFolder + process.argv[4] ) ) // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
         {
-            TemplateFolder += process.argv[4] ;
+            TemplateFolder += process.argv[4];
         }
         else
         {
-           ErrorMessage("Template directory not found: [ " + process.argv[4] + " ]");  
+           ErrorMessage("Template directory not found: [ " + process.argv[4] + " ]");
         }
     }
     else
     {
-        TemplateFolder += "HTML" 
+        TemplateFolder += "HTML";
     }
 }
 
@@ -730,7 +723,8 @@ function PathExist(path)
 {
     // first check if directory exist
     var FileSystem = require('fs');
-    try{
+    try
+    {
         if ( FileSystem.statSync( path ).isDirectory() )
         {
             return true;
@@ -738,9 +732,8 @@ function PathExist(path)
     }
     catch(ex)
     {
-       // we can ignore the error message 
+       // we can ignore the error message
     }
-
 
     return false;
 }

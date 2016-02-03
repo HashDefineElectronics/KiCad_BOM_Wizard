@@ -1,18 +1,18 @@
 # KiCad_BOM_Wizard
 
-### Arthur: 
+### Author:
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
 ### Revision:
 0
 
-### Repository: 
+### Repository:
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
-### Project Page: 
+### Project Page:
 http://hashdefineelectronics.com/kicad-bom-wizard/
 
-# Description: 
+# Description:
 This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.
 
 The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement. 
@@ -32,7 +32,6 @@ For example, if your project component list consist of;
 then it would be grouped like this;
 
 > | Ref | qty | value |
->>>>>>> fae047601684861fc00338fcde26ded3717d71d5
 > |----|-----|-----|
 > |C1 | 1 | 10pF |
 > | R1 R3 | 2 | 10K|
@@ -42,12 +41,17 @@ then it would be grouped like this;
 
 # The following serves as quick reference.
 
-## installing nodejs in Linux:
+## installing nodejs on Linux:
 ```sh
-sudo apt-get install nodejs
-sudo apt-get install npm
+sudo apt-get install nodejs npm
 ```
-## installing nodejs on other system:
+
+## installing nodejs on Mac OSX using Homebrew:
+```bash
+brew install node
+```
+
+## installing nodejs on other systems:
     https://nodejs.org/en/download/
 
 ## Kicad BOM Plugin Manager Command Line:
