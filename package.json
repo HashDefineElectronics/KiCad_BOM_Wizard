@@ -1,0 +1,23 @@
+{
+  "name": "kicad_bom_wizard",
+  "version": "1.0.0",
+  "description": "### Author:  Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/",
+  "main": "KiCad_BOM_Wizard.js",
+  "dependencies": {
+    "xml2js": "^0.4.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository" :
+  { "type" : "git",
+    "url" : "https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Ronald Sousa (http://twitter.com/opticalworm)",
+  "contributors": [
+    {"name": "Ronald Sousa", "url": "http://twitter.com/opticalworm"},
+    {"name": "Eric Hankinson", "url": "http://twitter.com/kumichou"}
+  ]
+}
