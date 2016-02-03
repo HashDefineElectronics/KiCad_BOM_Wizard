@@ -280,7 +280,6 @@ function GenerateTable(fieldsList, groupedList, partGroupedList)
     OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
     OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "HeadValueTag");
 
-
     fieldsList.sort();
 
     for ( var FieldIndex = 0; FieldIndex <  fieldsList.length; FieldIndex++ )
@@ -289,7 +288,6 @@ function GenerateTable(fieldsList, groupedList, partGroupedList)
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g,  "");
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g,  "");
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g,  "");
-
     }
 
     groupedList.sort();
