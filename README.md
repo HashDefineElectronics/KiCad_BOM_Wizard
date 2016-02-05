@@ -37,12 +37,14 @@ then it would be grouped like this;
 > | R1 R3 | 2 | 10K|
 > | R2| 1 | 100K|
 
-## For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the main project page. http://hashdefineelectronics.com/kicad-bom-wizard/
+##### For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the [Project Homepage](http://hashdefineelectronics.com/kicad-bom-wizard/).
+***
 
-# The following serves as a quick reference.
+# Video Instructions
+[![Using KiCad Bom Wizard Plugin](http://img.youtube.com/vi/k9EE21K-m8M/0.jpg)](https://youtu.be/k9EE21K-m8M)
 
-## Installation
-
+# Installation
+```The following serves as a quick reference.```
 ### Debian/Ubuntu Linux:
 ```bash
 sudo apt-get install nodejs npm
@@ -52,45 +54,51 @@ sudo apt-get install nodejs npm
 ```bash
 brew install node
 ```
-
-### installing nodejs on other systems:
+### Installing nodejs on other systems:
 [NodeJS.org](https://nodejs.org/en/download/)
 
-## Kicad BOM Plugin Manager Command Line:
+### Kicad BOM Plugin Manager Command Line:
+Note you may have to replace ```node``` with ```nodejs```
 
-### For HTML BOM
+#### For HTML BOM
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
+```
 
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"```
+This is the same as
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"
+```
+This is the same as
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
+```
 
-// This is the same as
+#### For CSV BOM
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"
+```
 
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"```
+This is the same as
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+```
 
-// This is the same as
+#### Using your own template BOM
 
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"```
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf/Your_Template"
+```
 
+Or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
 
-### For CSV BOM
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Your_Template"
+```
 
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"```
+###### where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension.
 
-// This is the same as
-
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"```
-
-
-### Using your own template BOM
-
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf/Your_Template"```
-
-// or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
-
-```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Your_Template"```
-
-where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension.
-
-## short_codes list used by the template files
+# List of short codes
 
 ### for template.conf:
     <!--TITLE-->                        inserts the root sheet title.
