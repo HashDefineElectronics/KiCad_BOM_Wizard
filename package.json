@@ -1,8 +1,26 @@
 {
   "name": "kicad_bom_wizard",
   "version": "1.0.0",
-  "description": "### Author:  Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/",
+  "description": "This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.",
+  "keywords": [
+    "kicad",
+    "BOM",
+    "csv",
+    "html"
+  ],
   "main": "KiCad_BOM_Wizard.js",
+  "homepage": "http://hashdefineelectronics.com/kicad-bom-wizard/",
+  "license": "GPL-3.0",
+  "author": "Ronald Sousa (http://twitter.com/opticalworm)",
+  "contributors": [
+    {
+     "name": "Ronald Sousa", 
+     "url": "http://twitter.com/opticalworm"
+    },
+    {
+      "name": "Eric Hankinson", 
+      "url": "http://twitter.com/kumichou"}
+  ],
   "dependencies": {
     "xml2js": "^0.4.15"
   },
@@ -13,11 +31,5 @@
   "repository" :
   { "type" : "git",
     "url" : "https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git"
-  },
-  "license": "UNLICENSED",
-  "author": "Ronald Sousa (http://twitter.com/opticalworm)",
-  "contributors": [
-    {"name": "Ronald Sousa", "url": "http://twitter.com/opticalworm"},
-    {"name": "Eric Hankinson", "url": "http://twitter.com/kumichou"}
-  ]
+  }
 }
