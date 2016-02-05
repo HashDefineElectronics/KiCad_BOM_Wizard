@@ -1,32 +1,32 @@
 # KiCad_BOM_Wizard
 
-### Arthur: 
+### Author:
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
 ### Revision:
 0
 
-### Repository: 
+### Repository:
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
-### Project Page: 
+### Project Page:
 http://hashdefineelectronics.com/kicad-bom-wizard/
 
-# Description: 
+# Description:
 This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.
 
-The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement. 
+The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement.
 With KiCad_BOM_Wizard, We simply made a template that the output file includes the document number, project revision, and manufacture notes.
 
 By default, KiCad_BOM_Wizard comes with two templates, one will generate a stand along HTML file and the other will generate a CSV file.
 They are both include to simplify the use of plugin and can be used as an example by those who want to make their own templates. The latter could be due to needing to have your own company or project logo.
 
 KiCad_BOM_Wizard works by scanning through all of the template files and replacing any of the Short Codes with the data that is associated with it. It will then output all of the data it has collected including the file structure
-into one file based on the order that it finds the short codes. 
+into one file based on the order that it finds the short codes.
 
-For example, if the KiCad_BOM_Wizard finds the short code <!--TAG_TITLE--> in template.conf then it we replace it with the KiCad project root sheet title. KiCad_BOM_Wizard will also group and sort all components together that have same parts value, the same starting designator reference prefix and the same fields value. 
+For example, if the KiCad_BOM_Wizard finds the short code <!--TAG_TITLE--> in template.conf then it we replace it with the KiCad project root sheet title. KiCad_BOM_Wizard will also group and sort all components together that have same parts value, the same starting designator reference prefix and the same fields value.
 
-For example, if your project component list consist of; 
+For example, if your project component list consist of;
 > R1 10K, R2 100K, C1 10pF and R3 10K
 
 then it would be grouped like this;
@@ -37,39 +37,68 @@ then it would be grouped like this;
 > | R1 R3 | 2 | 10K|
 > | R2| 1 | 100K|
 
-## For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the main project page. http://hashdefineelectronics.com/kicad-bom-wizard/
+##### For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the [Project Homepage](http://hashdefineelectronics.com/kicad-bom-wizard/).
+***
 
-# The following serves as quick reference.
+# Video Instructions
+[![Using KiCad Bom Wizard Plugin](http://img.youtube.com/vi/k9EE21K-m8M/0.jpg)](https://youtu.be/k9EE21K-m8M)
 
-## installing nodejs in Linux:
-```sh
-sudo apt-get install nodejs
-sudo apt-get install npm
+# Installation
+```The following serves as a quick reference.```
+### Debian/Ubuntu Linux:
+```bash
+sudo apt-get install nodejs npm
 ```
-## installing nodejs on other system:
-    https://nodejs.org/en/download/
 
-## Kicad BOM Plugin Manager Command Line:
-#For HTML BOM
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
-    // This is the same as
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"
-    // This is the same as
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
+### Mac OSX using Homebrew:
+```bash
+brew install node
+```
+### Installing nodejs on other systems:
+[NodeJS.org](https://nodejs.org/en/download/)
 
-#For CSV BOM
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"
-    // This is the same as
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+### Kicad BOM Plugin Manager Command Line:
+Note you may have to replace ```node``` with ```nodejs```
 
-#Using your own template BOM
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.txt" "Path_To_Your_Template_conf/Your_Template"
-    // or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
-    node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.txt" "Your_Template"
+#### For HTML BOM
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
+```
 
-where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension
+This is the same as
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"
+```
+This is the same as
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
+```
 
-## short_codes list used by the template files
+#### For CSV BOM
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"
+```
+
+This is the same as
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+```
+
+#### Using your own template BOM
+
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf/Your_Template"
+```
+
+Or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
+
+```
+node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Your_Template"
+```
+
+###### where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension.
+
+# List of short codes
 
 ### for template.conf:
     <!--TITLE-->                        inserts the root sheet title.
@@ -88,7 +117,7 @@ where "%I" in the input kicad xml file and "%O" is the output directory and name
 
 ### for headers.conf:
     <!--HEADER_ROW-->         inserts the column title
-    <!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag 
+    <!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag
     <!--HEADER_CLASS_QTY_TAG-->        insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->        insert the tag for the part value. HeadValueTag
 
@@ -103,7 +132,7 @@ where "%I" in the input kicad xml file and "%O" is the output directory and name
     <!--ROW_PART_VALUE-->          inserts the part value
     <!--ROW_PART_FIELDS-->          inserts the generator parts fields
     <!--ROW_CLASS_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
-    <!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag 
+    <!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag
     <!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag
 
