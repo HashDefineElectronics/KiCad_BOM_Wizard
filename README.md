@@ -4,7 +4,7 @@
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
 ### Version:
-0.0.2
+0.0.3
 
 ### Repository:
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
@@ -45,62 +45,71 @@ then it would be grouped like this;
 
 # Video Instructions
 [![Using KiCad Bom Wizard Plugin](http://img.youtube.com/vi/k9EE21K-m8M/0.jpg)](https://youtu.be/k9EE21K-m8M)
-
-# Installation
+___
+# Installation 
+## nodeJs
 ```The following serves as a quick reference.```
-### Debian/Ubuntu Linux:
+##### Debian/Ubuntu Linux:
 ```bash
 sudo apt-get install nodejs npm
 ```
-
-### Mac OSX using Homebrew:
+##### Mac OSX using Homebrew:
 ```bash
 brew install node
 ```
-### Installing nodejs on other systems:
+##### Installing nodejs on other systems:
 [NodeJS.org](https://nodejs.org/en/download/)
 
-### Kicad BOM Plugin Manager Command Line:
-Note you may have to replace ```node``` with ```nodejs```
+## Installation KiCad_BOM_Wizard via npm (prefer method)
+```bash
+npm install -g kicad_bom_wizard
+```
+
+___
+# Using KiCad_BOM_Wizard
+Kicad BOM Plugin Manager Command Line:
 
 #### For HTML BOM
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html"
+kicad_bom_wizard "%I" "%O.html"
 ```
 
 This is the same as
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "HTML"
+kicad_bom_wizard "%I" "%O.html" "HTML"
 ```
 This is the same as
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
+kicad_bom_wizard "%I" "%O.html" "SCRIPT_ROOT_DIR/Template/HTML"
 ```
 
 #### For CSV BOM
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "CSV"
+kicad_bom_wizard "%I" "%O.csv" "CSV"
 ```
 
 This is the same as
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
+kicad_bom_wizard "%I" "%O.csv" "SCRIPT_ROOT_DIR/Template/CSV"
 ```
 
 #### Using your own template BOM
 
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Path_To_Your_Template_conf/Your_Template"
+kicad_bom_wizard "%I" "%O.html" "Path_To_Your_Template_conf/Your_Template"
 ```
 
 Or if you are using the plugin template directory to store your template. "SCRIPT_ROOT_DIR/Template/"
 
 ```
-node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js" "%I" "%O.html" "Your_Template"
+kicad_bom_wizard "%I" "%O.html" "Your_Template"
 ```
 
-###### where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension.
-
+- ***Where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension.***
+- ***If you are using the script directly and not by npm install, then you will need to replace ```kicad_bom_wizard``` with  ```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js"```.***
+- ***You may have to replace ```node``` with ```nodejs```***
+ 
+___
 # List of short codes
 
 ### for template.conf:
