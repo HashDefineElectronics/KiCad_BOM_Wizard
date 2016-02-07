@@ -1,35 +1,47 @@
 {
   "name": "kicad_bom_wizard",
-  "version": "1.0.0",
-  "description": "This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.",
+  "version": "0.0.2",
+  "description": "This KiCad plugin can be used to create custom BOM files based on easy configurable templates files.",
+  "main": "KiCad_BOM_Wizard.js",
   "keywords": [
     "kicad",
     "BOM",
     "csv",
     "html"
   ],
-  "main": "KiCad_BOM_Wizard.js",
   "homepage": "http://hashdefineelectronics.com/kicad-bom-wizard/",
   "license": "GPL-3.0",
   "author": "Ronald Sousa (http://twitter.com/opticalworm)",
   "contributors": [
-    {
-     "name": "Ronald Sousa", 
-     "url": "http://twitter.com/opticalworm"
-    },
-    {
-      "name": "Eric Hankinson", 
-      "url": "http://twitter.com/kumichou"}
+    "Ronald Sousa (http://twitter.com/opticalworm)",
+    "Eric Hankinson (http://twitter.com/kumichou)"
   ],
   "dependencies": {
     "xml2js": "^0.4.15"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "standard": "^6.0.1"
   },
-  "repository" :
-  { "type" : "git",
-    "url" : "https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git"
-  }
+  "scripts": {
+    "test": "node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\"",
+    "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git"
+  },
+  "engines": {
+    "node": ">=0.10.25"
+  },
+  "bugs": {
+    "url": "https://github.com/HashDefineElectronics/KiCad_BOM_Wizard/issues"
+  },
+  "preferGlobal": true,
+  "files": [
+    "Template/CSV",
+    "Template/HTML",
+    "Test",
+    "Documentation"
+  ],
+  "bin": "KiCad_BOM_Wizard.js"
 }

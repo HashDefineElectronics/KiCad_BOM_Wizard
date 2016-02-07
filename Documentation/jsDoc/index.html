@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>KiCad_BOM_Wizard</h1><h3>Author:</h3><p>Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/</p>
+<h3>Revision:</h3><p>0</p>
+<h3>Repository:</h3><p>https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git</p>
+<h3>Project Page:</h3><p>http://hashdefineelectronics.com/kicad-bom-wizard/</p>
+<h1>Description:</h1><p>This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.</p>
+<p>The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement.
+With KiCad_BOM_Wizard, We simply made a template that the output file includes the document number, project revision, and manufacture notes.</p>
+<p>By default, KiCad_BOM_Wizard comes with two templates, one will generate a stand along HTML file and the other will generate a CSV file.
+They are both include to simplify the use of plugin and can be used as an example by those who want to make their own templates. The latter could be due to needing to have your own company or project logo.</p>
+<p>KiCad_BOM_Wizard works by scanning through all of the template files and replacing any of the Short Codes with the data that is associated with it. It will then output all of the data it has collected including the file structure
+into one file based on the order that it finds the short codes.</p>
+<p>For example, if the KiCad_BOM_Wizard finds the short code <!--TAG_TITLE--> in template.conf then it we replace it with the KiCad project root sheet title. KiCad_BOM_Wizard will also group and sort all components together that have same parts value, the same starting designator reference prefix and the same fields value.</p>
+<p>For example, if your project component list consist of;</p>
+<blockquote>
+<p>R1 10K, R2 100K, C1 10pF and R3 10K</p>
+</blockquote>
+<p>then it would be grouped like this;</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Ref</th>
+<th>qty</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>1</td>
+<td>10pF</td>
+</tr>
+<tr>
+<td>R1 R3</td>
+<td>2</td>
+<td>10K</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>1</td>
+<td>100K</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h5>For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the <a href="http://hashdefineelectronics.com/kicad-bom-wizard/">Project Homepage</a>.</h5><hr>
+<h1>Video Instructions</h1><p><a href="https://youtu.be/k9EE21K-m8M"><img src="http://img.youtube.com/vi/k9EE21K-m8M/0.jpg" alt="Using KiCad Bom Wizard Plugin"></a></p>
+<h1>Installation</h1><p><code>The following serves as a quick reference.</code></p>
+<h3>Debian/Ubuntu Linux:</h3><pre class="prettyprint source lang-bash"><code>sudo apt-get install nodejs npm</code></pre><h3>Mac OSX using Homebrew:</h3><pre class="prettyprint source lang-bash"><code>brew install node</code></pre><h3>Installing nodejs on other systems:</h3><p><a href="https://nodejs.org/en/download/">NodeJS.org</a></p>
+<h3>Kicad BOM Plugin Manager Command Line:</h3><p>Note you may have to replace <code>node</code> with <code>nodejs</code></p>
+<h4>For HTML BOM</h4><pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.html&quot;</code></pre><p>This is the same as</p>
+<pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.html&quot; &quot;HTML&quot;</code></pre><p>This is the same as</p>
+<pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.html&quot; &quot;SCRIPT_ROOT_DIR/Template/HTML&quot;</code></pre><h4>For CSV BOM</h4><pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.csv&quot; &quot;CSV&quot;</code></pre><p>This is the same as</p>
+<pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.csv&quot; &quot;SCRIPT_ROOT_DIR/Template/CSV&quot;</code></pre><h4>Using your own template BOM</h4><pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.html&quot; &quot;Path_To_Your_Template_conf/Your_Template&quot;</code></pre><p>Or if you are using the plugin template directory to store your template. &quot;SCRIPT_ROOT_DIR/Template/&quot;</p>
+<pre class="prettyprint source"><code>node &quot;SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js&quot; &quot;%I&quot; &quot;%O.html&quot; &quot;Your_Template&quot;</code></pre><h6>where &quot;%I&quot; in the input kicad xml file and &quot;%O&quot; is the output directory and name for the BOM. This must include your file extension.</h6><h1>List of short codes</h1><h3>for template.conf:</h3><pre class="prettyprint source"><code>&lt;!--TITLE-->                        inserts the root sheet title.
+&lt;!--DATE-->                         inserts the root sheet date.
+&lt;!--DATE_GENERATED-->               inserts the date and time the Kicad net file was created
+&lt;!--COMPANY-->                      inserts the root sheet company name
+&lt;!--REVISON-->                      inserts the root sheet revision value
+&lt;!--COMMENT_1-->                    inserts the root sheet comment 1
+&lt;!--COMMENT_2-->                    inserts the root sheet comment 2
+&lt;!--COMMENT_3-->                    inserts the root sheet comment 3
+&lt;!--COMMENT_4-->                    inserts the root sheet comment 4
+&lt;!--TOTAL_NUM_OF_PARTS-->           inserts the number of parts used in the design
+&lt;!--TOTAL_NUM_OF_UNIQUE_PARTS-->    inserts the number of unique parts used in the design. Note, if two similar parts have different fields then it will be register as unique
+&lt;!--CLASS_HEADER_TAG-->       inserts the table headers
+&lt;!--BOM_TABLE-->                    inserts the complete generated BOM table</code></pre><h3>for headers.conf:</h3><pre class="prettyprint source"><code>&lt;!--HEADER_ROW-->         inserts the column title
+&lt;!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag
+&lt;!--HEADER_CLASS_QTY_TAG-->        insert the tag for the part qty. HeadQtyTag
+&lt;!--HEADER_CLASS_VALUE_TAG-->        insert the tag for the part value. HeadValueTag</code></pre><h3>for group.conf:</h3><pre class="prettyprint source"><code>&lt;!--GROUP_ROW_DATA-->       inserts the group of parts row data
+&lt;!--GROUP_CLASS_TAG-->    inserts the group class name. format &quot;group_&quot; + &quot;part ref prefix&quot;
+&lt;!--GROUP_TITLE_TEXT-->    inserts the group title. the part ref prefix</code></pre><h3>for row.conf:</h3><pre class="prettyprint source"><code>&lt;!--ROW_PART_REF-->            inserts the list of parts reference designator
+&lt;!--ROW_PART_QTY-->            inserts the number of parts grouped together
+&lt;!--ROW_PART_VALUE-->          inserts the part value
+&lt;!--ROW_PART_FIELDS-->          inserts the generator parts fields
+&lt;!--ROW_CLASS_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
+&lt;!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag
+&lt;!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
+&lt;!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag</code></pre><h3>for fields.conf:</h3><pre class="prettyprint source"><code>&lt;!--FIELD_CLASS_TAG-->    inserts the fields class name
+&lt;!--FIELD-->              inserts the field value</code></pre></article>
+    </section>
+
+
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>KiCad_BOM_Wizard.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">This KiCad plugin can be used to create custom BOM files based on easy 
+  configurable templates files. The plugin is writing in JavaScript and has been 
+  designed to integrate into KiCad’s BOM plugin manager.
+
+  <a href="http://hashdefineelectronics.com/kicad-bom-wizard/">Project Page</a>
+
+  <a href="https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git">Repository Page</a></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>0.0.2</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+    <dt class="tag-license">License:</dt>
+    <dd class="tag-license"><ul class="dummy"><li>This is the source code file KiCad_BOM_Wizard.js, this is a free KiCad BOM plugin.
+  Copyright (C) 2016  Ronald A. N. Sousa www.hashdefineelectronics.com/
+  
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="KiCad_BOM_Wizard.js.html">KiCad_BOM_Wizard.js</a>, <a href="KiCad_BOM_Wizard.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:xml2js</li>
+        </ul>
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ErrorMessage">ErrorMessage</a></li><li><a href="global.html#ExtractAndGenerateDataForThePart">ExtractAndGenerateDataForThePart</a></li><li><a href="global.html#FieldsTemplate">FieldsTemplate</a></li><li><a href="global.html#GenerateBOM">GenerateBOM</a></li><li><a href="global.html#GenerateTable">GenerateTable</a></li><li><a href="global.html#GetArguments">GetArguments</a></li><li><a href="global.html#GroupTemplate">GroupTemplate</a></li><li><a href="global.html#HeadersTemplate">HeadersTemplate</a></li><li><a href="global.html#KiCadXmlFilePath">KiCadXmlFilePath</a></li><li><a href="global.html#KiCadXMLRevision">KiCadXMLRevision</a></li><li><a href="global.html#MinmumNumOfExpectedArguments">MinmumNumOfExpectedArguments</a></li><li><a href="global.html#NumberOfUniqueParts">NumberOfUniqueParts</a></li><li><a href="global.html#OutputFilePath">OutputFilePath</a></li><li><a href="global.html#OutputHeader">OutputHeader</a></li><li><a href="global.html#PathExist">PathExist</a></li><li><a href="global.html#PluginRevisionNumber">PluginRevisionNumber</a></li><li><a href="global.html#ReadFieldFile">ReadFieldFile</a></li><li><a href="global.html#ReadGroupFile">ReadGroupFile</a></li><li><a href="global.html#ReadHeadersFile">ReadHeadersFile</a></li><li><a href="global.html#ReadRowFile">ReadRowFile</a></li><li><a href="global.html#ReadTemplateFile">ReadTemplateFile</a></li><li><a href="global.html#ReadXmlFile">ReadXmlFile</a></li><li><a href="global.html#RowTemplate">RowTemplate</a></li><li><a href="global.html#SearchUniquePartIndex">SearchUniquePartIndex</a></li><li><a href="global.html#Task">Task</a></li><li><a href="global.html#Template">Template</a></li><li><a href="global.html#TemplateFolder">TemplateFolder</a></li><li><a href="global.html#TotalNumberOfParts">TotalNumberOfParts</a></li><li><a href="global.html#UserProjectNetData">UserProjectNetData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Feb 07 2016 01:18:50 GMT+0000 (UTC)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
