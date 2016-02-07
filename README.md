@@ -1,16 +1,19 @@
-# KiCad_BOM_Wizard
+# KiCad BOM Wizard Plugin
 
 ### Author:
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
-### Revision:
-0
+### Version:
+0.0.2
 
 ### Repository:
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 
 ### Project Page:
 http://hashdefineelectronics.com/kicad-bom-wizard/
+
+### Coding Standard
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 # Description:
 This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.

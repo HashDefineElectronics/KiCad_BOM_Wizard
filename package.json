@@ -23,7 +23,9 @@
     "standard": "^6.0.1"
   },
   "scripts": {
-    "test": "node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\"",
+    "test": "standard KiCad_BOM_Wizard.js && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\"",
+    "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
+    "lint": "standard KiCad_BOM_Wizard.js",
     "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc"
   },
   "repository": {

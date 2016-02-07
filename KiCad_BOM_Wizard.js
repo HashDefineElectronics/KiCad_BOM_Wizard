@@ -4,28 +4,28 @@
 *   @license
 *   This is the source code file KiCad_BOM_Wizard.js, this is a free KiCad BOM plugin.
 *   Copyright (C) 2016  Ronald A. N. Sousa www.hashdefineelectronics.com/
-*   
+*
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
 *   the Free Software Foundation, either version 3 of the License, or
 *   (at your option) any later version.
-*   
+*
 *   This program is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
-*   
+*
 *   You should have received a copy of the GNU General Public License
 *   along with this program.  If not, see {@link http://www.gnu.org/licenses/}.
-*     
+*
 *   @file KiCad_BOM_Wizard.js
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
 *   @version 0.0.2
 *
-*   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy 
-*   configurable templates files. The plugin is writing in JavaScript and has been 
+*   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
+*   configurable templates files. The plugin is writing in JavaScript and has been
 *   designed to integrate into KiCad’s BOM plugin manager.
 *
 *   {@link http://hashdefineelectronics.com/kicad-bom-wizard/|Project Page}
@@ -33,13 +33,13 @@
 *   {@link https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git|Repository Page}
 *
 *   @requires xml2js
-*   
+*
 */
 
 /**
 *   Defines the plugin revision number
 */
-var PluginRevisionNumber = '0'
+var PluginRevisionNumber = '0.0.2'
 
 /**
 *   Defines KiCad Revision number
@@ -51,23 +51,23 @@ var KiCadXMLRevision = 'D'
 */
 var MinmumNumOfExpectedArguments = 4
 
-/** 
+/**
 *   holds the processed header data
 */
 var OutputHeader = ''
 
-/** 
+/**
 *   holds the template data for main body template should be KiCadXmlFilePath/template.conf
 */
 var Template = null
 
-/** 
+/**
 *   holds the template data for table group should be KiCadXmlFilePath/group.conf
 */
 var GroupTemplate = null
 
 /**
-*   holds the template data for table rows should be KiCadXmlFilePath/row.conf 
+*   holds the template data for table rows should be KiCadXmlFilePath/row.conf
 */
 var RowTemplate = null
 
@@ -95,10 +95,15 @@ var KiCadXmlFilePath = ''
 var OutputFilePath = ''
 
 /**
+*   Path is used to handle parsing system path urls
+*/
+var Path = require('path')
+
+/**
 *   This is the path to the template files to use
 *   when creating the BOM
 */
-var TemplateFolder = __dirname + '/Template/'
+var TemplateFolder = Path.join(__dirname, '/Template/')
 
 /**
 *   javascript object class of the KiCadXmlFilePath file
@@ -117,9 +122,14 @@ var NumberOfUniqueParts = 0
 */
 var TotalNumberOfParts = 0
 
+// Get cli user arguments
 GetArguments()
+
+// print system information
 PluginDetails()
-Task('STATE_GET_XML_DATA'); // Run the first task.
+
+// Run the first task.
+Task('STATE_GET_XML_DATA')
 
 /**
 *   This will check the entire part list for a matching
@@ -128,21 +138,22 @@ Task('STATE_GET_XML_DATA'); // Run the first task.
 *   @param source holds the original list of unsorted parts
 *   @param searchTerm the part information to search for
 *   @param listOfGroups holds the list of groups
-*   
+*
 *   @returns -1 = no match else the index number of the found item
 */
 function SearchUniquePartIndex (source, searchTerm, listOfGroups) {
   var FieldsTestResult = true
 
-  for ( var Index = 0; Index < source.length; Index++) {
+  for (var Index = 0; Index < source.length; Index++) {
     // part value matches
-    if (searchTerm.Value[0] == source[Index].Value[0]) {
-      for ( var FieldIndex = 0; FieldIndex < listOfGroups.length; FieldIndex++) {
+    if (searchTerm.Value[0] === source[Index].Value[0]) {
+      for (var FieldIndex = 0; FieldIndex < listOfGroups.length; FieldIndex++) {
         // If either one is true
         if (listOfGroups[ FieldIndex ] in searchTerm.Fields || listOfGroups[ FieldIndex ] in source[Index].Fields) {
           // If either one is true then both have to be set
-          if (listOfGroups[ FieldIndex ] in searchTerm.Fields && listOfGroups[ FieldIndex ] in source[Index].Fields
-            && searchTerm.Fields[ listOfGroups[ FieldIndex ]] === source[Index].Fields[ listOfGroups[ FieldIndex ]]) {
+          if (listOfGroups[ FieldIndex ] in searchTerm.Fields &&
+                listOfGroups[ FieldIndex ] in source[Index].Fields &&
+                searchTerm.Fields[ listOfGroups[ FieldIndex ] ] === source[Index].Fields[ listOfGroups[ FieldIndex ] ]) {
             // Do nothing
           } else {
             FieldsTestResult = false
@@ -162,15 +173,16 @@ function SearchUniquePartIndex (source, searchTerm, listOfGroups) {
 
 /**
 *   creates the table
-*   
+*
 *   @param fieldsList the array that has all the various filed names
 *   @param GroupedList the array that has all the parts grouped by the ref prefix
 *   @param partGroupedList the array that actually contains all the parts data
-*   
+*
 *   @returns the output
 */
 function GenerateTable (fieldsList, groupedList, partGroupedList) {
   var ReturnOutput = ''
+  var FieldIndex = 0
 
   OutputHeader = HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Ref')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
@@ -189,7 +201,7 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
 
   fieldsList.sort()
 
-  for ( var FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
+  for (FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
     OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, fieldsList[ FieldIndex ])
     OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
     OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
@@ -201,7 +213,7 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
   // keep track if the table row is odd or even. true = even else is odd
   var RowIsEvenFlag = false
 
-  for ( var Group in groupedList) {
+  for (var Group in groupedList) {
     // take a copy of the table template
     var TableTemp = GroupTemplate
     var GroupdName = groupedList[Group]
@@ -210,11 +222,11 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
     TableTemp = TableTemp.replace(/<!--GROUP_TITLE_TEXT-->/g, GroupdName)
 
     var TableRowAll = ''
-    for ( var Item in partGroupedList[GroupdName]) {
+    for (var Item in partGroupedList[GroupdName]) {
       var TempRow = RowTemplate
       var RefTemp = ''
 
-      for ( var Ref in partGroupedList[GroupdName][Item].Ref) {
+      for (var Ref in partGroupedList[GroupdName][Item].Ref) {
         RefTemp += Ref + ' '
       }
 
@@ -233,13 +245,13 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
 
       var FieldsTemp = ''
 
-      for ( var FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
+      for (FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
         var SingleFieldTemp = FieldsTemplate
 
         SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD_CLASS_TAG-->/g, 'Field_' + fieldsList[ FieldIndex ])
 
-        if (partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ]]) {
-          SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ]].replace(/,/g, ' '))
+        if (partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ]) {
+          SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ].replace(/,/g, ' '))
         } else {
           SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, ' ')
         }
@@ -261,12 +273,13 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
 
 /**
 *   return the generated part table
-*   
+*
 *   @returns the output
 */
 function ExtractAndGenerateDataForThePart () {
   var PartGroupedList = []
-  var GroupedList = []; // holds the list of groups. This is used to make sorting easier
+  // holds the list of groups. This is used to make sorting easier
+  var GroupedList = []
   var UniquePartList = []
   var ListOfFields = []
   NumberOfUniqueParts = 0
@@ -278,7 +291,7 @@ function ExtractAndGenerateDataForThePart () {
     if (Part.fields) {
       Part.fields.forEach(function (value) {
         value.field.forEach(function (value) {
-          if (-1 == ListOfFields.indexOf(value.$.name)) {
+          if (ListOfFields.indexOf(value.$.name) === -1) {
             // if the returned index is -1 then we know  that we know we don't have this item
             ListOfFields.push(value.$.name)
           }
@@ -304,7 +317,7 @@ function ExtractAndGenerateDataForThePart () {
     PartIndex = SearchUniquePartIndex(UniquePartList, TempPart, ListOfFields)
 
     // Do we have this part?
-    if (-1 == PartIndex) {
+    if (PartIndex === -1) {
       UniquePartList.push(TempPart)
       PartIndex = UniquePartList.length
       PartIndex--
@@ -314,7 +327,7 @@ function ExtractAndGenerateDataForThePart () {
       if (Part.fields) {
         Part.fields.forEach(function (value) {
           value.field.forEach(function (value) {
-            if (-1 == ListOfFields.indexOf(value.$.name)) {
+            if (ListOfFields.indexOf(value.$.name) === -1) {
               // if the returned index is -1 then we know  that we know we don't have this item
               ListOfFields.push(value.$.name)
             }
@@ -347,7 +360,7 @@ function ExtractAndGenerateDataForThePart () {
 *   template given
 */
 function GenerateBOM () {
-  if (null != UserProjectNetData && null != Template) {
+  if (UserProjectNetData != null && Template != null) {
     Message('Generating BOM [ ' + OutputFilePath + ' ]')
 
     var Result = ExtractAndGenerateDataForThePart()
@@ -388,20 +401,20 @@ function ReadXmlFile () {
   var xml2js = require('xml2js')
   var parser = new xml2js.Parser()
 
-  XMLFile = require('fs')
+  var XMLFile = require('fs')
 
   Message('reading KiCad XML file [ ' + KiCadXmlFilePath + ' ]')
 
   XMLFile.readFile(KiCadXmlFilePath, function (returnError, output) {
     // returnError should return null if the file was read correctly
-    if (null == returnError) {
+    if (returnError === null) {
       // Convert kicad XML data to javascript object class
       parser.parseString(output, function (returnError, result) {
         // returnError should return null if the data was converted correctly
-        if (null == returnError) {
+        if (returnError === null) {
           UserProjectNetData = result
 
-          if (UserProjectNetData.export.$.version != KiCadXMLRevision) {
+          if (UserProjectNetData.export.$.version !== KiCadXMLRevision) {
             ErrorMessage('Incompatible KiCad XML version: Expected ' + KiCadXMLRevision + ' Found ' + UserProjectNetData.export.$.version)
           }
 
@@ -411,7 +424,7 @@ function ReadXmlFile () {
         }
       })
     } else {
-      ErrorMessage(err)
+      ErrorMessage(returnError)
     }
   })
 }
@@ -426,7 +439,7 @@ function ReadTemplateFile () {
 
   FileTemp.readFile(TemplateFolder + '/template.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
-    if (null == returnError) {
+    if (returnError === null) {
       Template = output
       Task('STATE_READ_TABLE_TEMPLATE')
     } else {
@@ -443,7 +456,7 @@ function ReadGroupFile () {
 
   FileTemp.readFile(TemplateFolder + '/group.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
-    if (null == returnError) {
+    if (returnError === null) {
       GroupTemplate = output
       Task('STATE_READ_TABLE_ROW_HEADER_TEMPLATE')
     } else {
@@ -460,7 +473,7 @@ function ReadHeadersFile () {
 
   FileTemp.readFile(TemplateFolder + '/headers.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
-    if (null == returnError) {
+    if (returnError === null) {
       HeadersTemplate = output
       Task('STATE_READ_TABLE_ROW_TEMPLATE')
     } else {
@@ -477,7 +490,7 @@ function ReadRowFile () {
 
   FileTemp.readFile(TemplateFolder + '/row.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
-    if (null == returnError) {
+    if (returnError === null) {
       RowTemplate = output
       Task('STATE_READ_Field_TEMPLATE')
     } else {
@@ -494,7 +507,7 @@ function ReadFieldFile () {
 
   FileTemp.readFile(TemplateFolder + '/fields.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
-    if (null == returnError) {
+    if (returnError === null) {
       FieldsTemplate = output
       Task('STATE_GENERATE_BOM')
     } else {
@@ -518,12 +531,13 @@ function GetArguments () {
   if (process.argv.length > MinmumNumOfExpectedArguments) {
     // the user has specified template they wish to use.
 
-    if (PathExist(process.argv[4])) // check if use template path exist
-    {
+    if (PathExist(process.argv[4])) {
+      // check if use template path exist
+
       TemplateFolder = process.argv[4]
-    }
-    else if (PathExist(TemplateFolder + process.argv[4])) // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
-    {
+    } else if (PathExist(TemplateFolder + process.argv[4])) {
+      // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
+
       TemplateFolder += process.argv[4]
     } else {
       ErrorMessage('Template directory not found: [ ' + process.argv[4] + ' ]')
@@ -536,7 +550,7 @@ function GetArguments () {
 /**
 *   This function can be used to check if the given path
 *   exist
-*   
+*
 *   @returns true on success else false false
 */
 function PathExist (path) {
@@ -546,7 +560,7 @@ function PathExist (path) {
     if (FileSystem.statSync(path).isDirectory()) {
       return true
     }
-  } catch(ex) {
+  } catch (ex) {
     // we can ignore the error message
   }
 
@@ -590,7 +604,6 @@ function Task (state) {
       ErrorMessage('Task() default error')
       break
   }
-
 }
 
 /*
@@ -598,7 +611,7 @@ function Task (state) {
 *   and the data pass by user.
 */
 function PluginDetails () {
-  console.log('KiCad_BOM_Wizard Rev:' + PluginRevisionNumber)
+  console.log('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
 }
 
 /**
