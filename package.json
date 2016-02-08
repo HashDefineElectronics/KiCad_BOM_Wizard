@@ -1,6 +1,6 @@
 {
   "name": "kicad_bom_wizard",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "This KiCad plugin can be used to create custom BOM files based on easy configurable templates files.",
   "main": "KiCad_BOM_Wizard.js",
   "keywords": [
@@ -20,13 +20,15 @@
     "xml2js": "^0.4.15"
   },
   "devDependencies": {
-    "standard": "^6.0.1"
+    "standard": "^6.0.1",
+    "node-inspector": "^0.12.5"
   },
   "scripts": {
-    "test": "standard KiCad_BOM_Wizard.js && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\"",
+    "test": "standard KiCad_BOM_Wizard.js && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",
-    "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc"
+    "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc",
+    "debug" : "node --debug-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\""
   },
   "repository": {
     "type": "git",
@@ -43,7 +45,8 @@
     "Template/CSV",
     "Template/HTML",
     "Test",
-    "Documentation"
+    "Documentation",
+    "KiCad_BOM_Wizard.js"
   ],
   "bin": "KiCad_BOM_Wizard.js"
 }
