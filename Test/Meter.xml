@@ -254,7 +254,7 @@
         <field name="Description">10K 62.5mW 1% 50V 0402</field>
         <field name="Manufacture">MULTICOMP</field>
         <field name="Supplier">Farnell</field>
-        <field name="Supplier No.">2447096</field>
+        <field name="Supplier No.">2447097</field>
         <field name="C_Value">10K 62.5mW 1% 50V</field>
       </fields>
       <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>
@@ -268,7 +268,7 @@
         <field name="Description">10K 62.5mW 1% 50V 0402</field>
         <field name="Manufacture">MULTICOMP</field>
         <field name="Supplier">Farnell</field>
-        <field name="Supplier No.">2447096</field>
+        <field name="Supplier No.">2447097</field>
         <field name="C_Value">10K 62.5mW 1% 50V</field>
       </fields>
       <libsource lib="Meter-cache" part="MCWR04X1002FTL"/>

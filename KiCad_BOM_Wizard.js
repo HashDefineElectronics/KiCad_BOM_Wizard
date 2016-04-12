@@ -22,7 +22,7 @@
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
-*   @version 0.0.4
+*   @version 0.0.5
 *
 *   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
 *   configurable templates files. The plugin is writing in JavaScript and has been
@@ -142,11 +142,11 @@ Task('STATE_GET_XML_DATA')
 *   @returns -1 = no match else the index number of the found item
 */
 function SearchUniquePartIndex (source, searchTerm, listOfGroups) {
-  var FieldsTestResult = true
-
   for (var Index = 0; Index < source.length; Index++) {
+    // reset the filed test flag. this will ensure that we check the next part that might have all the matching fields
+    var FieldsTestResult = true
     // part value matches
-    if (searchTerm.Value[0] === source[Index].Value[0]) {
+    if (searchTerm.Value[0] === source[Index].Value[0] && searchTerm.Footprint === source[Index].Footprint) {
       for (var FieldIndex = 0; FieldIndex < listOfGroups.length; FieldIndex++) {
         // If either one is true
         if (listOfGroups[ FieldIndex ] in searchTerm.Fields || listOfGroups[ FieldIndex ] in source[Index].Fields) {
@@ -188,16 +188,25 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
 
   OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Qty')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
 
   OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Value')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
   OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, 'HeadValueTag')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+
+  OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Footprint')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
+  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
 
   fieldsList.sort()
 
@@ -238,10 +247,12 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
       TempRow = TempRow.replace(/<!--ROW_PART_REF-->/g, RefTemp)
       TempRow = TempRow.replace(/<!--ROW_PART_QTY-->/g, partGroupedList[GroupdName][Item].Count)
       TempRow = TempRow.replace(/<!--ROW_PART_VALUE-->/g, partGroupedList[GroupdName][Item].Value)
+      TempRow = TempRow.replace(/<!--ROW_PART_FOOTPRINT-->/g, partGroupedList[GroupdName][Item].Footprint)
 
       TempRow = TempRow.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
       TempRow = TempRow.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
       TempRow = TempRow.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, 'HeadValueTag')
+      TempRow = TempRow.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
 
       var FieldsTemp = ''
 
@@ -312,7 +323,14 @@ function ExtractAndGenerateDataForThePart () {
       })
     }
 
-    var TempPart = {'Value': Part.value, 'Count': 1, 'Ref': [], 'Fields': TempFieldHolder, 'RefPrefix': Part.$.ref.replace(/[0-9]/g, '')}
+    var FootprintValue = ''
+
+    // get the component footprint if its not been defined or left empty
+    if (typeof Part.footprint !== 'undefined' && typeof Part.footprint[0] !== 'undefined') {
+      FootprintValue = Part.footprint[0]
+    }
+
+    var TempPart = {'Value': Part.value, 'Count': 1, 'Ref': [], 'Fields': TempFieldHolder, 'Footprint': FootprintValue, 'RefPrefix': Part.$.ref.replace(/[0-9]/g, '')}
 
     PartIndex = SearchUniquePartIndex(UniquePartList, TempPart, ListOfFields)
 
