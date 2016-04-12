@@ -132,6 +132,7 @@ ___
     <!--HEADER_CLASS_REF_TAG-->        insert the tag for the part reference. HeadRefTag
     <!--HEADER_CLASS_QTY_TAG-->        insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->        insert the tag for the part value. HeadValueTag
+    <!--HEADER_CLASS_VALUE_TAG-->        insert the tag for the part value. HeadValueTag
 
 ### for group.conf:
     <!--GROUP_ROW_DATA-->       inserts the group of parts row data
@@ -142,11 +143,14 @@ ___
     <!--ROW_PART_REF-->            inserts the list of parts reference designator
     <!--ROW_PART_QTY-->            inserts the number of parts grouped together
     <!--ROW_PART_VALUE-->          inserts the part value
+    <!--ROW_PART_FOOTPRINT-->      inserts the part footprint.
     <!--ROW_PART_FIELDS-->          inserts the generator parts fields
     <!--ROW_CLASS_ODD_EVEN_TAG-->    returns RowEvenTag on even rows or RowOddTag for odds rows.
     <!--HEADER_CLASS_REF_TAG-->         insert the tag for the part reference. HeadRefTag
     <!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag
+    <!--HEADER_CLASS_FOOTPRINT_TAG-->         insert the tag for the part footprint. HeadFootprintTag
+    
 
 ### for fields.conf:
     <!--FIELD_CLASS_TAG-->    inserts the fields class name
