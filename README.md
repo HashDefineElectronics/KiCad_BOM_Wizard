@@ -4,7 +4,7 @@
 Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 
 ### Version:
-0.0.6
+0.0.7
 
 ### Repository:
 https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git

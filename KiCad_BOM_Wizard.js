@@ -22,7 +22,7 @@
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
-*   @version 0.0.6
+*   @version 0.0.7
 *
 *   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
 *   configurable templates files. The plugin is writing in JavaScript and has been
@@ -39,7 +39,7 @@
 /**
 *   Defines the plugin revision number
 */
-var PluginRevisionNumber = '0.0.2'
+var PluginRevisionNumber = '0.0.7'
 
 /**
 *   Defines KiCad Revision number
@@ -184,44 +184,65 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
   var ReturnOutput = ''
   var FieldIndex = 0
 
-  OutputHeader = HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Ref')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+  var ListOfheaders = RowTemplate.split("<!--ROW_PART_");
+  OutputHeader = ""
 
-  OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Qty')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
 
-  OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Value')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, 'HeadValueTag')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+  // now go through each element output the header
+  if (ListOfheaders.length > 0) {
 
-  OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Footprint')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
-  OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
+    for( HeaderIndex = 0; HeaderIndex < ListOfheaders.length; HeaderIndex++ ) {
+
+      if (ListOfheaders[HeaderIndex].indexOf('REF-->') !== -1 ) {
+        OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Ref')
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
+
+      } else if (ListOfheaders[HeaderIndex].indexOf('QTY-->') !== -1 ) {
+        OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Qty')
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
+
+      } else if (ListOfheaders[HeaderIndex].indexOf('VALUE-->') !== -1 ) {
+        OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Value')
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, 'HeadValueTag')
+
+      } else if (ListOfheaders[HeaderIndex].indexOf('FOOTPRINT-->') !== -1 ) {
+        OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Footprint')
+        OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
+
+      } else if (ListOfheaders[HeaderIndex].indexOf('FIELDS-->') !== -1 ){
+        // this will help us place the fileds header
+        OutputHeader += "<!--FIELDS_HEADER_PLACEHOLDER-->"
+      } else {
+        // this is an unknown column
+        continue
+      }  
+
+      // this will ensure that all other tags are cleared from this column
+      OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
+      OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
+      OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
+      OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+    }
+  }
 
   fieldsList.sort()
+  var TempFieldHeader = ""
 
   for (FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
-    OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, fieldsList[ FieldIndex ])
-    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
-    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
-    OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
+    TempFieldHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, fieldsList[ FieldIndex ])
+    TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
+    TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
+    TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
   }
+
+  // now place it where it needs to be
+  OutputHeader = OutputHeader.replace(/<!--FIELDS_HEADER_PLACEHOLDER-->/g, TempFieldHeader)
 
   groupedList.sort()
 
   // keep track if the table row is odd or even. true = even else is odd
   var RowIsEvenFlag = false
-
+  var HeaderToUse
   for (var Group in groupedList) {
     // take a copy of the table template
     var TableTemp = GroupTemplate

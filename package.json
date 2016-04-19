@@ -1,6 +1,6 @@
 {
   "name": "kicad_bom_wizard",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "This KiCad plugin can be used to create custom BOM files based on easy configurable templates files.",
   "main": "KiCad_BOM_Wizard.js",
   "keywords": [
@@ -28,7 +28,7 @@
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",
     "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc",
-    "debug" : "node --debug-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\""
+    "debug" : "node-debug --debug-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\""
   },
   "repository": {
     "type": "git",
