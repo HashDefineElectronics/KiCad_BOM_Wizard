@@ -321,7 +321,6 @@ function ExtractAndGenerateDataForThePart () {
   // Get the list of groups we are going to use
   UserProjectNetData.export.components[0].comp.forEach(function (Part) {
     if (Part.fields) {
-      console.log(typeof Part.fields);
       Part.fields.forEach(function (value) {
       	if(value.field){
       		value.field.forEach(function (value) {
