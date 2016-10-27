@@ -20,15 +20,16 @@
     "xml2js": "^0.4.15"
   },
   "devDependencies": {
-    "standard": "^6.0.1",
-    "node-inspector": "^0.12.5"
+    "jsdoc": "^3.4.2",
+    "node-inspector": "^0.12.5",
+    "standard": "^6.0.1"
   },
   "scripts": {
-    "test": "node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
+    "test": "standard KiCad_BOM_Wizard.js && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",
-    "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc",
-    "debug" : "node-debug --debug-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\""
+    "prepublish": "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc",
+    "debug": "node-debug --debug-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\""
   },
   "repository": {
     "type": "git",

@@ -184,34 +184,27 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
   var ReturnOutput = ''
   var FieldIndex = 0
 
-  var ListOfheaders = RowTemplate.split("<!--ROW_PART_");
-  OutputHeader = ""
-
+  var ListOfheaders = RowTemplate.split('<!--ROW_PART_')
+  OutputHeader = ''
 
   // now go through each element output the header
   if (ListOfheaders.length > 0) {
-
-    for( HeaderIndex = 0; HeaderIndex < ListOfheaders.length; HeaderIndex++ ) {
-
-      if (ListOfheaders[HeaderIndex].indexOf('REF-->') !== -1 ) {
+    for (var HeaderIndex = 0; HeaderIndex < ListOfheaders.length; HeaderIndex++) {
+      if (ListOfheaders[HeaderIndex].indexOf('REF-->') !== -1) {
         OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Ref')
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
-
-      } else if (ListOfheaders[HeaderIndex].indexOf('QTY-->') !== -1 ) {
+      } else if (ListOfheaders[HeaderIndex].indexOf('QTY-->') !== -1) {
         OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Qty')
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
-
-      } else if (ListOfheaders[HeaderIndex].indexOf('VALUE-->') !== -1 ) {
+      } else if (ListOfheaders[HeaderIndex].indexOf('VALUE-->') !== -1) {
         OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Value')
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, 'HeadValueTag')
-
-      } else if (ListOfheaders[HeaderIndex].indexOf('FOOTPRINT-->') !== -1 ) {
+      } else if (ListOfheaders[HeaderIndex].indexOf('FOOTPRINT-->') !== -1) {
         OutputHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, 'Footprint')
         OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
-
-      } else if (ListOfheaders[HeaderIndex].indexOf('FIELDS-->') !== -1 ){
+      } else if (ListOfheaders[HeaderIndex].indexOf('FIELDS-->') !== -1) {
         // this will help us place the fileds header
-        OutputHeader += "<!--FIELDS_HEADER_PLACEHOLDER-->"
+        OutputHeader += '<!--FIELDS_HEADER_PLACEHOLDER-->'
       } else {
         // this is an unknown column
         continue
@@ -226,7 +219,7 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
   }
 
   fieldsList.sort()
-  var TempFieldHeader = ""
+  var TempFieldHeader = ''
 
   for (FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
     TempFieldHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, fieldsList[ FieldIndex ])
@@ -242,7 +235,7 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
 
   // keep track if the table row is odd or even. true = even else is odd
   var RowIsEvenFlag = false
-  var HeaderToUse
+
   for (var Group in groupedList) {
     // take a copy of the table template
     var TableTemp = GroupTemplate

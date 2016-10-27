@@ -43,12 +43,21 @@
 
 
     <section>
-        <article><h1>KiCad BOM Wizard Plugin</h1><h3>Author:</h3><p>Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/</p>
-<h3>Version:</h3><p>0.0.5</p>
-<h3>Repository:</h3><p>https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git</p>
-<h3>Project Page:</h3><p>http://hashdefineelectronics.com/kicad-bom-wizard/</p>
-<h3>Coding Standard</h3><p><a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a></p>
-<h1>Description:</h1><p>This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.</p>
+        <article><h1>KiCad BOM Wizard Plugin</h1><h3>Author</h3><p>Ronald Sousa <a href="http://hashdefineelectronics.com">hashdefineelectronics.com</a></p>
+<p>Twitter: <a href="https://twitter.com/Opticalworm">@Opticalworm</a> <a href="https://twitter.com/HashDefineElec">@HashDefineElec</a></p>
+<h3>Project Information</h3><ul>
+<li><p>Repository: <a href="https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git">github.com</a></p>
+</li>
+<li><p>Project Page: <a href="http://hashdefineelectronics.com/kicad-bom-wizard/">hashdefineelectronics.com</a></p>
+</li>
+<li><p>Forum: <a href="https://forum.kicad.info/t/kicad-bom-wizard-plugin-with-customisable-output-can-make-html-and-csv-bom/2142/7?u=opticalworm">kiCad.info</a></p>
+</li>
+<li><p>Coding Standard
+<a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a></p>
+</li>
+</ul>
+<hr>
+<h1>Description</h1><p>This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.</p>
 <p>The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement.
 With KiCad_BOM_Wizard, We simply made a template that the output file includes the document number, project revision, and manufacture notes.</p>
 <p>By default, KiCad_BOM_Wizard comes with two templates, one will generate a stand along HTML file and the other will generate a CSV file.
@@ -94,8 +103,12 @@ into one file based on the order that it finds the short codes.</p>
 <hr>
 <h1>Installation</h1><h2>nodeJs</h2><p><code>The following serves as a quick reference.</code></p>
 <h5>Debian/Ubuntu Linux:</h5><pre class="prettyprint source lang-bash"><code>sudo apt-get install nodejs npm</code></pre><h5>Mac OSX using Homebrew:</h5><pre class="prettyprint source lang-bash"><code>brew install node</code></pre><h5>Installing nodejs on other systems:</h5><p><a href="https://nodejs.org/en/download/">NodeJS.org</a></p>
-<h2>Installation KiCad_BOM_Wizard via npm (prefer method)</h2><pre class="prettyprint source lang-bash"><code>npm install -g kicad_bom_wizard</code></pre><hr>
+<h2>Installation KiCad_BOM_Wizard via npm (prefer method)</h2><pre class="prettyprint source lang-bash"><code>npm install -g --production kicad_bom_wizard</code></pre><hr>
 <h1>Using KiCad_BOM_Wizard</h1><p>Kicad BOM Plugin Manager Command Line:</p>
+<h4>MAC OSX Note!</h4><pre class="prettyprint source lang-bash"><code>there have been reports that `node` wont run in KiCad BOM generator unless its full path has been specified.
+If you have this issues, try replacing `node` with `PATH_TO_NODE/node` where PATH_TO_NODE is your system absolute path to node.
+
+- It might this: `/usr/local/bin/node`</code></pre><p>Here's where it was first repoted: <a href="https://forum.kicad.info/t/kicad-bom-wizard-plugin-with-customisable-output-can-make-html-and-csv-bom/2142/7?u=opticalworm">kiCad.info</a></p>
 <h4>For HTML BOM</h4><pre class="prettyprint source"><code>kicad_bom_wizard &quot;%I&quot; &quot;%O.html&quot;</code></pre><p>This is the same as</p>
 <pre class="prettyprint source"><code>kicad_bom_wizard &quot;%I&quot; &quot;%O.html&quot; &quot;HTML&quot;</code></pre><p>This is the same as</p>
 <pre class="prettyprint source"><code>kicad_bom_wizard &quot;%I&quot; &quot;%O.html&quot; &quot;SCRIPT_ROOT_DIR/Template/HTML&quot;</code></pre><h4>For CSV BOM</h4><pre class="prettyprint source"><code>kicad_bom_wizard &quot;%I&quot; &quot;%O.csv&quot; &quot;CSV&quot;</code></pre><p>This is the same as</p>
@@ -134,7 +147,20 @@ into one file based on the order that it finds the short codes.</p>
 &lt;!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
 &lt;!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag
 &lt;!--HEADER_CLASS_FOOTPRINT_TAG-->         insert the tag for the part footprint. HeadFootprintTag</code></pre><h3>for fields.conf:</h3><pre class="prettyprint source"><code>&lt;!--FIELD_CLASS_TAG-->    inserts the fields class name
-&lt;!--FIELD-->              inserts the field value</code></pre></article>
+&lt;!--FIELD-->              inserts the field value</code></pre><hr>
+<h1>Notes for Contributing</h1><p>If you find issues with the code that you want to contribute a fix for or even just wanting to improve the project there are a few things you need to do before you submit your pull request or patch.</p>
+<ul>
+<li>Make sure that you run the install command to make sure hat you have all the tools to test this project.</li>
+</ul>
+<p><code>num install</code></p>
+<ul>
+<li>run the Lint: this project uses javascript <a href="https://www.npmjs.com/package/standard">standard</a> pacakge to ensure a consistent coding style is maintained. before submitting your code make sure that you run the lint command and fix any error that it highlights.</li>
+</ul>
+<p><code>npm run lint</code></p>
+<ul>
+<li>Run the test: This will both check if the program runs and also regenerate the Meter.csv and Meter.html files. You should also check these files for any obvious issues.</li>
+</ul>
+<p><code>npm run test</code></p></article>
     </section>
 
 
@@ -174,7 +200,7 @@ into one file based on the order that it finds the short codes.</p>
 
     
     <dt class="tag-version">Version:</dt>
-    <dd class="tag-version"><ul class="dummy"><li>0.0.5</li></ul></dd>
+    <dd class="tag-version"><ul class="dummy"><li>0.0.8</li></ul></dd>
     
 
     
@@ -281,7 +307,7 @@ into one file based on the order that it finds the short codes.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Apr 12 2016 17:30:49 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Thu Oct 27 2016 10:27:20 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>

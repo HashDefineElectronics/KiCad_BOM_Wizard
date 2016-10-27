@@ -77,6 +77,7 @@ If you have this issues, try replacing `node` with `PATH_TO_NODE/node` where PAT
 - It might this: `/usr/local/bin/node`
 ```
 Here's where it was first repoted: [kiCad.info](https://forum.kicad.info/t/kicad-bom-wizard-plugin-with-customisable-output-can-make-html-and-csv-bom/2142/7?u=opticalworm)
+
 #### For HTML BOM
 ```
 kicad_bom_wizard "%I" "%O.html"
