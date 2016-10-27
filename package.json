@@ -24,7 +24,7 @@
     "node-inspector": "^0.12.5"
   },
   "scripts": {
-    "test": "standard KiCad_BOM_Wizard.js && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
+    "test": "node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",
     "prepublish" : "jsdoc --readme README.md KiCad_BOM_Wizard.js -d Documentation/jsDoc",

@@ -1,21 +1,22 @@
 # KiCad BOM Wizard Plugin
 
-### Author:
-Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
+### Author
+Ronald Sousa [hashdefineelectronics.com](http://hashdefineelectronics.com)
 
-### Version:
-0.0.7
+Twitter: [@Opticalworm](https://twitter.com/Opticalworm) [@HashDefineElec](https://twitter.com/HashDefineElec)
 
-### Repository:
-https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
+### Project Information
+- Repository: [github.com](https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git)
 
-### Project Page:
-http://hashdefineelectronics.com/kicad-bom-wizard/
+- Project Page: [hashdefineelectronics.com](http://hashdefineelectronics.com/kicad-bom-wizard/)
 
-### Coding Standard
+- Forum: [kiCad.info](https://forum.kicad.info/t/kicad-bom-wizard-plugin-with-customisable-output-can-make-html-and-csv-bom/2142/7?u=opticalworm)
+
+-  Coding Standard
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-# Description:
+---
+# Description
 This is the repository for KiCad_BOM_Wizard. This KiCad plugin can be used to create custom BOM files based on easy configurable templates files. The plugin is writing in JavaScript and has been designed to integrate into KiCad’s BOM plugin manager.
 
 The Idea for this plugin came from our need to generate BOM that are specific to of our clients needs. for example, some of our clients require their product to have document traceability due to their product ATEX certificate requirement.
@@ -41,12 +42,12 @@ then it would be grouped like this;
 > | R2| 1 | 100K|
 
 ##### For more details on how to use and make your own template that KiCad_BOM_Wizard can use, please visit the [Project Homepage](http://hashdefineelectronics.com/kicad-bom-wizard/).
-***
+___
 
 # Video Instructions
 [![Using KiCad Bom Wizard Plugin](http://img.youtube.com/vi/k9EE21K-m8M/0.jpg)](https://youtu.be/k9EE21K-m8M)
 ___
-# Installation 
+# Installation
 ## nodeJs
 ```The following serves as a quick reference.```
 ##### Debian/Ubuntu Linux:
@@ -64,11 +65,18 @@ brew install node
 ```bash
 npm install -g kicad_bom_wizard
 ```
-
 ___
 # Using KiCad_BOM_Wizard
 Kicad BOM Plugin Manager Command Line:
 
+#### MAC OSX Note!
+```bash
+there have been reports that `node` wont run in KiCad BOM generator unless its full path has been specified.
+If you have this issues, try replacing `node` with `PATH_TO_NODE/node` where PATH_TO_NODE is your system absolute path to node.
+
+- It might this: `/usr/local/bin/node`
+```
+Here's where it was first repoted: [kiCad.info](https://forum.kicad.info/t/kicad-bom-wizard-plugin-with-customisable-output-can-make-html-and-csv-bom/2142/7?u=opticalworm)
 #### For HTML BOM
 ```
 kicad_bom_wizard "%I" "%O.html"
@@ -108,7 +116,7 @@ kicad_bom_wizard "%I" "%O.html" "Your_Template"
 - ***Where "%I" in the input kicad xml file and "%O" is the output directory and name for the BOM. This must include your file extension.***
 - ***If you are using the script directly and not by npm install, then you will need to replace ```kicad_bom_wizard``` with  ```node "SCRIPT_ROOT_DIR/KiCad_BOM_Wizard.js"```.***
 - ***You may have to replace ```node``` with ```nodejs```***
- 
+
 ___
 # List of short codes
 
@@ -150,8 +158,24 @@ ___
     <!--HEADER_CLASS_QTY_TAG-->         insert the tag for the part qty. HeadQtyTag
     <!--HEADER_CLASS_VALUE_TAG-->         insert the tag for the part value. HeadValueTag
     <!--HEADER_CLASS_FOOTPRINT_TAG-->         insert the tag for the part footprint. HeadFootprintTag
-    
+
 
 ### for fields.conf:
     <!--FIELD_CLASS_TAG-->    inserts the fields class name
     <!--FIELD-->              inserts the field value
+---
+
+# Notes for Contributing
+If you find issues with the code that you want to contribute a fix for or even just wanting to improve the project there are a few things you need to do before you submit your pull request or patch.
+
+- Make sure that you run the install command to make sure hat you have all the tools to test this project.
+
+`num install`
+
+- run the Lint: this project uses javascript [standard](https://www.npmjs.com/package/standard) pacakge to ensure a consistent coding style is maintained. before submitting your code make sure that you run the lint command and fix any error that it highlights.
+
+`npm run lint`
+
+- Run the test: This will both check if the program runs and also regenerate the Meter.csv and Meter.html files. You should also check these files for any obvious issues.
+
+`npm run test`

@@ -22,7 +22,7 @@
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
-*   @version 0.0.7
+*   @version 0.0.8
 *
 *   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
 *   configurable templates files. The plugin is writing in JavaScript and has been
@@ -215,7 +215,7 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
       } else {
         // this is an unknown column
         continue
-      }  
+      }
 
       // this will ensure that all other tags are cleared from this column
       OutputHeader = OutputHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
