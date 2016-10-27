@@ -39,7 +39,7 @@
 /**
 *   Defines the plugin revision number
 */
-var PluginRevisionNumber = '0.0.7'
+var PluginRevisionNumber = '0.0.8'
 
 /**
 *   Defines KiCad Revision number
