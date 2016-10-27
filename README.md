@@ -63,7 +63,7 @@ brew install node
 
 ## Installation KiCad_BOM_Wizard via npm (prefer method)
 ```bash
-npm install -g kicad_bom_wizard
+npm install -g --production kicad_bom_wizard
 ```
 ___
 # Using KiCad_BOM_Wizard
