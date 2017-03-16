@@ -1,0 +1,14 @@
+{
+  "version" : "2",
+  "format" : "pdf",
+  "templatePath" : "HTML_PDF",
+  "ouptput" : "./tmp/output.pdf",
+  "input": "Example.xml",
+  "pdfOptions": {
+    "showPage": "true",
+    "pageSize": "A4",
+    "printBackground" : "true",
+    "landscape": "true",
+    "marginsType" : "0"
+  }
+}

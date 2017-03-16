@@ -22,7 +22,7 @@
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
-*   @version 0.0.8
+*   @version 0.0.9
 *
 *   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
 *   configurable templates files. The plugin is writing in JavaScript and has been
@@ -32,13 +32,16 @@
 *
 *   {@link https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git|Repository Page}
 *
-*   @requires xml2js
+*   @requires xml2js promise nightmare
 *
 */
+
+var Common = require('./lib/common.js')
+
 /**
 *   Defines the plugin revision number
 */
-var PluginRevisionNumber = '0.0.8'
+var PluginRevisionNumber = '0.0.9'
 
 /**
 *   Defines KiCad Revision number
@@ -56,42 +59,43 @@ var MinmumNumOfExpectedArguments = 4
 var OutputHeader = ''
 
 /**
-*   holds the template data for main body template should be KiCadXmlFilePath/template.conf
+*   holds the template data for main body template should be Common.Options.inputFile/template.conf
 */
 var Template = null
 
 /**
-*   holds the template data for table group should be KiCadXmlFilePath/group.conf
+*   holds the template data for table group should be Common.Options.inputFile/group.conf
 */
 var GroupTemplate = null
 
 /**
-*   holds the template data for table rows should be KiCadXmlFilePath/row.conf
+*   holds the template data for table rows should be Common.Options.inputFile/row.conf
 */
 var RowTemplate = null
 
 /**
 *   holds the template data for table headers
-*   should be KiCadXmlFilePath/headers.conf
+*   should be Common.Options.inputFile/headers.conf
 */
 var HeadersTemplate = null
 
 /**
 *   holds the template data for fields
-*   should be KiCadXmlFilePath/fields.conf
+*   should be Common.Options.inputFile/fields.conf
 */
 var FieldsTemplate = null
 
-/**
-*   This is the project KiCad XML file to use to
-*   extract the BOM information
-*/
-var KiCadXmlFilePath = ''
 
-/**
-*   the path and file name to use to create the output BOM
-*/
-var OutputFilePath = ''
+Template = {
+  DefaultPath  : Path.join(__dirname, '../Template/'), // was TemplateFolder
+  Ouptut: {
+    Template : null, // holds the template data for table group should be Template.Path/template.conf
+    Group : null, // holds the template data for table group should be Template.Path/group.conf
+    Row   : null, // holds the template data for table rows should be Template.Path/row.conf
+    Header: null, // holds the template data for table headers should be Template.Path/headers.conf
+    Fields: null // holds the template data for fields should be Template.Path/fields.conf
+  },
+}
 
 /**
 *   Path is used to handle parsing system path urls
@@ -99,13 +103,7 @@ var OutputFilePath = ''
 var Path = require('path')
 
 /**
-*   This is the path to the template files to use
-*   when creating the BOM
-*/
-var TemplateFolder = Path.join(__dirname, '/Template/')
-
-/**
-*   javascript object class of the KiCadXmlFilePath file
+*   javascript object class of the Common.Options.inputFile file
 */
 var UserProjectNetData = null
 
@@ -125,7 +123,7 @@ var TotalNumberOfParts = 0
 GetArguments()
 
 // print system information
-PluginDetails()
+Common.Message('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
 
 // Run the first task.
 Task('STATE_GET_XML_DATA')
@@ -392,7 +390,7 @@ function ExtractAndGenerateDataForThePart () {
 */
 function GenerateBOM () {
   if (UserProjectNetData != null && Template != null) {
-    Message('Generating BOM [ ' + OutputFilePath + ' ]')
+    Common.Message('Generating BOM [ ' + Common.Options.ouptput + ' ]')
 
     var Result = ExtractAndGenerateDataForThePart()
 
@@ -412,15 +410,15 @@ function GenerateBOM () {
     // output BOM
     var OutputFilePathWrite = require('fs')
 
-    OutputFilePathWrite.writeFile(OutputFilePath, Template, function (returnError) {
+    OutputFilePathWrite.writeFile(Common.Options.ouptput, Template, function (returnError) {
       if (returnError) {
-        ErrorMessage(returnError)
+        Common.Error(returnError)
       }
 
-      Message('BOM created')
+      Common.Message('BOM created')
     })
   } else {
-    ErrorMessage('Error generating BOM')
+    Common.Error('Error generating BOM')
   }
 }
 
@@ -434,9 +432,9 @@ function ReadXmlFile () {
 
   var XMLFile = require('fs')
 
-  Message('reading KiCad XML file [ ' + KiCadXmlFilePath + ' ]')
+  Common.Message('reading KiCad XML file [ ' + Common.Options.inputFile + ' ]')
 
-  XMLFile.readFile(KiCadXmlFilePath, function (returnError, output) {
+  XMLFile.readFile(Common.Options.inputFile, function (returnError, output) {
     // returnError should return null if the file was read correctly
     if (returnError === null) {
       // Convert kicad XML data to javascript object class
@@ -446,16 +444,16 @@ function ReadXmlFile () {
           UserProjectNetData = result
 
           if (UserProjectNetData.export.$.version !== KiCadXMLRevision) {
-            ErrorMessage('Incompatible KiCad XML version: Expected ' + KiCadXMLRevision + ' Found ' + UserProjectNetData.export.$.version)
+            Common.Error('Incompatible KiCad XML version: Expected ' + KiCadXMLRevision + ' Found ' + UserProjectNetData.export.$.version)
           }
 
           Task('STATE_READ_TEMPLATE')
         } else {
-          ErrorMessage(returnError)
+          Common.Error(returnError)
         }
       })
     } else {
-      ErrorMessage(returnError)
+      Common.Error(returnError)
     }
   })
 }
@@ -464,17 +462,17 @@ function ReadXmlFile () {
 *   read template.conf
 */
 function ReadTemplateFile () {
-  Message('Reading Template [ ' + TemplateFolder + ' ]')
+  Common.Message('Reading Template [ ' + Common.TemplateFolder + ' ]')
 
   var FileTemp = require('fs')
 
-  FileTemp.readFile(TemplateFolder + '/template.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(Common.TemplateFolder + '/template.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       Template = output
       Task('STATE_READ_TABLE_TEMPLATE')
     } else {
-      ErrorMessage('Error reading template.conf')
+      Common.Error('Error reading template.conf')
     }
   })
 }
@@ -485,13 +483,13 @@ function ReadTemplateFile () {
 function ReadGroupFile () {
   var FileTemp = require('fs')
 
-  FileTemp.readFile(TemplateFolder + '/group.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(Common.TemplateFolder + '/group.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       GroupTemplate = output
       Task('STATE_READ_TABLE_ROW_HEADER_TEMPLATE')
     } else {
-      ErrorMessage('Error reading group.conf')
+      Common.Error('Error reading group.conf')
     }
   })
 }
@@ -502,13 +500,13 @@ function ReadGroupFile () {
 function ReadHeadersFile () {
   var FileTemp = require('fs')
 
-  FileTemp.readFile(TemplateFolder + '/headers.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(Common.TemplateFolder + '/headers.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       HeadersTemplate = output
       Task('STATE_READ_TABLE_ROW_TEMPLATE')
     } else {
-      ErrorMessage('Error reading headers.conf')
+      Common.Error('Error reading headers.conf')
     }
   })
 }
@@ -519,13 +517,13 @@ function ReadHeadersFile () {
 function ReadRowFile () {
   var FileTemp = require('fs')
 
-  FileTemp.readFile(TemplateFolder + '/row.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(Common.TemplateFolder + '/row.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       RowTemplate = output
       Task('STATE_READ_Field_TEMPLATE')
     } else {
-      ErrorMessage('Error reading row.conf')
+      Common.Error('Error reading row.conf')
     }
   })
 }
@@ -536,46 +534,15 @@ function ReadRowFile () {
 function ReadFieldFile () {
   var FileTemp = require('fs')
 
-  FileTemp.readFile(TemplateFolder + '/fields.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(Common.TemplateFolder + '/fields.conf', 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       FieldsTemplate = output
       Task('STATE_GENERATE_BOM')
     } else {
-      ErrorMessage('Error reading fields.conf')
+      Common.Error('Error reading fields.conf')
     }
   })
-}
-
-/**
-*   Handles getting the arguments pass to the plugin
-*/
-function GetArguments () {
-  // make sure that we have enough parameter to continue
-  if (process.argv.length < MinmumNumOfExpectedArguments) {
-    ErrorMessage('Too few arguments. Found ' + process.argv.length + ' Expected at least ' + MinmumNumOfExpectedArguments)
-  }
-
-  KiCadXmlFilePath = process.argv[2]
-  OutputFilePath = process.argv[3]
-
-  if (process.argv.length > MinmumNumOfExpectedArguments) {
-    // the user has specified template they wish to use.
-
-    if (PathExist(process.argv[4])) {
-      // check if use template path exist
-
-      TemplateFolder = process.argv[4]
-    } else if (PathExist(TemplateFolder + process.argv[4])) {
-      // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
-
-      TemplateFolder += process.argv[4]
-    } else {
-      ErrorMessage('Template directory not found: [ ' + process.argv[4] + ' ]')
-    }
-  } else {
-    TemplateFolder += 'HTML'
-  }
 }
 
 /**
@@ -632,37 +599,55 @@ function Task (state) {
       break
 
     default:
-      ErrorMessage('Task() default error')
+      Common.Error('Task() default error')
       break
   }
 }
 
-/*
-*   This function will display the plugin information
-*   and the data pass by user.
-*/
-function PluginDetails () {
-  console.log('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
-}
-
 /**
-*   this function is used to make a standard format
-*   for error messages.
-*   this also handle exiting the program
+*   Handles getting the arguments pass to the plugin
 */
-function ErrorMessage (message) {
-  console.log('\n\n')
-  console.log('Error *****')
-  console.log(message)
-  console.log('\n\n')
-  process.exit(1)
-}
+function GetArguments () {
 
-/*
-*   this function is used to make a standard format
-*   for error messages.
-*   this also handle exiting the program
-*/
-function Message (message) {
-  console.log(message)
+  // do we have the option file?
+  // make sure that we have enough parameter to continue
+  if (process.argv.length == (MinmumNumOfExpectedArguments -1)) {
+    // it might be a option file that was passed
+
+    if (process.argv[2].toUpperCase().indexOf('JSON')) {
+      var PathTemp = Common.ParsePath(process.argv[2])
+
+      if (PathTemp) {
+        Common.LoadOptions(PathTemp)
+        console.log('options found', Common.Options)
+        return
+      }
+    }
+  }
+
+  // make sure that we have enough parameter to continue
+  if (process.argv.length < MinmumNumOfExpectedArguments) {
+    Common.Error('Too few arguments. Found ' + process.argv.length + ' Expected at least ' + MinmumNumOfExpectedArguments)
+  }
+
+  Common.Options.inputFile = process.argv[2]
+  Common.Options.ouptput = process.argv[3]
+
+  if (process.argv.length > MinmumNumOfExpectedArguments) {
+    // the user has specified template they wish to use.
+
+    if (PathExist(process.argv[4])) {
+      // check if use template path exist
+
+      Common.TemplateFolder = process.argv[4]
+    } else if (PathExist(Common.TemplateFolder + process.argv[4])) {
+      // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
+
+      Common.TemplateFolder += process.argv[4]
+    } else {
+      Common.Error('Template directory not found: [ ' + process.argv[4] + ' ]')
+    }
+  } else {
+    Common.TemplateFolder += 'HTML'
+  }
 }

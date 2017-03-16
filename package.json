@@ -17,6 +17,8 @@
     "Eric Hankinson (http://twitter.com/kumichou)"
   ],
   "dependencies": {
+    "nightmare": "^2.10.0",
+    "promise": "^7.1.1",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {
@@ -27,7 +29,8 @@
     "test": "standard KiCad_BOM_Wizard.js && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",
-    "debug": "node --inspect-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Ouput.html\" \"HTML\""
+    "debug": "node --inspect-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Ouput.html\" \"HTML\"",
+    "debugPdf": "node --inspect-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Ouput.pdf\" \"PDF\""
   },
   "repository": {
     "type": "git",
