@@ -65,6 +65,28 @@ brew install node
 ```bash
 npm install -g --production kicad_bom_wizard
 ```
+## Installation KiCad_BOM_Wizard via github download
+This assumes that you have downloaded the project's 'ZIP' file from github. (ie, you now have `KiCad_BOM_Wizard-master.zip`)
+```bash
+unzip KiCad_BOM_Wizard-master.zip -d KiCad_BOM_Wizard-master
+```
+```bash
+cd KiCad_BOM_Wizard-master
+```
+```bash
+npm install -g --production kicad_bom_wizard
+```
+
+## Installation KiCad_BOM_Wizard via git clone
+```bash
+git clone https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
+```
+```bash
+cd KiCad_BOM_Wizard
+```
+```bash
+npm install -g --production kicad_bom_wizard
+```
 ___
 # Using KiCad_BOM_Wizard
 Kicad BOM Plugin Manager Command Line:
