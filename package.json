@@ -17,18 +17,17 @@
     "Eric Hankinson (http://twitter.com/kumichou)"
   ],
   "dependencies": {
-    "xml2js": "^0.4.15"
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "jsdoc": "^3.4.2",
-    "node-inspector": "^0.12.5",
-    "standard": "^6.0.1"
+    "jsdoc": "^3.4.3",
+    "standard": "^6.0.8"
   },
   "scripts": {
-    "test": "standard KiCad_BOM_Wizard.js && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node --debug KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
+    "test": "standard KiCad_BOM_Wizard.js && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",
-    "debug": "node-debug --debug-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/testOuput.html\" \"HTML\""
+    "debug": "node --inspect-brk KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Ouput.html\" \"HTML\""
   },
   "repository": {
     "type": "git",

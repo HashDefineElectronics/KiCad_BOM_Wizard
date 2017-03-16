@@ -35,7 +35,6 @@
 *   @requires xml2js
 *
 */
-
 /**
 *   Defines the plugin revision number
 */
