@@ -1,4 +1,4 @@
-var PDF = require('./lib/pdfCreator');
+var PDF = require('../lib/pdfCreator');
 
 /**
 * Defines the default pdf options
@@ -10,10 +10,10 @@ var DefaultOptions = {
   marginsType : 0
 }
 
-var PDFPromise = PDF.Make(__dirname + '/Test/template/', __dirname + '/my_pdf.pdf', DefaultOptions, 1000)
+var PDFPromise = PDF.Make(__dirname + '/.tmp/output.html', __dirname + '/.tmp/output.pdf', DefaultOptions)
 PDFPromise.then(function() {
   console.log('pdf done')
 })
 .catch(function(error) {
-  console.log('erro', error)
+  console.log('error:', error)
 })

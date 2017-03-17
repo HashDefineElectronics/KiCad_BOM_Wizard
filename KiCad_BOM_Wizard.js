@@ -37,7 +37,10 @@
 */
 
 var Common = require('./lib/common.js')
-
+Common.ScriptDirectory = __dirname
+console.log(__dirname)
+console.log(Common.TemplateFolder)
+return
 /**
 *   Defines the plugin revision number
 */
@@ -85,6 +88,10 @@ var HeadersTemplate = null
 */
 var FieldsTemplate = null
 
+/**
+*   Path is used to handle parsing system path urls
+*/
+var Path = require('path')
 
 Template = {
   DefaultPath  : Path.join(__dirname, '../Template/'), // was TemplateFolder
@@ -96,11 +103,6 @@ Template = {
     Fields: null // holds the template data for fields should be Template.Path/fields.conf
   },
 }
-
-/**
-*   Path is used to handle parsing system path urls
-*/
-var Path = require('path')
 
 /**
 *   javascript object class of the Common.Options.inputFile file
@@ -620,7 +622,7 @@ function GetArguments () {
       if (PathTemp) {
         Common.LoadOptions(PathTemp)
         console.log('options found', Common.Options)
-        return
+        return Common.Error('work in progress')
       }
     }
   }
@@ -633,6 +635,7 @@ function GetArguments () {
   Common.Options.inputFile = process.argv[2]
   Common.Options.ouptput = process.argv[3]
 
+  console.log('Common.TemplateFolder ', Common.TemplateFolder)
   if (process.argv.length > MinmumNumOfExpectedArguments) {
     // the user has specified template they wish to use.
 
