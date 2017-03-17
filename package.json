@@ -46,10 +46,10 @@
   },
   "preferGlobal": true,
   "files": [
-    "Template/CSV",
-    "Template/HTML",
+    "Template/*",
+    "Lib",
+    "Example",
     "Test",
-    "Documentation",
     "KiCad_BOM_Wizard.js"
   ],
   "bin": "KiCad_BOM_Wizard.js"

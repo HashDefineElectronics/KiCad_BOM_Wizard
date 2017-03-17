@@ -1,4 +1,4 @@
-var PDF = require('../lib/pdfCreator');
+var PDF = require('../Lib/pdfCreator');
 
 /**
 * Defines the default pdf options

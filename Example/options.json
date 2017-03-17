@@ -1,8 +1,8 @@
 {
-  "version" : "2",
-  "format" : "pdf",
-  "templatePath" : "../Template/HTML_PDF",
-  "ouptput" : "../Test/.tmp/output.pdf",
+  "version" : "1",
+  "outputType" : "pdf",
+  "templatePath" : "HTML_PDF",
+  "output" : "../Test/.tmp/output.pdf",
   "input": "example.xml",
   "pdfOptions": {
     "showPage": "true",

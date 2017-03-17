@@ -36,11 +36,14 @@
 *
 */
 
-var Common = require('./lib/common.js')
-Common.ScriptDirectory = __dirname
-console.log(__dirname)
-console.log(Common.TemplateFolder)
-return
+/**
+*   Path is used to handle parsing system path urls
+*/
+var Path = require('path')
+
+// make sure that we set the current working directory
+var Common = require('./Lib/common.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
+
 /**
 *   Defines the plugin revision number
 */
@@ -617,7 +620,7 @@ function GetArguments () {
     // it might be a option file that was passed
 
     if (process.argv[2].toUpperCase().indexOf('JSON')) {
-      var PathTemp = Common.ParsePath(process.argv[2])
+      var PathTemp = Common.ValidateAndReturnPath(process.argv[2])
 
       if (PathTemp) {
         Common.LoadOptions(PathTemp)
