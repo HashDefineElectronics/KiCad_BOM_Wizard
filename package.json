@@ -26,8 +26,8 @@
     "standard": "^6.0.8"
   },
   "scripts": {
-    "test": "rm -R Test/.tmp && mkdir Test/.tmp && node KiCad_BOM_Wizard.js \"Example/example.xml\" \"Test/.tmp/output.html\" \"HTML\" && node Test/pdfCreator_test.js",
-    "test_new": "rm -R Test/.tmp && mkdir Test/.tmp && node KiCad_BOM_Wizard.js \"Example/options.json\"",
+    "test": "([ -d Test/.tmp ] && rm -R Test/.tmp) || sleep 0.5s && mkdir Test/.tmp && sleep 0.5s && node KiCad_BOM_Wizard.js \"Example/example.xml\" \"Test/.tmp/output.html\" \"HTML\"",
+    "test_new": "([ -d Test/.tmp ] && rm -R Test/.tmp) || sleep 0.5s && mkdir Test/.tmp && sleep 0.5s && node KiCad_BOM_Wizard.js \"Example/options.json\"",
     "test_old": "standard KiCad_BOM_Wizard.js && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.html\" \"HTML\" && node KiCad_BOM_Wizard.js \"Test/Meter.xml\" \"Test/Meter.csv\" \"CSV\"",
     "updateDoc": "jsdoc -P package.json KiCad_BOM_Wizard.js -d Documentation/jsDoc",
     "lint": "standard KiCad_BOM_Wizard.js",

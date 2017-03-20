@@ -614,46 +614,20 @@ function Task (state) {
 */
 function GetArguments () {
 
-  // do we have the option file?
-  // make sure that we have enough parameter to continue
-  if (process.argv.length == (MinmumNumOfExpectedArguments -1)) {
-    // it might be a option file that was passed
-
-    if (process.argv[2].toUpperCase().indexOf('JSON')) {
+  if (process.argv[2]) {
+    // it might be an option file so check
+    if (process.argv[2].toUpperCase().indexOf('JSON') > -1) {
       var PathTemp = Common.ValidateAndReturnPath(process.argv[2])
 
       if (PathTemp) {
         Common.LoadOptions(PathTemp)
         console.log('options found', Common.Options)
-        return Common.Error('work in progress')
+        return
       }
     }
   }
 
-  // make sure that we have enough parameter to continue
-  if (process.argv.length < MinmumNumOfExpectedArguments) {
-    Common.Error('Too few arguments. Found ' + process.argv.length + ' Expected at least ' + MinmumNumOfExpectedArguments)
-  }
-
-  Common.Options.inputFile = process.argv[2]
-  Common.Options.ouptput = process.argv[3]
-
-  console.log('Common.TemplateFolder ', Common.TemplateFolder)
-  if (process.argv.length > MinmumNumOfExpectedArguments) {
-    // the user has specified template they wish to use.
-
-    if (PathExist(process.argv[4])) {
-      // check if use template path exist
-
-      Common.TemplateFolder = process.argv[4]
-    } else if (PathExist(Common.TemplateFolder + process.argv[4])) {
-      // now check if the user is wanting to use a  template in KiCad_BOM_Wizard/Template
-
-      Common.TemplateFolder += process.argv[4]
-    } else {
-      Common.Error('Template directory not found: [ ' + process.argv[4] + ' ]')
-    }
-  } else {
-    Common.TemplateFolder += 'HTML'
-  }
+  console.log('load option via the traditional method')
+  // if the user has given an option file, then try the old way
+  Common.OldOptionsSetup(process.argv)
 }

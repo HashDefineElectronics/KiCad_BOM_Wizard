@@ -155,8 +155,8 @@ exports.Message = function (message) {
 */
 
 exports.Error = function(message) {
-  var MessageTemp = '\n\n** Error **\n\t' + message + '\n\n'
-  console.error(MessageTemp)
+  var MessageTemp = '** Error **\n\t' + message + '\n\n'
+  console.trace(MessageTemp)
   process.exit(1)
 }
 
@@ -221,20 +221,64 @@ function LoadVersionOneOption(options) {
   exports.Options.templatePath = exports.ValidateAndReturnPath(options.templatePath, true)
   exports.Options.outputType = ValidateOutputTypeSelection(options.outputType)
 
-  exports.Options.version = ValidateOutputTypeSelection(options.outputType)
   // if the output type of PDF then we need to validate the PDF options
   if (exports.Options.outputType === 'PDF') {
     ValidateAndSetPDFOptions(options.pdfOptions)
   }
 
-  var OutputTemp = {path: null, basename: exports.Options.input.basename + '_bom', ext: ''}
-  OutputTemp.path = Path.join(Path.dirname(exports.Options.input.path), OutputTemp.basename + OutputTemp.ext)
-  console.log('OutputTemp.path', OutputTemp)
 
-  // Need to add the output file data. It needs to use OutputTemp
+  // set the output default values just incase the user doesn't set them
+  exports.Options.output = {path: null, basename: exports.Options.input.basename + '_bom', ext: ''}
+  exports.Options.output.path = Path.join(Path.dirname(exports.Options.input.path), exports.Options.output.basename + exports.Options.output.ext)
 
+  // check if the user has given us an output name
+  if(options.outputName && options.outputName !== "" && options.outputName !== " ") {
+    // get the extension name if it has one
+    exports.Options.output.ext = Path.extname(options.outputName)
+    exports.Options.output.basename = Path.basename(options.outputName, Path.extname(options.outputName))
+  }
+
+  if(options.outputPath && options.outputPath !== "" && options.outputPath !== " ") {
+    // if the user has give us a path to use then validate it
+    options.outputPath = exports.ValidateAndReturnPath(options.outputPath, true)
+    exports.Options.output.path = Path.join(Path.dirname(options.outputPath), exports.Options.output.basename + exports.Options.output.ext)
+  }
 }
 
+/**
+* This handle getting the system options vai process aguments
+*/
+exports.OldOptionsSetup = function(parameter) {
+
+  if (!parameter[2]) {
+    exports.Error('input file parameter is missing')
+  }
+
+  if (!parameter[3]) {
+    exports.Error('output file parameter is missing')
+  }
+  exports.Options.input.path = exports.ValidateAndReturnPath(parameter[2])
+  exports.Options.input.ext = Path.extname(exports.Options.input.path)
+  exports.Options.input.basename = Path.basename(exports.Options.input.path, exports.Options.input.ext)
+
+  exports.Options.ouptput.path = exports.ValidateAndReturnPath(parameter[3])
+  exports.Options.output.ext = Path.extname(exports.Options.ouptput.path)
+  exports.Options.output.basename = Path.basename(exports.Options.ouptput.path, exports.Options.output.ext)
+
+  exports.Options.outputType = 'FILE'
+
+  // check if user has given us a path to use if not then use the default one
+  if (parameter[4]) {
+    exports.Options.templatePath = exports.ValidateAndReturnPath(parameter[4])
+  } else {
+    exports.Options.templatePath = exports.ValidateAndReturnPath('HTML')
+  }
+
+  console.log(exports.Options)
+  LoadVersionOneOption(exports.Options)
+  console.log(exports.Options)
+  exports.Error('work in progress')
+}
 /**
 * Handle loading the options from the given path
 *
@@ -253,7 +297,10 @@ exports.LoadOptions = function(inputFile) {
       var Files = require('fs')
 
       try {
-      var OptionTemp = JSON.parse(Files.readFileSync(PathTemp, 'utf8'))
+        var OptionTemp = JSON.parse(Files.readFileSync(PathTemp, 'utf8'))
+      } catch (error) {
+          exports.Error('unabled to read option file [' + PathTemp + ']', error)
+        }
 
       if (!OptionTemp.input) {
         // input file is missing
@@ -264,18 +311,15 @@ exports.LoadOptions = function(inputFile) {
         exports.Error('option file has no version number')
       }
 
-      switch (parseInt(OptionTemp.version)) {
+      exports.Options.version = parseInt(OptionTemp.version)
+
+      switch (exports.Options.version) {
         case 1:
           LoadVersionOneOption(OptionTemp)
           break;
         default:
-          exports.Error('option file version is not supported [found: ' + parseInt(OptionTemp.version) + ']')
+          exports.Error('option file version is not supported [found: ' + exports.Options.version + ']')
         break;
-      }
-
-
-      } catch (e) {
-        exports.Error('unabled to read option file [' + PathTemp + ']')
       }
       return true
     }
