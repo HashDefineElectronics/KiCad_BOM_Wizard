@@ -1,15 +1,17 @@
 {
-  "version" : "1",
-  "outputType" : "pdf",
-  "templatePath" : "HTML_PDF",
+  "version" : 2,
+  "outputType" : "file",
+  "templatePath" : "CSV",
   "outputPath" : "../Test/.tmp/",
-  "outputName" : "output.pdf",
+  "outputName" : "output.csv",
   "input": "example.xml",
+  "verbose" : true,
   "pdfOptions": {
-    "showPage": "true",
+    "showPage": true,
     "pageSize": "A4",
-    "printBackground" : "true",
-    "landscape": "true",
+    "printBackground" : true,
+    "landscape": true,
     "marginsType" : "0"
-  }
+  },
+  "sort" : {"by": "REF", "ascending": true}
 }

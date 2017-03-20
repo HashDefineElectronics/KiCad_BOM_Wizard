@@ -42,17 +42,16 @@
 var Path = require('path')
 
 // make sure that we set the current working directory
-var Common = require('./Lib/common.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
+var Common = require('./Lib/common.js')
 
+var Components = require('./Lib/component.js')
+
+// holds the BOM configuration
+var BOMConfig = null
 /**
 *   Defines the plugin revision number
 */
 var PluginRevisionNumber = '0.0.9'
-
-/**
-*   Defines KiCad Revision number
-*/
-var KiCadXMLRevision = 'D'
 
 /**
 *   Defines the minimum number of arguments this plugins takes
@@ -65,29 +64,29 @@ var MinmumNumOfExpectedArguments = 4
 var OutputHeader = ''
 
 /**
-*   holds the template data for main body template should be Common.Options.inputFile/template.conf
+*   holds the template data for main body template should be BOMConfig.inputFile/template.conf
 */
 var Template = null
 
 /**
-*   holds the template data for table group should be Common.Options.inputFile/group.conf
+*   holds the template data for table group should be BOMConfig.inputFile/group.conf
 */
 var GroupTemplate = null
 
 /**
-*   holds the template data for table rows should be Common.Options.inputFile/row.conf
+*   holds the template data for table rows should be BOMConfig.inputFile/row.conf
 */
 var RowTemplate = null
 
 /**
 *   holds the template data for table headers
-*   should be Common.Options.inputFile/headers.conf
+*   should be BOMConfig.inputFile/headers.conf
 */
 var HeadersTemplate = null
 
 /**
 *   holds the template data for fields
-*   should be Common.Options.inputFile/fields.conf
+*   should be BOMConfig.inputFile/fields.conf
 */
 var FieldsTemplate = null
 
@@ -95,6 +94,11 @@ var FieldsTemplate = null
 *   Path is used to handle parsing system path urls
 */
 var Path = require('path')
+
+/**
+*   Defines KiCad Revision number
+*/
+var KiCadXMLRevision = 'D'
 
 Template = {
   DefaultPath  : Path.join(__dirname, '../Template/'), // was TemplateFolder
@@ -108,7 +112,7 @@ Template = {
 }
 
 /**
-*   javascript object class of the Common.Options.inputFile file
+*   javascript object class of the BOMConfig.inputFile file
 */
 var UserProjectNetData = null
 
@@ -125,13 +129,7 @@ var NumberOfUniqueParts = 0
 var TotalNumberOfParts = 0
 
 // Get cli user arguments
-GetArguments()
-
-// print system information
-Common.Message('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
-
-// Run the first task.
-Task('STATE_GET_XML_DATA')
+StartProcess()
 
 /**
 *   This will check the entire part list for a matching
@@ -395,7 +393,7 @@ function ExtractAndGenerateDataForThePart () {
 */
 function GenerateBOM () {
   if (UserProjectNetData != null && Template != null) {
-    Common.Message('Generating BOM [ ' + Common.Options.ouptput + ' ]')
+    Common.Message('Creating BOM')
 
     var Result = ExtractAndGenerateDataForThePart()
 
@@ -415,15 +413,15 @@ function GenerateBOM () {
     // output BOM
     var OutputFilePathWrite = require('fs')
 
-    OutputFilePathWrite.writeFile(Common.Options.ouptput, Template, function (returnError) {
+    OutputFilePathWrite.writeFile(BOMConfig.output.path, Template, function (returnError) {
       if (returnError) {
         Common.Error(returnError)
       }
 
-      Common.Message('BOM created')
+      Common.Message('BOM complete [ ' + BOMConfig.output.path + ' ]', null, true)
     })
   } else {
-    Common.Error('Error generating BOM')
+    Common.Error('Error creating BOM')
   }
 }
 
@@ -437,9 +435,9 @@ function ReadXmlFile () {
 
   var XMLFile = require('fs')
 
-  Common.Message('reading KiCad XML file [ ' + Common.Options.inputFile + ' ]')
+  Common.Message('Reading KiCad XML file [ ' + BOMConfig.input.path + ' ]')
 
-  XMLFile.readFile(Common.Options.inputFile, function (returnError, output) {
+  XMLFile.readFile(BOMConfig.input.path, function (returnError, output) {
     // returnError should return null if the file was read correctly
     if (returnError === null) {
       // Convert kicad XML data to javascript object class
@@ -467,11 +465,12 @@ function ReadXmlFile () {
 *   read template.conf
 */
 function ReadTemplateFile () {
-  Common.Message('Reading Template [ ' + Common.TemplateFolder + ' ]')
+  var TemplateConfPath = Path.join(BOMConfig.templatePath, '/template.conf')
+  Common.Message('Reading Template [ ' + TemplateConfPath + ' ]')
 
   var FileTemp = require('fs')
 
-  FileTemp.readFile(Common.TemplateFolder + '/template.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(TemplateConfPath, 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       Template = output
@@ -486,9 +485,10 @@ function ReadTemplateFile () {
 *   read group.conf
 */
 function ReadGroupFile () {
+  var GroupConfPath = Path.join(BOMConfig.templatePath, '/group.conf')
   var FileTemp = require('fs')
 
-  FileTemp.readFile(Common.TemplateFolder + '/group.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(GroupConfPath, 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       GroupTemplate = output
@@ -503,9 +503,11 @@ function ReadGroupFile () {
 *   read headers.conf
 */
 function ReadHeadersFile () {
+  var HeaderConfPath = Path.join(BOMConfig.templatePath, '/headers.conf')
+
   var FileTemp = require('fs')
 
-  FileTemp.readFile(Common.TemplateFolder + '/headers.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(HeaderConfPath, 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       HeadersTemplate = output
@@ -520,9 +522,10 @@ function ReadHeadersFile () {
 *   read row.conf
 */
 function ReadRowFile () {
+  var RowConfPath = Path.join(BOMConfig.templatePath, '/row.conf')
   var FileTemp = require('fs')
 
-  FileTemp.readFile(Common.TemplateFolder + '/row.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(RowConfPath, 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       RowTemplate = output
@@ -537,9 +540,10 @@ function ReadRowFile () {
 *   read fields.conf
 */
 function ReadFieldFile () {
+  var FieldsConfPath = Path.join(BOMConfig.templatePath, '/fields.conf')
   var FileTemp = require('fs')
 
-  FileTemp.readFile(Common.TemplateFolder + '/fields.conf', 'utf8', function (returnError, output) {
+  FileTemp.readFile(FieldsConfPath, 'utf8', function (returnError, output) {
     // returnError should return null if the data was read correctly
     if (returnError === null) {
       FieldsTemplate = output
@@ -548,26 +552,6 @@ function ReadFieldFile () {
       Common.Error('Error reading fields.conf')
     }
   })
-}
-
-/**
-*   This function can be used to check if the given path
-*   exist
-*
-*   @returns true on success else false false
-*/
-function PathExist (path) {
-  // first check if directory exist
-  var FileSystem = require('fs')
-  try {
-    if (FileSystem.statSync(path).isDirectory()) {
-      return true
-    }
-  } catch (ex) {
-    // we can ignore the error message
-  }
-
-  return false
 }
 
 /**
@@ -612,22 +596,32 @@ function Task (state) {
 /**
 *   Handles getting the arguments pass to the plugin
 */
-function GetArguments () {
+function StartProcess () {
+  // print system information
+  Common.Message('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
 
-  if (process.argv[2]) {
-    // it might be an option file so check
-    if (process.argv[2].toUpperCase().indexOf('JSON') > -1) {
-      var PathTemp = Common.ValidateAndReturnPath(process.argv[2])
+  var ConfigTemp = require('./Lib/configuration.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
 
-      if (PathTemp) {
-        Common.LoadOptions(PathTemp)
-        console.log('options found', Common.Options)
-        return
-      }
+  BOMConfig = ConfigTemp.Load(process.argv[2])
+  // if the options were loaded the exist
+  if (!BOMConfig) {
+    // No options file given so try the system argument parameters
+    BOMConfig = ConfigTemp.LoadOld(process.argv)
+
+    if (!BOMConfig) {
+      Common.Error("Unkown load error:")
     }
   }
+  Common.Message("BOM Config:", BOMConfig)
 
-  console.log('load option via the traditional method')
-  // if the user has given an option file, then try the old way
-  Common.OldOptionsSetup(process.argv)
+  // Start the task.
+  //Task('STATE_GET_XML_DATA')
+
+  Components.LoadAndProcessComponentList(BOMConfig)
+  .then(function(result){
+    Common.Message("work in progress:", result, true)
+  })
+  .catch(function(error){
+    Common.Error(error)
+  })
 }

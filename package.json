@@ -12,10 +12,6 @@
   "homepage": "http://hashdefineelectronics.com/kicad-bom-wizard/",
   "license": "GPL-3.0",
   "author": "Ronald Sousa (http://twitter.com/opticalworm)",
-  "contributors": [
-    "Ronald Sousa (http://twitter.com/opticalworm)",
-    "Eric Hankinson (http://twitter.com/kumichou)"
-  ],
   "dependencies": {
     "nightmare": "^2.10.0",
     "promise": "^7.1.1",
@@ -47,9 +43,8 @@
   "preferGlobal": true,
   "files": [
     "Template/*",
-    "Lib",
-    "Example",
-    "Test",
+    "Lib/*",
+    "Example/*",
     "KiCad_BOM_Wizard.js"
   ],
   "bin": "KiCad_BOM_Wizard.js"
