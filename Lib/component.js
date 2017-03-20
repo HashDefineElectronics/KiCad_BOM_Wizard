@@ -51,7 +51,13 @@ var Components = {
   sortMeta: {
     fields: null,
     groups: null,
-  } // holds a set of arrays that are used to sort the BOM
+  }, // holds a set of arrays that are used to sort the BOM
+  created: "",
+  tile: "",
+  date: "",
+  company: "",
+  revison: "",
+  comment: null
 }
 
 /**
@@ -151,10 +157,11 @@ function ExtractAndSortComponents (config) {
       PartIndex = Components.UniquePartList.length
       PartIndex--
 
-      Components.UniquePartList[PartIndex].Ref[Part.$.ref] = Part.$.ref
+      var PartRefValue = parseInt(Part.$.ref.replace(/[a-zA-Z]/g, ''))
+      Components.UniquePartList[PartIndex].Ref.push(PartRefValue)
 
       // add it to our sortmeta so that we have the choice to sort by reference at a later stage
-      Components.UniquePartList[PartIndex].sortMeta.ref = Part.$.ref.replace(/[a-zA-Z]/g, '')
+      Components.UniquePartList[PartIndex].sortMeta.ref = PartRefValue
 
       if (Part.fields) {
         Part.fields.forEach(function (value) {
@@ -178,10 +185,11 @@ function ExtractAndSortComponents (config) {
       Components.NumberOfUniqueParts++
     } else {
       Components.UniquePartList[PartIndex].Count++
-      Components.UniquePartList[PartIndex].Ref[Part.$.ref] = Part.$.ref
+      var PartRefValue = parseInt(Part.$.ref.replace(/[a-zA-Z]/g, ''))
+      Components.UniquePartList[PartIndex].Ref.push(PartRefValue)
     }
 
-    if (config.sort && config.sort.by === 'ref' && config.sort.ascending) {
+    if (config.sort && config.sort.by === 'ref' && !config.sort.ascending) {
       // update our ref sortMeta
       if (parseInt(Part.$.ref.replace(/[a-zA-Z]/g, '')) < Components.UniquePartList[PartIndex].sortMeta.ref) {
         Components.UniquePartList[PartIndex].sortMeta.ref = Part.$.ref.replace(/[a-zA-Z]/g, '')
@@ -189,11 +197,9 @@ function ExtractAndSortComponents (config) {
     } else {
       // update our ref sortMeta
       if (parseInt(Part.$.ref.replace(/[a-zA-Z]/g, '')) > Components.UniquePartList[PartIndex].sortMeta.ref) {
-        Components.UniquePartList[PartIndex].sortMeta.ref = Part.$.ref.replace(/[a-zA-Z]/g, '')
+        Components.UniquePartList[PartIndex].sortMeta.ref = parseInt(Part.$.ref.replace(/[a-zA-Z]/g, ''))
       }
     }
-
-
 
     Components.TotalNumberOfParts++
   })
@@ -205,15 +211,33 @@ function ExtractAndSortComponents (config) {
 function ApplaySort(config) {
   Components.sortMeta.fields.sort()
   Components.sortMeta.groups.sort()
+  Components.sortMeta.groupedList = null
 
   for (var groupedIndex in Components.GroupedList) {
-    var TempSort = {ref: [], qty: [], value: [], footprint: []}
 
-    for(var refIndex in Components.GroupedList[groupedIndex]) {
-      //
-    //  TempSort.ref
+    // will need to first sort any sub data of each component. this include ref
+    for (var PartIndex in Components.GroupedList[groupedIndex]) {
+
+      Components.GroupedList[groupedIndex][PartIndex].Ref.sort(function(refA, refB) {
+        if (config.sort.by === 'REF' && !config.sort.ascending) {
+          return refB - refA
+        }
+        return refA - refB
+      })
     }
 
+    Components.GroupedList[groupedIndex].sort(function(partA, partB) {
+      switch(config.sort.by) {
+        case 'REF':
+
+          if (config.sort.ascending) {
+            return partA.sortMeta.ref - partB.sortMeta.ref
+          }
+          return partB.sortMeta.ref - partA.sortMeta.ref
+        default:
+        return 0 // leave unsorted
+      }
+    })
   }
 //  var TempSort = {ref: null, qty: null, value: null, footprint: null}
 
@@ -248,6 +272,15 @@ function LoadComponentFromXML (config) {
             }
 
             // extract data
+            Components.created = Components.inputData.export.design[0].date
+            Components.tile = Components.inputData.export.design[0].sheet[0].title_block[0].title
+            Components.date = Components.inputData.export.design[0].sheet[0].title_block[0].date
+            Components.company = Components.inputData.export.design[0].sheet[0].title_block[0].company
+            Components.revison = Components.inputData.export.design[0].sheet[0].title_block[0].rev
+            Components.comment = [Components.inputData.export.design[0].sheet[0].title_block[0].comment[0].$.value,
+                                  Components.inputData.export.design[0].sheet[0].title_block[0].comment[1].$.value,
+                                  Components.inputData.export.design[0].sheet[0].title_block[0].comment[2].$.value,
+                                  Components.inputData.export.design[0].sheet[0].title_block[0].comment[3].$.value]
 
             //Task('STATE_READ_TEMPLATE')
             return resolve(Components) // return the read data
@@ -281,10 +314,8 @@ exports.LoadAndProcessComponentList = function (config) {
       TheLoaded(config).then(function(result) {
         ExtractAndSortComponents(config)
         ApplaySort(config)
-        console.log(result.GroupedList['C'])
-        throw "asdfasdf"
         // success
-        return resolve(result)
+        return resolve(Components)
       })
       .catch(function(error) {
         return reject(error)

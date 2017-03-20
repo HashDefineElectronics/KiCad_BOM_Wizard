@@ -44,7 +44,7 @@ var Path = require('path')
 // make sure that we set the current working directory
 var Common = require('./Lib/common.js')
 
-var Components = require('./Lib/component.js')
+var ComponentsData = null
 
 // holds the BOM configuration
 var BOMConfig = null
@@ -111,76 +111,20 @@ Template = {
   },
 }
 
-/**
-*   javascript object class of the BOMConfig.inputFile file
-*/
-var UserProjectNetData = null
-
-/**
-*   keep track of the number of unique parts found while
-*   creating the BOM
-*/
-var NumberOfUniqueParts = 0
-
-/**
-*   keep track of the number of parts found while
-*   creating the BOM
-*/
-var TotalNumberOfParts = 0
-
 // Get cli user arguments
 StartProcess()
 
 /**
-*   This will check the entire part list for a matching
-*   value and fields and return the part's index number that matches
-*
-*   @param source holds the original list of unsorted parts
-*   @param searchTerm the part information to search for
-*   @param listOfGroups holds the list of groups
-*
-*   @returns -1 = no match else the index number of the found item
-*/
-function SearchUniquePartIndex (source, searchTerm, listOfGroups) {
-  for (var Index = 0; Index < source.length; Index++) {
-    // reset the filed test flag. this will ensure that we check the next part that might have all the matching fields
-    var FieldsTestResult = true
-    // part value matches
-    if (searchTerm.Value[0] === source[Index].Value[0] && searchTerm.Footprint === source[Index].Footprint) {
-      for (var FieldIndex = 0; FieldIndex < listOfGroups.length; FieldIndex++) {
-        // If either one is true
-        if (listOfGroups[ FieldIndex ] in searchTerm.Fields || listOfGroups[ FieldIndex ] in source[Index].Fields) {
-          // If either one is true then both have to be set
-          if (listOfGroups[ FieldIndex ] in searchTerm.Fields &&
-                listOfGroups[ FieldIndex ] in source[Index].Fields &&
-                searchTerm.Fields[ listOfGroups[ FieldIndex ] ] === source[Index].Fields[ listOfGroups[ FieldIndex ] ]) {
-            // Do nothing
-          } else {
-            FieldsTestResult = false
-          }
-        }
-      }
-
-      // We have a match
-      if (FieldsTestResult) {
-        return Index
-      }
-    }
-  }
-
-  return -1
-}
-
-/**
 *   creates the table
 *
-*   @param fieldsList the array that has all the various filed names
+*   @param Components.sortMeta.fields the array that has all the various filed names
 *   @param GroupedList the array that has all the parts grouped by the ref prefix
-*   @param partGroupedList the array that actually contains all the parts data
+*   @param Components.GroupedList the array that actually contains all the parts data
 *
 *   @returns the output
 */
-function GenerateTable (fieldsList, groupedList, partGroupedList) {
+function GenerateTable (component) {
+
   var ReturnOutput = ''
   var FieldIndex = 0
 
@@ -218,11 +162,10 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
     }
   }
 
-  fieldsList.sort()
   var TempFieldHeader = ''
 
-  for (FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
-    TempFieldHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, fieldsList[ FieldIndex ])
+  for (FieldIndex = 0; FieldIndex < component.sortMeta.fields.length; FieldIndex++) {
+    TempFieldHeader += HeadersTemplate.replace(/<!--HEADER_ROW-->/g, component.sortMeta.fields[ FieldIndex ])
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
@@ -231,26 +174,24 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
   // now place it where it needs to be
   OutputHeader = OutputHeader.replace(/<!--FIELDS_HEADER_PLACEHOLDER-->/g, TempFieldHeader)
 
-  groupedList.sort()
-
   // keep track if the table row is odd or even. true = even else is odd
   var RowIsEvenFlag = false
 
-  for (var Group in groupedList) {
+  for (var Group in component.sortMeta.groups) {
     // take a copy of the table template
     var TableTemp = GroupTemplate
-    var GroupdName = groupedList[Group]
+    var GroupdName = component.sortMeta.groups[Group]
 
     TableTemp = TableTemp.replace(/<!--GROUP_CLASS_TAG-->/g, 'group_' + GroupdName)
     TableTemp = TableTemp.replace(/<!--GROUP_TITLE_TEXT-->/g, GroupdName)
 
     var TableRowAll = ''
-    for (var Item in partGroupedList[GroupdName]) {
+    for (var Item in component.GroupedList[GroupdName]) {
       var TempRow = RowTemplate
       var RefTemp = ''
 
-      for (var Ref in partGroupedList[GroupdName][Item].Ref) {
-        RefTemp += Ref + ' '
+      for (var RefIndex in component.GroupedList[GroupdName][Item].Ref) {
+        RefTemp += GroupdName + component.GroupedList[GroupdName][Item].Ref[RefIndex] + ' '
       }
 
       if (RowIsEvenFlag) {
@@ -259,9 +200,9 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
         TempRow = TempRow.replace(/<!--ROW_CLASS_ODD_EVEN_TAG-->/g, 'RowOddTag')
       }
       TempRow = TempRow.replace(/<!--ROW_PART_REF-->/g, RefTemp)
-      TempRow = TempRow.replace(/<!--ROW_PART_QTY-->/g, partGroupedList[GroupdName][Item].Count)
-      TempRow = TempRow.replace(/<!--ROW_PART_VALUE-->/g, partGroupedList[GroupdName][Item].Value)
-      TempRow = TempRow.replace(/<!--ROW_PART_FOOTPRINT-->/g, partGroupedList[GroupdName][Item].Footprint)
+      TempRow = TempRow.replace(/<!--ROW_PART_QTY-->/g, component.GroupedList[GroupdName][Item].Count)
+      TempRow = TempRow.replace(/<!--ROW_PART_VALUE-->/g, component.GroupedList[GroupdName][Item].Value)
+      TempRow = TempRow.replace(/<!--ROW_PART_FOOTPRINT-->/g, component.GroupedList[GroupdName][Item].Footprint)
 
       TempRow = TempRow.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
       TempRow = TempRow.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
@@ -270,13 +211,13 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
 
       var FieldsTemp = ''
 
-      for (FieldIndex = 0; FieldIndex < fieldsList.length; FieldIndex++) {
+      for (FieldIndex = 0; FieldIndex < component.sortMeta.fields.length; FieldIndex++) {
         var SingleFieldTemp = FieldsTemplate
 
-        SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD_CLASS_TAG-->/g, 'Field_' + fieldsList[ FieldIndex ])
+        SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD_CLASS_TAG-->/g, 'Field_' + component.sortMeta.fields[ FieldIndex ])
 
-        if (partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ]) {
-          SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, partGroupedList[ GroupdName ][ Item ].Fields[ fieldsList[ FieldIndex ] ].replace(/,/g, ' '))
+        if (component.GroupedList[ GroupdName ][ Item ].Fields[ component.sortMeta.fields[ FieldIndex ] ]) {
+          SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, component.GroupedList[ GroupdName ][ Item ].Fields[ component.sortMeta.fields[ FieldIndex ] ].replace(/,/g, ' '))
         } else {
           SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, ' ')
         }
@@ -297,117 +238,26 @@ function GenerateTable (fieldsList, groupedList, partGroupedList) {
 }
 
 /**
-*   return the generated part table
-*
-*   @returns the output
-*/
-function ExtractAndGenerateDataForThePart () {
-  var PartGroupedList = []
-  // holds the list of groups. This is used to make sorting easier
-  var GroupedList = []
-  var UniquePartList = []
-  var ListOfFields = []
-  NumberOfUniqueParts = 0
-  TotalNumberOfParts = 0
-  var PartIndex = 0
-
-  // Get the list of groups we are going to use
-  UserProjectNetData.export.components[0].comp.forEach(function (Part) {
-    if (Part.fields) {
-      Part.fields.forEach(function (value) {
-        value.field.forEach(function (value) {
-          if (ListOfFields.indexOf(value.$.name) === -1) {
-            // if the returned index is -1 then we know  that we know we don't have this item
-            ListOfFields.push(value.$.name)
-          }
-        })
-      })
-    }
-  })
-
-  // get the list of fields and grouped the component with the same value
-  UserProjectNetData.export.components[0].comp.forEach(function (Part) {
-    var TempFieldHolder = []
-
-    if (Part.fields) {
-      Part.fields.forEach(function (value) {
-        value.field.forEach(function (value) {
-          TempFieldHolder[value.$.name] = value['_']
-        })
-      })
-    }
-
-    var FootprintValue = ''
-
-    // get the component footprint if its not been defined or left empty
-    if (typeof Part.footprint !== 'undefined' && typeof Part.footprint[0] !== 'undefined') {
-      FootprintValue = Part.footprint[0]
-    }
-
-    var TempPart = {'Value': Part.value, 'Count': 1, 'Ref': [], 'Fields': TempFieldHolder, 'Footprint': FootprintValue, 'RefPrefix': Part.$.ref.replace(/[0-9]/g, '')}
-
-    PartIndex = SearchUniquePartIndex(UniquePartList, TempPart, ListOfFields)
-
-    // Do we have this part?
-    if (PartIndex === -1) {
-      UniquePartList.push(TempPart)
-      PartIndex = UniquePartList.length
-      PartIndex--
-
-      UniquePartList[PartIndex].Ref[Part.$.ref] = Part.$.ref
-
-      if (Part.fields) {
-        Part.fields.forEach(function (value) {
-          value.field.forEach(function (value) {
-            if (ListOfFields.indexOf(value.$.name) === -1) {
-              // if the returned index is -1 then we know  that we know we don't have this item
-              ListOfFields.push(value.$.name)
-            }
-          })
-        })
-      }
-
-      if (typeof PartGroupedList[UniquePartList[PartIndex].RefPrefix] === 'undefined') {
-        GroupedList.push(UniquePartList[PartIndex].RefPrefix)
-        PartGroupedList[UniquePartList[PartIndex].RefPrefix] = []
-        PartGroupedList[UniquePartList[PartIndex].RefPrefix].push(UniquePartList[PartIndex])
-      } else {
-        PartGroupedList[UniquePartList[PartIndex].RefPrefix].push(UniquePartList[PartIndex])
-      }
-
-      NumberOfUniqueParts++
-    } else {
-      UniquePartList[PartIndex].Count++
-      UniquePartList[PartIndex].Ref[Part.$.ref] = Part.$.ref
-    }
-
-    TotalNumberOfParts++
-  })
-
-  return GenerateTable(ListOfFields, GroupedList, PartGroupedList)
-}
-
-/**
 *   This will generate the Bill of material based on the
 *   template given
 */
-function GenerateBOM () {
-  if (UserProjectNetData != null && Template != null) {
+function GenerateBOM (component) {
+  if (Template != null) {
     Common.Message('Creating BOM')
 
-    var Result = ExtractAndGenerateDataForThePart()
+    var Result = GenerateTable(component)
 
-    Template = Template.replace(/<!--DATE_GENERATED-->/g, UserProjectNetData.export.design[0].date)
-    Template = Template.replace(/<!--TITLE-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].title)
-    Template = Template.replace(/<!--DATE-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].date)
-    Template = Template.replace(/<!--COMPANY-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].company)
-    Template = Template.replace(/<!--REVISON-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].rev)
-    Template = Template.replace(/<!--COMMENT_1-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[0].$.value)
-    Template = Template.replace(/<!--COMMENT_2-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[1].$.value)
-    Template = Template.replace(/<!--COMMENT_3-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[2].$.value)
-    Template = Template.replace(/<!--COMMENT_4-->/g, UserProjectNetData.export.design[0].sheet[0].title_block[0].comment[3].$.value)
-    Template = Template.replace(/<!--TOTAL_NUM_OF_PARTS-->/g, TotalNumberOfParts)
-    Template = Template.replace(/<!--TOTAL_NUM_OF_UNIQUE_PARTS-->/g, NumberOfUniqueParts)
+    Template = Template.replace(/<!--DATE_GENERATED-->/g, component.created)
+    Template = Template.replace(/<!--TITLE-->/g, component.title)
+    Template = Template.replace(/<!--DATE-->/g, component.date)
+    Template = Template.replace(/<!--COMPANY-->/g, component.company)
+    Template = Template.replace(/<!--REVISON-->/g, component.revision)
+    Template = Template.replace(/<!--COMMENT_1-->/g, component.comment[0])
+    Template = Template.replace(/<!--COMMENT_2-->/g, component.comment[1])
+    Template = Template.replace(/<!--COMMENT_3-->/g, component.comment[2])
+    Template = Template.replace(/<!--COMMENT_4-->/g, component.comment[3])
+    Template = Template.replace(/<!--TOTAL_NUM_OF_PARTS-->/g, component.TotalNumberOfParts)
+    Template = Template.replace(/<!--TOTAL_NUM_OF_UNIQUE_PARTS-->/g, component.NumberOfUniqueParts)
     Template = Template.replace(/<!--CLASS_HEADER_TAG-->/g, OutputHeader)
     Template = Template.replace(/<!--BOM_TABLE-->/g, Result)
     // output BOM
@@ -423,42 +273,6 @@ function GenerateBOM () {
   } else {
     Common.Error('Error creating BOM')
   }
-}
-
-/**
-*   read the user KiCad file. This will also convert the
-*   the xml data to javascript object.
-*/
-function ReadXmlFile () {
-  var xml2js = require('xml2js')
-  var parser = new xml2js.Parser()
-
-  var XMLFile = require('fs')
-
-  Common.Message('Reading KiCad XML file [ ' + BOMConfig.input.path + ' ]')
-
-  XMLFile.readFile(BOMConfig.input.path, function (returnError, output) {
-    // returnError should return null if the file was read correctly
-    if (returnError === null) {
-      // Convert kicad XML data to javascript object class
-      parser.parseString(output, function (returnError, result) {
-        // returnError should return null if the data was converted correctly
-        if (returnError === null) {
-          UserProjectNetData = result
-
-          if (UserProjectNetData.export.$.version !== KiCadXMLRevision) {
-            Common.Error('Incompatible KiCad XML version: Expected ' + KiCadXMLRevision + ' Found ' + UserProjectNetData.export.$.version)
-          }
-
-          Task('STATE_READ_TEMPLATE')
-        } else {
-          Common.Error(returnError)
-        }
-      })
-    } else {
-      Common.Error(returnError)
-    }
-  })
 }
 
 /**
@@ -559,9 +373,6 @@ function ReadFieldFile () {
 */
 function Task (state) {
   switch (state) {
-    case 'STATE_GET_XML_DATA':
-      ReadXmlFile()
-      break
 
     case 'STATE_READ_TEMPLATE':
       ReadTemplateFile()
@@ -584,7 +395,7 @@ function Task (state) {
       break
 
     case 'STATE_GENERATE_BOM':
-      GenerateBOM()
+      GenerateBOM(ComponentsData)
       break
 
     default:
@@ -614,12 +425,11 @@ function StartProcess () {
   }
   Common.Message("BOM Config:", BOMConfig)
 
-  // Start the task.
-  //Task('STATE_GET_XML_DATA')
-
-  Components.LoadAndProcessComponentList(BOMConfig)
+  var ComponentsProcess = require('./Lib/component.js')
+  ComponentsProcess.LoadAndProcessComponentList(BOMConfig)
   .then(function(result){
-    Common.Message("work in progress:", result, true)
+    ComponentsData = result
+    Task('STATE_READ_TEMPLATE')
   })
   .catch(function(error){
     Common.Error(error)

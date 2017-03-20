@@ -54,7 +54,7 @@ var Config = {
     landscape: false,
     marginsType : 0
   },
-  sort : {by: 'ref', ascending: true}
+  sort : {by: 'REF', ascending: true}
 }
 
 /**
@@ -201,8 +201,8 @@ function LoadVersionTwoOption(options) {
     Config.output.path = Path.join(options.outputPath, Config.output.basename + Config.output.ext)
   }
 
-  if (options.sort && options.sort.type && typeof options.sort.type === 'string') {
-    Config.sort.type = options.sort.type.toUpperCase()
+  if (options.sort && options.sort.by && typeof options.sort.by === 'string') {
+    Config.sort.by = options.sort.by.toUpperCase()
   }
 
   if (options.sort && options.sort.ascending === false) {
