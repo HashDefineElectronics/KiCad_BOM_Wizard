@@ -314,12 +314,15 @@ function ExtractAndGenerateDataForThePart () {
   UserProjectNetData.export.components[0].comp.forEach(function (Part) {
     if (Part.fields) {
       Part.fields.forEach(function (value) {
-        value.field.forEach(function (value) {
-          if (ListOfFields.indexOf(value.$.name) === -1) {
-            // if the returned index is -1 then we know  that we know we don't have this item
-            ListOfFields.push(value.$.name)
-          }
-        })
+      	if(value.field){
+      		value.field.forEach(function (value) {
+	          if (ListOfFields.indexOf(value.$.name) === -1) {
+	            // if the returned index is -1 then we know  that we know we don't have this item
+	            ListOfFields.push(value.$.name)
+	          }
+	        })
+      	}
+        
       })
     }
   })
@@ -330,9 +333,11 @@ function ExtractAndGenerateDataForThePart () {
 
     if (Part.fields) {
       Part.fields.forEach(function (value) {
-        value.field.forEach(function (value) {
-          TempFieldHolder[value.$.name] = value['_']
-        })
+      	if(value.field){
+	        value.field.forEach(function (value) {
+	          TempFieldHolder[value.$.name] = value['_']
+	        })
+    	}
       })
     }
 
@@ -357,12 +362,14 @@ function ExtractAndGenerateDataForThePart () {
 
       if (Part.fields) {
         Part.fields.forEach(function (value) {
-          value.field.forEach(function (value) {
-            if (ListOfFields.indexOf(value.$.name) === -1) {
-              // if the returned index is -1 then we know  that we know we don't have this item
-              ListOfFields.push(value.$.name)
-            }
-          })
+          if(value.field){
+	          value.field.forEach(function (value) {
+	            if (ListOfFields.indexOf(value.$.name) === -1) {
+	              // if the returned index is -1 then we know  that we know we don't have this item
+	              ListOfFields.push(value.$.name)
+	            }
+	          })
+      	  }
         })
       }
 
