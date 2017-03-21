@@ -77,6 +77,7 @@ function GenerateTable (component, template) {
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+      HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_FIELDS-->/g, '')
     }
   }
 
@@ -87,6 +88,8 @@ function GenerateTable (component, template) {
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_REF_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
+    TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+    TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_FIELDS-->/g, 'HeadField_' + component.sortMeta.fields[ FieldIndex ].replace(' ','_'))
   }
 
   // now place it where it needs to be
@@ -132,7 +135,7 @@ function GenerateTable (component, template) {
       for (FieldIndex = 0; FieldIndex < component.sortMeta.fields.length; FieldIndex++) {
         var SingleFieldTemp = template.fields
 
-        SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD_CLASS_TAG-->/g, 'Field_' + component.sortMeta.fields[ FieldIndex ])
+        SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD_CLASS_TAG-->/g, 'Field_' + component.sortMeta.fields[ FieldIndex ].replace(' ','_'))
 
         if (component.GroupedList[ GroupdName ][ Item ].Fields[ component.sortMeta.fields[ FieldIndex ] ]) {
           SingleFieldTemp = SingleFieldTemp.replace(/<!--FIELD-->/g, component.GroupedList[ GroupdName ][ Item ].Fields[ component.sortMeta.fields[ FieldIndex ] ].replace(/,/g, ' '))
@@ -224,14 +227,18 @@ function CreateFile (config, output) {
           // create PDF file
           var PDFPromise = PDF.Make(TempPath, config.output.path, config.pdfOptions, config.pdfOptions.showPage ? 3000 : null)
           PDFPromise.then(function() {
-            // delete temp file used to create the PDF
-            require('fs').unlink(TempPath, function(error){
-              if(!error) {
-                return resolve('Export complete - ' + config.output.path )
-              }
-              return reject(error)
-            })
-            return resolve('Export complete - ' + config.tempFilePath )
+
+            if (!config.keepTempFile) {
+              // delete temp file used to create the PDF
+              require('fs').unlink(TempPath, function(error){
+                if(!error) {
+                  return resolve('Export complete - ' + config.output.path )
+                }
+                return reject(error)
+              })
+            } else {
+              return resolve('Export complete - ' + config.tempFilePath )
+            }
           })
           .catch(function(error) {
             reject(error)

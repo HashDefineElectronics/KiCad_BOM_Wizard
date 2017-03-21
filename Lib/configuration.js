@@ -42,6 +42,7 @@ var Config = {
   outputType : "FILE", // FILE or PDF
   templatePath : "HTML",
   tempFilePath: null, // holds the where we will savet he temp file while we run our process. note this is usually where the template folder is located
+  keepTempFile: false, // if treu then the tempfile that is generated is not deleted
   output : "",
   input: {path: null, ext : null, basename: null},          // This is the project KiCad file to use to  extract the BOM information
   pdfOptions: {
@@ -207,6 +208,9 @@ function LoadVersionTwoOption(options) {
     Config.sort.ascending = false
   }
 
+  if (options.keepTempFile) {
+    Config.keepTempFile = true
+  }
 }
 
 /**

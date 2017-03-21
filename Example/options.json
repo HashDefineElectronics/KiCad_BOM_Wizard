@@ -5,10 +5,10 @@
   "outputPath" : "../Test/.tmp/",
   "outputName" : "output.pdf",
   "input": "example.xml",
-  "verbose" : true,
+  "verbose" : false,
   "pdfOptions": {
     "showPage": false,
-    "pageSize": "A4",
+    "pageSize": "A3",
     "printBackground" : true,
     "landscape": true,
     "marginsType" : "0"
