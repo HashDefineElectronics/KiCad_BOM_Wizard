@@ -16,7 +16,7 @@
 *   You should have received a copy of the GNU General Public License
 *   along with this program.  If not, see {@link http://www.gnu.org/licenses/}.
 *
-*   @file component.js
+*   @file template.js
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
@@ -31,12 +31,7 @@ var exports = module.exports
 
 var Common = require('./common.js')
 var Promise = require('promise')
-
-/**
-*   Path is used to handle parsing system path urls
-*/
 var Path = require('path')
-
 
 /**
 * has all the template information for generating the BOM

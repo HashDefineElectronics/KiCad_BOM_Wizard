@@ -1,5 +1,31 @@
 /**
-* this is our html to pdf creator
+*   @license
+*   This is the source code file KiCad_BOM_Wizard.js, this is a free KiCad BOM plugin.
+*   Copyright (C) 2016  Ronald A. N. Sousa www.hashdefineelectronics.com/
+*
+*   This program is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see {@link http://www.gnu.org/licenses/}.
+*
+*   @file pdfExport.js
+*
+*   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
+*
+*   @description handle creating pdf based on input html files
+*
+*   {@link http://hashdefineelectronics.com/kicad-bom-wizard/|Project Page}
+*
+*   {@link https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git|Repository Page}
+*
 */
 "use strict"
 
@@ -62,6 +88,6 @@ exports.Make = function(htmlSource, outputPath, options, displayTime) {
         })
         .catch(function (error) {
           return reject(error)
-        });
+        })
     })
 }

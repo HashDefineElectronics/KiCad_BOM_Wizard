@@ -35,17 +35,17 @@
 *   @requires xml2js promise nightmare
 *
 */
-/**
-*   Path is used to handle parsing system path urls
-*/
 var Path = require('path')
-
-// make sure that we set the current working directory
 var Common = require('./Lib/common.js')
 var ConfigClass = require('./Lib/configuration.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
 var ComponentsClass = require('./Lib/component.js')
 var templateClass = require('./Lib/template.js')
 var ExportClass = require('./Lib/export.js')
+
+/**
+*   Defines the plugin revision number
+*/
+var PluginRevisionNumber = '0.0.9'
 
 /**
 * holds our template data
@@ -58,34 +58,30 @@ var ComponentsData = null
 /**
 * Holds the current Coponent Data
 */
-var Config = null
-/**
-*   Defines the plugin revision number
-*/
-var PluginRevisionNumber = '0.0.9'
+var Configuration = null
 
 // print system information
 Common.Message('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
 
-Config = ConfigClass.Load(process.argv[2])
+Configuration = ConfigClass.Load(process.argv[2])
 // if the options were loaded the exist
-if (!Config) {
+if (!Configuration) {
   // No options file given so try the system argument parameters
-  Config = ConfigClass.LoadOld(process.argv)
+  Configuration = ConfigClass.LoadOld(process.argv)
 
-  if (!Config) {
+  if (!Configuration) {
     Common.Error("Unkown load error:")
   }
 }
-Common.Message("BOM Config:", Config)
+Common.Message("BOM Configuration:", Configuration)
 
-ComponentsClass.LoadAndProcessComponentList(Config).then(function(result){
+ComponentsClass.LoadAndProcessComponentList(Configuration).then(function(result){
   ComponentsData = result
 
-  templateClass.LoadTemplateFiles(Config).then(function (result) {
+  templateClass.LoadTemplateFiles(Configuration).then(function (result) {
     TemplateData = result
 
-    ExportClass.CreateBOM(Config, ComponentsData, TemplateData).then(function(result){
+    ExportClass.CreateBOM(Configuration, ComponentsData, TemplateData).then(function(result){
       // BOM is now complete
       Common.Message(result, null, true)
     }).catch(Common.Error)

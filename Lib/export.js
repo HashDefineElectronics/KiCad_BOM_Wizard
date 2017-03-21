@@ -16,7 +16,7 @@
 *   You should have received a copy of the GNU General Public License
 *   along with this program.  If not, see {@link http://www.gnu.org/licenses/}.
 *
-*   @file config.js
+*   @file export.js
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
@@ -29,7 +29,8 @@
 */
 var exports = module.exports
 var Common = require('./common.js')
-
+var PDF = require('./pdfExport')
+var Path = require('path')
 
 /**
 *   creates the table
@@ -194,12 +195,54 @@ exports.CreateBOM = function (config, component, template) {
     TemplateFinal = TemplateFinal.replace(/<!--CLASS_HEADER_TAG-->/g, Table.header)
     TemplateFinal = TemplateFinal.replace(/<!--BOM_TABLE-->/g, Table.body)
 
-    // output BOM
-    require('fs').writeFile(config.output.path, TemplateFinal, function (error) {
+    var CreatePromise = CreateFile(config, TemplateFinal)
+
+    CreatePromise.then(function(result) {
+      return resolve(result)
+    })
+    .catch(function(error) {
+      return reject(error)
+    })
+  })
+}
+
+/**
+* handle creating the file file or PDF
+*/
+function CreateFile (config, output) {
+  return new Promise(function(resolve, reject) {
+    var TempPath = config.output.path
+
+    if (config.outputType === 'PDF') {
+      // if this is a PDF then file file we write will be the temp file
+      TempPath = config.tempFilePath
+    }
+
+    require('fs').writeFile(TempPath, output, function (error) {
       if (!error) {
+        if (config.outputType === 'PDF') {
+          // create PDF file
+          var PDFPromise = PDF.Make(TempPath, config.output.path, config.pdfOptions, config.pdfOptions.showPage ? 3000 : null)
+          PDFPromise.then(function() {
+            // delete temp file used to create the PDF
+            require('fs').unlink(TempPath, function(error){
+              if(!error) {
+                return resolve('Export complete - ' + config.output.path )
+              }
+              return reject(error)
+            })
+            return resolve('Export complete - ' + config.tempFilePath )
+          })
+          .catch(function(error) {
+            reject(error)
+          })
+        } else {
+          return resolve('Export complete - ' + config.output.path )
+        }
         return resolve('Export complete - ' + config.output.path )
+      } else {
+        return reject(error)
       }
-      reject(error)
     })
   })
 }

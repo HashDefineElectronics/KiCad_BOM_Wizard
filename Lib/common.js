@@ -27,23 +27,16 @@
 *   {@link https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git|Repository Page}
 *
 */
-
-
-/**
-* this are a collections of common functions used through the plugin
-*/
 "use strict"
+
 var exports = module.exports
+
+var Path = require('path')
 
 /**
 * if set to true then it will debug output message
 */
 exports.Verbose = false
-
-/**
-*   Path is used to handle parsing system path urls
-*/
-var Path = require('path')
 
 /**
 *   This function can be used to check if the given file

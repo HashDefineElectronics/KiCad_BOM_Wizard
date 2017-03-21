@@ -16,7 +16,7 @@
 *   You should have received a copy of the GNU General Public License
 *   along with this program.  If not, see {@link http://www.gnu.org/licenses/}.
 *
-*   @file config.js
+*   @file configuration.js
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
@@ -29,10 +29,6 @@
 */
 var exports = module.exports
 var Common = require('./common.js')
-
-/**
-*   Path is used to handle parsing system path urls
-*/
 var Path = require('path')
 
 /**
@@ -45,10 +41,11 @@ var Config = {
   version : 1,
   outputType : "FILE", // FILE or PDF
   templatePath : "HTML",
+  tempFilePath: null, // holds the where we will savet he temp file while we run our process. note this is usually where the template folder is located
   output : "",
   input: {path: null, ext : null, basename: null},          // This is the project KiCad file to use to  extract the BOM information
   pdfOptions: {
-    showPage: false,
+    showPage: false,  // DEBUG: if set to true, then it will display PDF page for 3secods.
     pageSize: "A4",
     printBackground : false,
     landscape: false,
@@ -181,6 +178,7 @@ function LoadVersionTwoOption(options) {
   // if the output type of PDF then we need to validate the PDF options
   if (Config.outputType === 'PDF') {
     ValidateAndSetPDFOptions(options.pdfOptions)
+    Config.tempFilePath = Path.join(Config.templatePath, '.tempExportData')
   }
 
 
