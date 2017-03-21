@@ -5,7 +5,7 @@
   "outputPath" : "../Test/.tmp/",
   "outputName" : "output.csv",
   "input": "example.xml",
-  "verbose" : true,
+  "verbose" : false,
   "pdfOptions": {
     "showPage": true,
     "pageSize": "A4",

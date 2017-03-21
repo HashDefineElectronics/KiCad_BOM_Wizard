@@ -75,7 +75,7 @@ function SearchUniquePartIndex (source, searchTerm, listOfGroups) {
     // reset the filed test flag. this will ensure that we check the next part that might have all the matching fields
     var FieldsTestResult = true
     // part value matches
-    if (searchTerm.Value[0] === source[Index].Value[0] && searchTerm.Footprint === source[Index].Footprint) {
+    if (searchTerm.Value === source[Index].Value && searchTerm.Footprint === source[Index].Footprint) {
       for (var FieldIndex = 0; FieldIndex < listOfGroups.length; FieldIndex++) {
         // If either one is true
         if (listOfGroups[ FieldIndex ] in searchTerm.Fields || listOfGroups[ FieldIndex ] in source[Index].Fields) {
@@ -147,7 +147,7 @@ function ExtractAndSortComponents (config) {
       FootprintValue = Part.footprint[0]
     }
 
-    var TempPart = {Value: Part.value, Count: 1, Ref: [], Fields: TempFieldHolder, Footprint: FootprintValue, RefPrefix: Part.$.ref.replace(/[0-9]/g, ''), sortMeta: {ref: null} }
+    var TempPart = {Value: Part.value[0], Count: 1, Ref: [], Fields: TempFieldHolder, Footprint: FootprintValue, RefPrefix: Part.$.ref.replace(/[0-9]/g, '')}
 
     PartIndex = SearchUniquePartIndex(Components.UniquePartList, TempPart, Components.sortMeta.fields)
 
@@ -157,11 +157,7 @@ function ExtractAndSortComponents (config) {
       PartIndex = Components.UniquePartList.length
       PartIndex--
 
-      var PartRefValue = parseInt(Part.$.ref.replace(/[a-zA-Z]/g, ''))
-      Components.UniquePartList[PartIndex].Ref.push(PartRefValue)
-
-      // add it to our sortmeta so that we have the choice to sort by reference at a later stage
-      Components.UniquePartList[PartIndex].sortMeta.ref = PartRefValue
+      Components.UniquePartList[PartIndex].Ref.push(parseInt(Part.$.ref.replace(/[a-zA-Z]/g, '')))
 
       if (Part.fields) {
         Part.fields.forEach(function (value) {
@@ -185,20 +181,7 @@ function ExtractAndSortComponents (config) {
       Components.NumberOfUniqueParts++
     } else {
       Components.UniquePartList[PartIndex].Count++
-      var PartRefValue = parseInt(Part.$.ref.replace(/[a-zA-Z]/g, ''))
-      Components.UniquePartList[PartIndex].Ref.push(PartRefValue)
-    }
-
-    if (config.sort && config.sort.by === 'ref' && !config.sort.ascending) {
-      // update our ref sortMeta
-      if (parseInt(Part.$.ref.replace(/[a-zA-Z]/g, '')) < Components.UniquePartList[PartIndex].sortMeta.ref) {
-        Components.UniquePartList[PartIndex].sortMeta.ref = Part.$.ref.replace(/[a-zA-Z]/g, '')
-      }
-    } else {
-      // update our ref sortMeta
-      if (parseInt(Part.$.ref.replace(/[a-zA-Z]/g, '')) > Components.UniquePartList[PartIndex].sortMeta.ref) {
-        Components.UniquePartList[PartIndex].sortMeta.ref = parseInt(Part.$.ref.replace(/[a-zA-Z]/g, ''))
-      }
+      Components.UniquePartList[PartIndex].Ref.push(parseInt(Part.$.ref.replace(/[a-zA-Z]/g, '')))
     }
 
     Components.TotalNumberOfParts++
@@ -219,29 +202,63 @@ function ApplaySort(config) {
     for (var PartIndex in Components.GroupedList[groupedIndex]) {
 
       Components.GroupedList[groupedIndex][PartIndex].Ref.sort(function(refA, refB) {
-        if (config.sort.by === 'REF' && !config.sort.ascending) {
+        if (config.sort.by === 'ref' && !config.sort.ascending) {
           return refB - refA
         }
         return refA - refB
       })
     }
-
+    // sort the sub groups
     Components.GroupedList[groupedIndex].sort(function(partA, partB) {
-      switch(config.sort.by) {
-        case 'REF':
+      var IsNumber = true
+      var CompareA = 0
+      var CompareB = 0
 
-          if (config.sort.ascending) {
-            return partA.sortMeta.ref - partB.sortMeta.ref
-          }
-          return partB.sortMeta.ref - partA.sortMeta.ref
+      switch(config.sort.by) {
+        case 'ref':
+          CompareA = partA.Ref[0]
+          CompareB = partB.Ref[0]
+          break
+        case 'qty':
+          CompareA = partA.Count
+          CompareB = partB.Count
+          break
+        case 'value':
+          IsNumber = false
+          //< fallthrough
+        case 'value_num':
+          CompareA = partA.Value
+          CompareB = partB.Value
+          break
+        case 'footprint':
+          IsNumber = false
+          CompareA = partA.Footprint
+          CompareB = partB.Footprint
+          break
         default:
         return 0 // leave unsorted
       }
+
+      if (IsNumber) {
+        if (config.sort.ascending) {
+          return CompareA - CompareB
+        }
+        return CompareB - CompareA
+      } else {
+        // sort string
+        CompareA = CompareA.toUpperCase()
+        CompareB = CompareB.toUpperCase()
+        if (CompareA < CompareB) {
+          return config.sort.ascending ? -1 : 1
+        } else if (CompareA > CompareB) {
+          return config.sort.ascending ? 1 : -1
+        } else {
+          return 0
+        }
+      }
+
     })
   }
-//  var TempSort = {ref: null, qty: null, value: null, footprint: null}
-
-//      grouped: {ref: null, qty: null, value: null, footprint: null} // this is used to sort the data inside grouped items ie ref
 }
 /**
 *   read the user KiCad file. This will also convert the
@@ -254,7 +271,7 @@ function LoadComponentFromXML (config) {
   //  var Parser = new xml2js.Parser()
     var XMLFile = require('fs')
 
-    Common.Message('Reading KiCad XML file [ ' + config.input.path + ' ]')
+    Common.Message('Reading KiCad file [ ' + config.input.path + ' ]')
 
     XMLFile.readFile(config.input.path, function (fileReadError, output) {
       // returnError should return null if the file was read correctly
@@ -271,12 +288,12 @@ function LoadComponentFromXML (config) {
               return reject('Incompatible KiCad XML version: Expected ' + KiCadXMLRevision + ' Found ' + Components.version)
             }
 
-            // extract data
+            // extract page information
             Components.created = Components.inputData.export.design[0].date
-            Components.tile = Components.inputData.export.design[0].sheet[0].title_block[0].title
+            Components.title = Components.inputData.export.design[0].sheet[0].title_block[0].title
             Components.date = Components.inputData.export.design[0].sheet[0].title_block[0].date
             Components.company = Components.inputData.export.design[0].sheet[0].title_block[0].company
-            Components.revison = Components.inputData.export.design[0].sheet[0].title_block[0].rev
+            Components.revision = Components.inputData.export.design[0].sheet[0].title_block[0].rev
             Components.comment = [Components.inputData.export.design[0].sheet[0].title_block[0].comment[0].$.value,
                                   Components.inputData.export.design[0].sheet[0].title_block[0].comment[1].$.value,
                                   Components.inputData.export.design[0].sheet[0].title_block[0].comment[2].$.value,

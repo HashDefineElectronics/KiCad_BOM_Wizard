@@ -54,7 +54,7 @@ var Config = {
     landscape: false,
     marginsType : 0
   },
-  sort : {by: 'REF', ascending: true}
+  sort : {by: 'ref', ascending: true}  // possible ref, qty, value, value_num, footprint
 }
 
 /**
@@ -106,7 +106,7 @@ function ValidateAndReturnPath (source, isDirectory) {
 
   if (!Result) {
     // fail if the path isn't valid
-    Common.Error('Directory or file not found: [ ' + source + ' ]')
+    Common.Error('Directory or file not found - ' + source)
   }
 
   return Result
@@ -117,7 +117,7 @@ function ValidateAndReturnPath (source, isDirectory) {
 */
 function ValidateOutputTypeSelection(type) {
   if (!type) {
-    return Common.Error('output type option not set [ouputType]')
+    return Common.Error('output type option not set')
   }
   type = type.toUpperCase()
 
@@ -127,7 +127,7 @@ function ValidateOutputTypeSelection(type) {
       // these are valid types
       break;
     default:
-        return Common.Error('unknow file formate [' + format + ']')
+        return Common.Error('unknow file formate - ' + format)
 
   }
   // return the validated and process ouput format
@@ -202,7 +202,7 @@ function LoadVersionTwoOption(options) {
   }
 
   if (options.sort && options.sort.by && typeof options.sort.by === 'string') {
-    Config.sort.by = options.sort.by.toUpperCase()
+    Config.sort.by = options.sort.by.toLowerCase()
   }
 
   if (options.sort && options.sort.ascending === false) {
@@ -270,7 +270,7 @@ exports.Load = function(inputFile) {
       try {
         var OptionTemp = JSON.parse(Files.readFileSync(PathTemp, 'utf8'))
       } catch (error) {
-          Common.Error('unabled to read option file [' + PathTemp + ']', error)
+          Common.Error('unabled to read option file - ' + PathTemp, error)
         }
 
       if (!OptionTemp.input) {
@@ -289,7 +289,7 @@ exports.Load = function(inputFile) {
           LoadVersionTwoOption(OptionTemp)
           break;
         default:
-          Common.Error('option file version is not supported [found: ' + Config.version + ']')
+          Common.Error('option file version is not supported. found: ' + Config.version)
         break;
       }
       return Config
