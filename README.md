@@ -190,4 +190,4 @@ ___
 ___
 
 # Frequently asked question
-Pleased don't forget to checkout the [FAQ.md](./FAQ.ms) document if you have any issue with the document.
+Pleased don't forget to checkout the [FAQ.md](./FAQ.md) document if you have any issue with the document.
