@@ -202,3 +202,8 @@ If you find issues with the code that you want to contribute a fix for or even j
 - Run the test: This will both check if the program runs and also regenerate the Meter.csv and Meter.html files. You should also check these files for any obvious issues.
 
 `npm run test`
+
+___
+
+# Frequently asked question
+Pleased don't forget to checkout the [FAQ.md](./FAQ.ms) document if you have any issue with the document.

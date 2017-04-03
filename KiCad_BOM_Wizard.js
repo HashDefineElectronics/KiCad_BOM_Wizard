@@ -35,12 +35,26 @@
 *   @requires xml2js promise nightmare
 *
 */
+
+/**
+* Test dependencies and report back if any are missing
+*/
+try {
+  require('xml2js')
+  require('promise')
+  require('nightmare')
+} catch (e) {
+  console.error("Error: dependencies are missing. Please run \"npm install\" in \"" + __dirname + "\"")
+  return
+}
+
 var Path = require('path')
 var Common = require('./Lib/common.js')
 var ConfigClass = require('./Lib/configuration.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
 var ComponentsClass = require('./Lib/component.js')
 var templateClass = require('./Lib/template.js')
 var ExportClass = require('./Lib/export.js')
+
 
 /**
 *   Defines the plugin revision number
