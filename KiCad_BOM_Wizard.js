@@ -22,7 +22,7 @@
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
-*   @version 0.0.9
+*   @version 0.0.10
 *
 *   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
 *   configurable templates files. The plugin is writing in JavaScript and has been
@@ -37,67 +37,83 @@
 */
 
 /**
-* Test dependencies and report back if any are missing
+* Test dependencies. if missing, then attempt to install them
 */
 try {
   require('xml2js')
   require('promise')
   require('nightmare')
+  RunProcess()
+
 } catch (e) {
-  console.error("Error: dependencies are missing. Please run \"npm install\" in \"" + __dirname + "\"")
-  return
+  console.log('depdencies are missing. Please wait while they are installed.')
+
+  const { exec } = require('child_process')
+
+  // install the missing depdencies
+  exec('npm install', function (error, stdout, stderror) {
+    if(error) {
+      console.error(error)
+      return;
+    }
+    // Run main BOM process
+    RunProcess()
+  })
 }
 
-var Path = require('path')
-var Common = require('./Lib/common.js')
-var ConfigClass = require('./Lib/configuration.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
-var ComponentsClass = require('./Lib/component.js')
-var templateClass = require('./Lib/template.js')
-var ExportClass = require('./Lib/export.js')
+
+function RunProcess () {
+  var Path = require('path')
+  var Common = require('./Lib/common.js')
+  var ConfigClass = require('./Lib/configuration.js').Init(process.cwd(), Path.join(__dirname, '/Template/'))
+  var ComponentsClass = require('./Lib/component.js')
+  var templateClass = require('./Lib/template.js')
+  var ExportClass = require('./Lib/export.js')
 
 
-/**
-*   Defines the plugin revision number
-*/
-var PluginRevisionNumber = '0.0.9'
+  /**
+  *   Defines the plugin revision number
+  */
+  var PluginRevisionNumber = '0.0.9'
 
-/**
-* holds our template data
-*/
-var TemplateData = null
-/**
-* Holds the current Coponent Data
-*/
-var ComponentsData = null
-/**
-* Holds the current Coponent Data
-*/
-var Configuration = null
+  /**
+  * holds our template data
+  */
+  var TemplateData = null
+  /**
+  * Holds the current Coponent Data
+  */
+  var ComponentsData = null
+  /**
+  * Holds the current Coponent Data
+  */
+  var Configuration = null
 
-// print system information
-Common.Message('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
+  // print system information
+  Common.Message('KiCad_BOM_Wizard Rev: ' + PluginRevisionNumber)
 
-Configuration = ConfigClass.Load(process.argv[2])
-// if the options were loaded the exist
-if (!Configuration) {
-  // No options file given so try the system argument parameters
-  Configuration = ConfigClass.LoadOld(process.argv)
-
+  Configuration = ConfigClass.Load(process.argv[2])
+  // if the options were loaded the exist
   if (!Configuration) {
-    Common.Error("Unkown load error:")
+    // No options file given so try the system argument parameters
+    Configuration = ConfigClass.LoadOld(process.argv)
+
+    if (!Configuration) {
+      Common.Error("Unkown load error:")
+    }
   }
-}
-Common.Message("BOM Configuration:", Configuration)
+  Common.Message("BOM Configuration:", Configuration)
 
-ComponentsClass.LoadAndProcessComponentList(Configuration).then(function(result){
-  ComponentsData = result
+  ComponentsClass.LoadAndProcessComponentList(Configuration).then(function(result){
+    ComponentsData = result
 
-  templateClass.LoadTemplateFiles(Configuration).then(function (result) {
-    TemplateData = result
+    templateClass.LoadTemplateFiles(Configuration).then(function (result) {
+      TemplateData = result
 
-    ExportClass.CreateBOM(Configuration, ComponentsData, TemplateData).then(function(result){
-      // BOM is now complete
-      Common.Message(result, null, true)
+      ExportClass.CreateBOM(Configuration, ComponentsData, TemplateData).then(function(result){
+        // BOM is now complete
+        Common.Message(result, null, true)
+      }).catch(Common.Error)
     }).catch(Common.Error)
   }).catch(Common.Error)
-}).catch(Common.Error)
+}

@@ -1,6 +1,6 @@
 {
   "name": "kicad_bom_wizard",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "This KiCad plugin can be used to create custom BOM files based on easy configurable templates files.",
   "main": "KiCad_BOM_Wizard.js",
   "keywords": [
