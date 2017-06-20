@@ -37,14 +37,14 @@ There are two options for installing and using KiCad_BOM_Wizard.
 #### 1. github download method
 This method if for anyone who's new to git and rather download the project directly from github.
 
-- [NPM Install document.md](./Doc/git_download_install.md).
+- [github download method](./Doc/git_download_install.md).
 
 #### 2. git clone method
 This method if for anyone who prefers to use git.
 
 This is particularly useful if you are planning on using git submodule to keep a copy of KiCad_BOM_Wizard per KiCad projects.
 
-- [NPM Install document.md](./Doc/git_clone_install.md).
+- [git clone method](./Doc/git_clone_install.md).
 
 ---
 # Short codes

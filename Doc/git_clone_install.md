@@ -16,4 +16,4 @@ npm install
 3. make a note of the KiCad_BOM_Wizard directory.
 4. Follow the installing in this page to setup KiCad_BOM_Wizard on KiCad
 
-  ***[Setup instructions](./Doc/npm_install.md)***
+  ***[Setup instructions](./setup.md)***
