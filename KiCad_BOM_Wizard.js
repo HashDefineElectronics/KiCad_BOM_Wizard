@@ -51,7 +51,7 @@ try {
   const { exec } = require('child_process')
 
   // install the missing depdencies
-  exec('npm install', function (error, stdout, stderror) {
+  exec('npm install', {cwd: __dirname}, function (error, stdout, stderror) {
     if(error) {
       console.error(error)
       return;
