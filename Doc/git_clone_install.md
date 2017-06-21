@@ -8,7 +8,7 @@ git clone https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git
 ```
 2. Install KiCad_BOM_Wizard dependencies
 ```bash
-cd KiCad_BOM_Wizard-master
+cd KiCad_BOM_Wizard
 ```
 ```bash
 npm install
