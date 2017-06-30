@@ -25,7 +25,7 @@ Twitter: [@Opticalworm](https://twitter.com/Opticalworm) [@HashDefineElec](https
 ___
 
 # Video Instructions
-[![Using KiCad Bom Wizard Plugin](http://img.youtube.com/vi/k9EE21K-m8M/0.jpg)](https://youtu.be/k9EE21K-m8M)
+[![Using KiCad Bom Wizard Plugin](http://img.youtube.com/vi/JlaQqHQE1Ec/0.jpg)](https://youtu.be/JlaQqHQE1Ec)
 ___
 
 # Install and Setup
