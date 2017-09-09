@@ -64,6 +64,9 @@ function GenerateTable (component, template) {
       } else if (ListOfheaders[HeaderIndex].indexOf('FOOTPRINT-->') !== -1) {
         HeaderTemp += template.header.replace(/<!--HEADER_ROW-->/g, 'Footprint')
         HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
+      } else if (ListOfheaders[HeaderIndex].indexOf('DATASHEET-->') !== -1) {
+        HeaderTemp += template.header.replace(/<!--HEADER_ROW-->/g, 'Datasheet')
+        HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_DATASHEET_TAG-->/g, 'HeadDatasheetTag')
       } else if (ListOfheaders[HeaderIndex].indexOf('FIELDS-->') !== -1) {
         // this will help us place the fileds header
         HeaderTemp += '<!--FIELDS_HEADER_PLACEHOLDER-->'
@@ -77,6 +80,7 @@ function GenerateTable (component, template) {
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+      HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_DATASHEET_TAG-->/g, '')
       HeaderTemp = HeaderTemp.replace(/<!--HEADER_CLASS_FIELDS-->/g, '')
     }
   }
@@ -89,6 +93,7 @@ function GenerateTable (component, template) {
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, '')
+    TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_DATASHEET_TAG-->/g, '')
     TempFieldHeader = TempFieldHeader.replace(/<!--HEADER_CLASS_FIELDS-->/g, 'HeadField_' + component.sortMeta.fields[ FieldIndex ].replace(' ','_'))
   }
 
@@ -124,11 +129,13 @@ function GenerateTable (component, template) {
       TempRow = TempRow.replace(/<!--ROW_PART_QTY-->/g, component.GroupedList[GroupdName][Item].Count)
       TempRow = TempRow.replace(/<!--ROW_PART_VALUE-->/g, component.GroupedList[GroupdName][Item].Value)
       TempRow = TempRow.replace(/<!--ROW_PART_FOOTPRINT-->/g, component.GroupedList[GroupdName][Item].Footprint)
+      TempRow = TempRow.replace(/<!--ROW_PART_DATASHEET-->/g, component.GroupedList[GroupdName][Item].Datasheet)
 
       TempRow = TempRow.replace(/<!--HEADER_CLASS_REF_TAG-->/g, 'HeadRefTag')
       TempRow = TempRow.replace(/<!--HEADER_CLASS_QTY_TAG-->/g, 'HeadQtyTag')
       TempRow = TempRow.replace(/<!--HEADER_CLASS_VALUE_TAG-->/g, 'HeadValueTag')
       TempRow = TempRow.replace(/<!--HEADER_CLASS_FOOTPRINT_TAG-->/g, 'HeadFootprintTag')
+      TempRow = TempRow.replace(/<!--HEADER_CLASS_DATASHEET_TAG-->/g, 'HeadDatasheetTag')
 
       var FieldsTemp = ''
 

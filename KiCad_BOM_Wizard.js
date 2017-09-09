@@ -22,7 +22,7 @@
 *
 *   @author Ronald Sousa http://hashdefineelectronics.com/kicad-bom-wizard/
 *
-*   @version 0.0.10
+*   @version 0.0.11
 *
 *   @fileoverview This KiCad plugin can be used to create custom BOM files based on easy
 *   configurable templates files. The plugin is writing in JavaScript and has been

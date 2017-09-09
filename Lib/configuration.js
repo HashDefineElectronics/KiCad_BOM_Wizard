@@ -52,7 +52,7 @@ var Config = {
     landscape: false,
     marginsType : 0
   },
-  sort : {by: 'ref', ascending: true}  // possible ref, qty, value, value_num, footprint
+  sort : {by: 'ref', ascending: true}  // possible ref, qty, value, value_num, footprint, datasheet
 }
 
 /**

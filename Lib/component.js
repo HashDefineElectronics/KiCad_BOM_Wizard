@@ -75,7 +75,7 @@ function SearchUniquePartIndex (source, searchTerm, listOfGroups) {
     // reset the filed test flag. this will ensure that we check the next part that might have all the matching fields
     var FieldsTestResult = true
     // part value matches
-    if (searchTerm.Value === source[Index].Value && searchTerm.Footprint === source[Index].Footprint) {
+    if (searchTerm.Value === source[Index].Value && searchTerm.Footprint === source[Index].Footprint && searchTerm.Datasheet === source[Index].Datasheet) {
       for (var FieldIndex = 0; FieldIndex < listOfGroups.length; FieldIndex++) {
         // If either one is true
         if (listOfGroups[ FieldIndex ] in searchTerm.Fields || listOfGroups[ FieldIndex ] in source[Index].Fields) {
@@ -116,6 +116,7 @@ function ExtractAndSortComponents (config) {
 
   // Get the list of groups we are going to use
   Components.inputData.export.components[0].comp.forEach(function (Part) {
+
     if (Part.fields) {
       Part.fields.forEach(function (value) {
         value.field.forEach(function (value) {
@@ -147,7 +148,14 @@ function ExtractAndSortComponents (config) {
       FootprintValue = Part.footprint[0]
     }
 
-    var TempPart = {Value: Part.value[0], Count: 1, Ref: [], Fields: TempFieldHolder, Footprint: FootprintValue, RefPrefix: Part.$.ref.replace(/[0-9]/g, '')}
+    var DatasheetValue = ''
+
+    // get the component footprint if its not been defined or left empty
+    if (typeof Part.datasheet !== 'undefined' && typeof Part.datasheet[0] !== 'undefined') {
+      DatasheetValue = Part.datasheet[0]
+    }
+
+    var TempPart = {Value: Part.value[0], Count: 1, Ref: [], Fields: TempFieldHolder, Datasheet: DatasheetValue, Footprint: FootprintValue, RefPrefix: Part.$.ref.replace(/[0-9]/g, '')}
 
     PartIndex = SearchUniquePartIndex(Components.UniquePartList, TempPart, Components.sortMeta.fields)
 
@@ -235,6 +243,11 @@ function ApplaySort(config) {
           CompareA = partA.Footprint
           CompareB = partB.Footprint
           break
+          case 'datasheet':
+            IsNumber = false
+            CompareA = partA.Datasheet
+            CompareB = partB.Datasheet
+            break
         default:
         return 0 // leave unsorted
       }

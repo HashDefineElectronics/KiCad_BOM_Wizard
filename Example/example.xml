@@ -125,6 +125,7 @@
   <components>
     <comp ref="C1">
       <value>C1210C106K5RACTU</value>
+      <datasheet>C1210C106K5RACTU.pdf</datasheet>
       <footprint>Capacitors:CAP_1210</footprint>
       <fields>
         <field name="Description">10uF, 50V, 1210, MLCC, X7R 10%</field>
