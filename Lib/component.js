@@ -35,7 +35,7 @@ var Promise = require('promise')
 /**
 *   Defines KiCad Revision number
 */
-var KiCadXMLRevision = 'D'
+var KiCadXMLRevision = 'E'
 
 /**
 * Holds the components list.
